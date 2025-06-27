@@ -1,0 +1,9 @@
+.vs/
+
+CustomStreamDeck/bin/
+CustomStreamDeck/obj/
+
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
