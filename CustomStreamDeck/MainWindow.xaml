@@ -1,15 +1,15 @@
-﻿<Window x:Class="CustomStreamDeck.MainWindow"
+﻿<Window x:Name="mainWindow" x:Class="CustomStreamDeck.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CustomStreamDeck"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" Closing="mainWindow_Closing">
     <Grid>
         <Button x:Name="Btn_On" Content="On" HorizontalAlignment="Left" Margin="56,69,0,0" VerticalAlignment="Top" Height="32" Width="120" Click="Btn_On_Click"/>
         <Button x:Name="Btn_Off" Content="Off" HorizontalAlignment="Left" Margin="56,106,0,0" VerticalAlignment="Top" Height="37" Width="120" Click="Btn_Off_Click"/>
-        <TextBox x:Name="tb_Delay" HorizontalAlignment="Left" Margin="56,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="tb_Delay" HorizontalAlignment="Left" Margin="56,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="300"/>
         <Label Content="Delay:" HorizontalAlignment="Left" Margin="56,20,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO.Ports;
+using System.Diagnostics;
 
 namespace CustomStreamDeck
 {
@@ -28,7 +29,8 @@ namespace CustomStreamDeck
 
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            
+            string line = _serialPort.ReadLine();
+            Debug.WriteLine(line);
         }
 
         private void Btn_On_Click(object sender, RoutedEventArgs e)
@@ -38,6 +40,11 @@ namespace CustomStreamDeck
         }
 
         private void Btn_Off_Click(object sender, RoutedEventArgs e)
+        {
+            _serialPort.WriteLine("LED_OFF");
+        }
+
+        private void mainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             _serialPort.WriteLine("LED_OFF");
         }
