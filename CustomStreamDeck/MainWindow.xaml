@@ -7,6 +7,9 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <Button x:Name="Btn_On" Content="On" HorizontalAlignment="Left" Margin="56,69,0,0" VerticalAlignment="Top" Height="32" Width="120" Click="Btn_On_Click"/>
+        <Button x:Name="Btn_Off" Content="Off" HorizontalAlignment="Left" Margin="56,106,0,0" VerticalAlignment="Top" Height="37" Width="120" Click="Btn_Off_Click"/>
+        <TextBox x:Name="tb_Delay" HorizontalAlignment="Left" Margin="56,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Delay:" HorizontalAlignment="Left" Margin="56,20,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>
