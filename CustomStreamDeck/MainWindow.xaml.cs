@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.IO.Ports;
 using System.Windows;
+using System.Windows.Forms;
 
 namespace CustomStreamDeck
 {
@@ -11,7 +12,9 @@ namespace CustomStreamDeck
         public MainWindow()
         {
             InitializeComponent();
-            _serialPort = new SerialPort("COM6", 9600);
+            string port = ArduinoPortFinder.FindFirstArduinoPort();
+           
+            _serialPort = new SerialPort(port, 9600);
             _serialPort.DataReceived += SerialPort_DataReceived;
             _serialPort.Open();
         }
