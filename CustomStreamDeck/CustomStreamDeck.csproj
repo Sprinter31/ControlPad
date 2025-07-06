@@ -9,7 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="NAudio" Version="2.2.1" />
+    <PackageReference Include="NAudio.Wasapi" Version="2.2.1" />
     <PackageReference Include="System.IO.Ports" Version="9.0.6" />
+	<Reference Include="SomeLib">
+		<HintPath>libs\System.Management.dll</HintPath>
+	</Reference>
   </ItemGroup>
 
 </Project>

@@ -1,24 +1,13 @@
-﻿using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Diagnostics;
 using System.IO.Ports;
-using System.Diagnostics;
+using System.Windows;
 
 namespace CustomStreamDeck
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private SerialPort _serialPort;
+        private AudioController auCo = new AudioController();
         public MainWindow()
         {
             InitializeComponent();
@@ -30,7 +19,11 @@ namespace CustomStreamDeck
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             string line = _serialPort.ReadLine();
-            Debug.WriteLine(line);
+
+            string output = line.Split('%')[0]; // everything before '%'
+            Debug.WriteLine(output);
+            float.TryParse(output, out float value);
+            auCo.SetProcessVolume("Spotify", value * 0.01f);
         }
 
         private void Btn_On_Click(object sender, RoutedEventArgs e)
@@ -47,6 +40,6 @@ namespace CustomStreamDeck
         private void mainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             _serialPort.WriteLine("LED_OFF");
-        }
+        }       
     }
 }
