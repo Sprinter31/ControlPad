@@ -18,17 +18,33 @@ namespace CustomStreamDeck
 
         public void SetProcessVolume(string processName, float volume)
         {
-            SW.Application.Current.Dispatcher.Invoke(() => 
+            var dispatcher = SW.Application.Current?.Dispatcher;
+            if (dispatcher != null)
             {
-                var sessions = device?.AudioSessionManager.Sessions;
-
-                for (int i = 0; i < sessions?.Count; i++)
+                if (!dispatcher.CheckAccess())
                 {
-                    var session = sessions[i];
-                    if (session.DisplayName == processName)
-                        session.SimpleAudioVolume.Volume = volume;
+                    dispatcher.Invoke(() =>
+                    {
+                        SetSessionVolume(device, processName, volume);
+                    }, TimeSpan.FromSeconds(2));
                 }
-            });
+                else
+                {
+                    SetSessionVolume(device, processName, volume);
+                }
+            }
+        }
+
+        void SetSessionVolume(MMDevice device, string processName, float volume)
+        {
+            var sessions = device?.AudioSessionManager.Sessions;
+
+            for (int i = 0; i < sessions?.Count; i++)
+            {
+                var session = sessions[i];
+                if (session.DisplayName == processName)
+                    session.SimpleAudioVolume.Volume = volume;
+            }
         }
 
         public void SetSystemVolume(float volume)
