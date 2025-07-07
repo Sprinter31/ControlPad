@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CustomStreamDeck"
         mc:Ignorable="d"
-        Title="Mixer-Mockup" Width="651" Height="600"
-        Background="White">
+        Title="Custom Stream Deck" Width="651" Height="600"
+        Background="White" ResizeMode="NoResize" Closing="mainWindow_Closing">
 
     <Window.Resources>
         <Style x:Key="InvisibleRepeatButton" TargetType="RepeatButton">
@@ -92,60 +92,80 @@
 
     </Window.Resources>
 
-    <!-- ===== Layout ===== -->
-    <Grid>
-        <Grid Height="500">
-            <!-- 6 Slider Columns + 1 Button Column -->
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
 
-            <!-- first row texts, second row Sliders, third row Buttons -->
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            
-            <!-- Labels -->
-            <TextBlock Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="0" Text="Spotify"/>
-            <TextBlock Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="1" Text="Browser"/>
-            <TextBlock Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="2" Text="Satisfactory"/>
-            <TextBlock Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="3" Text="Discord"/>
-            <TextBlock Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="4" Text="Monitor Brightness"/>
-            <TextBlock Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="5" Text="Mic"/>
-           
-            <!-- Slider -->
-            <Slider x:Name="Slider1" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" IsEnabled="False"/>
-            <Slider x:Name="Slider2" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" IsEnabled="False"/>
-            <Slider x:Name="Slider3" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" IsEnabled="False"/>
-            <Slider x:Name="Slider4" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" IsEnabled="False"/>
-            <Slider x:Name="Slider5" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center" IsEnabled="False"/>
-            <Slider x:Name="Slider6" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="5" HorizontalAlignment="Center" IsEnabled="False"/>
+    <DockPanel>
+        <!-- Menu bar -->
+        <Menu DockPanel.Dock="Top" Background="AliceBlue">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Manage Slider groups"/>
+                <MenuItem Header="_Save"/>
+                <MenuItem Header="E_xit"/>
+            </MenuItem>
+            <MenuItem Header="_Edit">
+                <MenuItem Header="_Copy"/>
+                <MenuItem Header="_Paste"/>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_About"/>
+            </MenuItem>
+        </Menu>
 
-            <!-- Mute Buttons -->
-            <Button x:Name="Switch1" Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="0" Content="Mute"/>
-            <Button x:Name="Switch2" Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="1" Content="Mute"/>
-            <Button x:Name="Switch3" Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="2" Content="Mute"/>
-            <Button x:Name="Switch4" Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="3" Content="Mute"/>
-            <Button x:Name="Switch5" Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="4" Content="Mute"/>
-            <Button x:Name="Switch6" Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="5" Content="Mute"/>
+        <!-- ===== Layout ===== -->
+        <Grid>
 
-            <!-- Button Column -->
-            <StackPanel Grid.Column="6" Grid.RowSpan="2"
-                    VerticalAlignment="Center">
-                <Button x:Name="Switch7" Style="{StaticResource SquareButton}" Content="Pause"/>
-                <Button x:Name="Switch8" Style="{StaticResource SquareButton}" Content="Next"/>
-                <Button x:Name="Switch9" Style="{StaticResource SquareButton}" Content="Discord"/>
-                <Button x:Name="Switch10" Style="{StaticResource SquareButton}" Content="Browser"/>
-                <Button x:Name="Switch11" Style="{StaticResource SquareButton}" Content="E"/>
-            </StackPanel>
+            <Grid Height="500">
+                <!-- 6 Slider Columns + 1 Button Column -->
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- first row texts, second row Sliders, third row Buttons -->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Labels -->
+                <TextBlock Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="0" Text="Spotify"/>
+                <TextBlock Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="1" Text="Browser"/>
+                <TextBlock Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="2" Text="Satisfactory"/>
+                <TextBlock Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="3" Text="Discord"/>
+                <TextBlock Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="4" Text="Monitor Brightness"/>
+                <TextBlock Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="5" Text="Mic"/>
+
+                <!-- Slider -->
+                <Slider x:Name="Slider1" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" IsEnabled="False"/>
+                <Slider x:Name="Slider2" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" IsEnabled="False"/>
+                <Slider x:Name="Slider3" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" IsEnabled="False"/>
+                <Slider x:Name="Slider4" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" IsEnabled="False"/>
+                <Slider x:Name="Slider5" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center" IsEnabled="False"/>
+                <Slider x:Name="Slider6" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="5" HorizontalAlignment="Center" IsEnabled="False"/>
+
+                <!-- Mute Buttons -->
+                <Button x:Name="Switch1" Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="0" Content="Mute"/>
+                <Button x:Name="Switch2" Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="1" Content="Mute"/>
+                <Button x:Name="Switch3" Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="2" Content="Mute"/>
+                <Button x:Name="Switch4" Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="3" Content="Mute"/>
+                <Button x:Name="Switch5" Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="4" Content="Mute"/>
+                <Button x:Name="Switch6" Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="5" Content="Mute"/>
+
+                <!-- Button Column -->
+                <StackPanel Grid.Column="6" Grid.RowSpan="2"
+                 VerticalAlignment="Center">
+                    <Button x:Name="Switch7" Style="{StaticResource SquareButton}" Content="Pause"/>
+                    <Button x:Name="Switch8" Style="{StaticResource SquareButton}" Content="Next"/>
+                    <Button x:Name="Switch9" Style="{StaticResource SquareButton}" Content="Discord"/>
+                    <Button x:Name="Switch10" Style="{StaticResource SquareButton}" Content="Browser"/>
+                    <Button x:Name="Switch11" Style="{StaticResource SquareButton}" Content="E"/>
+                </StackPanel>
+            </Grid>
         </Grid>
-    </Grid>
+    </DockPanel>
 </Window>
