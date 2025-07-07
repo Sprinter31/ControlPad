@@ -130,21 +130,21 @@
             <Slider x:Name="Slider6" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="5" HorizontalAlignment="Center" IsEnabled="False"/>
 
             <!-- Mute Buttons -->
-            <Button Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="0" Content="Mute" Click="Button_Click"/>
-            <Button Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="1" Content="Mute" Click="Button_Click_1"/>
-            <Button Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="2" Content="Mute"/>
-            <Button Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="3" Content="Mute"/>
-            <Button Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="4" Content="Mute"/>
-            <Button Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="5" Content="Mute"/>
+            <Button x:Name="Switch1" Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="0" Content="Mute"/>
+            <Button x:Name="Switch2" Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="1" Content="Mute"/>
+            <Button x:Name="Switch3" Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="2" Content="Mute"/>
+            <Button x:Name="Switch4" Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="3" Content="Mute"/>
+            <Button x:Name="Switch5" Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="4" Content="Mute"/>
+            <Button x:Name="Switch6" Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="5" Content="Mute"/>
 
             <!-- Button Column -->
             <StackPanel Grid.Column="6" Grid.RowSpan="2"
                     VerticalAlignment="Center">
-                <Button Style="{StaticResource SquareButton}" Content="Pause"/>
-                <Button Style="{StaticResource SquareButton}" Content="Next"/>
-                <Button Style="{StaticResource SquareButton}" Content="Discord"/>
-                <Button Style="{StaticResource SquareButton}" Content="Browser"/>
-                <Button Style="{StaticResource SquareButton}" Content="E"/>
+                <Button x:Name="Switch7" Style="{StaticResource SquareButton}" Content="Pause"/>
+                <Button x:Name="Switch8" Style="{StaticResource SquareButton}" Content="Next"/>
+                <Button x:Name="Switch9" Style="{StaticResource SquareButton}" Content="Discord"/>
+                <Button x:Name="Switch10" Style="{StaticResource SquareButton}" Content="Browser"/>
+                <Button x:Name="Switch11" Style="{StaticResource SquareButton}" Content="E"/>
             </StackPanel>
         </Grid>
     </Grid>

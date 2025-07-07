@@ -1,0 +1,108 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.IO.Ports;
+using System.Linq;
+using System.Management;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Threading;
+
+namespace CustomStreamDeck
+{   
+    public class ArduinoController
+    {
+        private MainWindow mw;
+        private SerialPort? _serialPort;
+        private EventHandler eventHandler;
+        private Dictionary<Object, int> values = new Dictionary<Object, int>();
+
+        public ArduinoController(MainWindow mainWindow)
+        {
+            mw = mainWindow;
+            eventHandler = new EventHandler(mw);
+
+            values = new Dictionary<Object, int>
+            {
+                { mw.Slider1, 0 },
+                { mw.Slider2, 0 },
+                { mw.Slider3, 0 },
+                { mw.Slider4, 0 },
+                { mw.Slider5, 0 },
+                { mw.Slider6, 0 },
+                { mw.Switch1, 0 },
+                { mw.Switch2, 0 },
+                { mw.Switch3, 0 },
+                { mw.Switch4, 0 },
+                { mw.Switch5, 0 },
+                { mw.Switch6, 0 },
+                { mw.Switch7, 0 },
+                { mw.Switch8, 0 },
+                { mw.Switch9, 0 },
+                { mw.Switch10, 0 },
+                { mw.Switch11, 0 }
+            };
+
+            string port = ArduinoPortFinder.FindFirstArduinoPort();
+            if (port != null)
+            {
+                _serialPort = new SerialPort(port, 9600);
+                _serialPort.DataReceived += SerialPort_DataReceived;
+                _serialPort.Open();
+            }
+            else
+                MessageBox.Show("Arduino Port not found", "Custom Stream Deck", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            try
+            {
+                string line = _serialPort.ReadLine().Replace("\r", "");
+                if (!Regex.IsMatch(line, @"^\s*-?\d+\s*(,\s*-?\d+\s*){3}$")) return;
+
+                string[] inputs = line.Split(',');
+
+                UpdateValues(inputs);
+                eventHandler.TakeValues(values);
+            }
+            catch (IOException ex)
+            {
+                OnSerialPortDisconnected();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"EX: {ex}");
+            }
+        }  
+
+        private void UpdateValues(string[] inputs)
+        {
+            values[mw.Slider1] = int.Parse(inputs[0]);
+            values[mw.Slider2] = int.Parse(inputs[1]);
+            values[mw.Slider3] = int.Parse(inputs[2]);
+            values[mw.Slider4] = int.Parse(inputs[3]);
+            values[mw.Slider5] = int.Parse(inputs[4]);
+            values[mw.Slider6] = int.Parse(inputs[5]);
+            values[mw.Switch1] = int.Parse(inputs[6]);
+            values[mw.Switch3] = int.Parse(inputs[7]);
+            values[mw.Switch4] = int.Parse(inputs[8]);
+            values[mw.Switch5] = int.Parse(inputs[9]);
+            values[mw.Switch6] = int.Parse(inputs[10]);
+            values[mw.Switch7] = int.Parse(inputs[11]);
+            values[mw.Switch8] = int.Parse(inputs[12]);
+            values[mw.Switch9] = int.Parse(inputs[13]);
+            values[mw.Switch10] = int.Parse(inputs[14]);
+            values[mw.Switch11] = int.Parse(inputs[15]);
+        }
+
+        private void OnSerialPortDisconnected()
+        {
+            MessageBox.Show("Arduino Port disconnected", "Custom Stream Deck", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+}
