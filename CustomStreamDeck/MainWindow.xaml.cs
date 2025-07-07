@@ -6,43 +6,24 @@ using System.Windows.Forms;
 namespace CustomStreamDeck
 {
     public partial class MainWindow : Window
-    {
-        private SerialPort _serialPort;
-        private AudioController auCo = new AudioController();
+    {        
+        AudioController auCo;
+        ArduinoController ardCo;
         public MainWindow()
         {
             InitializeComponent();
-            string port = ArduinoPortFinder.FindFirstArduinoPort();
-           
-            _serialPort = new SerialPort(port, 9600);
-            _serialPort.DataReceived += SerialPort_DataReceived;
-            _serialPort.Open();
+            auCo = new AudioController();
+            ardCo = new ArduinoController();
         }
 
-        private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            string line = _serialPort.ReadLine();
-
-            string output = line.Split('%')[0]; // everything before '%'
-            Debug.WriteLine(output);
-            float.TryParse(output, out float value);
-            auCo.SetProcessVolume("Spotify", value * 0.01f);
+            auCo.AdjustProcessVolume("Spotify", -0.1f);
         }
 
-        private void Btn_On_Click(object sender, RoutedEventArgs e)
+        private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            int.TryParse(tb_Delay.Text, out int delay);
-            _serialPort.WriteLine($"LED_ON:{delay}");
+            auCo.AdjustProcessVolume("Spotify", 0.1f);
         }
-
-        private void Btn_Off_Click(object sender, RoutedEventArgs e)
-        {
-            _serialPort.WriteLine("LED_OFF");
-        }
-
-        private void mainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            _serialPort.WriteLine("LED_OFF");
-        }       
     }
 }

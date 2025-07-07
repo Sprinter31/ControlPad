@@ -8,36 +8,24 @@ namespace CustomStreamDeck
     public class AudioController
     {
         private MMDeviceEnumerator devEnum;
-        private MMDevice? device;
+        private MMDevice device;
+        MMDevice mic;
 
         public AudioController()
         { 
             devEnum = new MMDeviceEnumerator();
             device = devEnum.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+            mic = devEnum.GetDefaultAudioEndpoint(DataFlow.Capture, Role.Communications);
         }
 
         public void SetProcessVolume(string processName, float volume)
         {
-            var dispatcher = SW.Application.Current?.Dispatcher;
-            if (dispatcher != null)
-            {
-                if (!dispatcher.CheckAccess())
-                {
-                    dispatcher.Invoke(() =>
-                    {
-                        SetSessionVolume(device, processName, volume);
-                    }, TimeSpan.FromSeconds(2));
-                }
-                else
-                {
-                    SetSessionVolume(device, processName, volume);
-                }
-            }
-        }
+            var sessions = device.AudioSessionManager.Sessions;
 
-        void SetSessionVolume(MMDevice device, string processName, float volume)
-        {
-            var sessions = device?.AudioSessionManager.Sessions;
+            if (volume >= 1)
+                volume = 1;
+            else if(volume < 0)
+                volume = 0;           
 
             for (int i = 0; i < sessions?.Count; i++)
             {
@@ -49,29 +37,19 @@ namespace CustomStreamDeck
 
         public void SetSystemVolume(float volume)
         {
-            if(device != null)
+            if (volume >= 1)
+                volume = 1;
+            else if (volume < 0)
+                volume = 0;
+
+            if (device != null)
                 SW.Application.Current.Dispatcher.Invoke(() => device.AudioEndpointVolume.MasterVolumeLevelScalar = volume);
         }
 
-        public void SetMicVolume(float volume)
-        {
-
-        }
-
-        public void AdjustProcessVolume(string processName, float adjustment)
-        {
-
-        }
-
-        public void AdjustSystemVolume(float adjustment)
-        {
-
-        }
-
-        public void AdjustMicVolume(float adjustment)
-        {
-
-        }
+        public void SetMicVolume(float volume) => mic.AudioEndpointVolume.MasterVolumeLevelScalar = volume;
+        public void AdjustProcessVolume(string processName, float adjustment) => SetProcessVolume(processName, GetProcessVolume(processName) + adjustment);
+        public void AdjustSystemVolume(float adjustment) => SetSystemVolume(GetSystemVolume() + adjustment);
+        public void AdjustMicVolume(float adjustment) => SetMicVolume(GetMicVolume() + adjustment);
 
         public void MuteProcess(string processName, bool mute)
         {
@@ -90,6 +68,14 @@ namespace CustomStreamDeck
 
         public float GetProcessVolume(string processName)
         {
+            var sessions = device?.AudioSessionManager.Sessions;
+
+            for (int i = 0; i < sessions?.Count; i++)
+            {
+                var session = sessions[i];
+                if (session.DisplayName == processName)
+                    return session.SimpleAudioVolume.Volume;
+            }
             return 0;
         }
 

@@ -5,11 +5,147 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CustomStreamDeck"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Closing="mainWindow_Closing">
+        Title="Mixer-Mockup" Width="1000" Height="600"
+        Background="White">
+
+    <Window.Resources>
+        <Style x:Key="InvisibleRepeatButton" TargetType="RepeatButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Rectangle Fill="Transparent"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background"   Value="Transparent"/>
+            <Setter Property="BorderBrush"  Value="Transparent"/>
+            <Setter Property="IsTabStop"    Value="False"/>
+        </Style>
+
+        <!-- Slider Style -->
+        <Style x:Key="VerticalBarSlider" TargetType="Slider">
+            <Setter Property="Orientation" Value="Vertical"/>
+            <Setter Property="Minimum"     Value="0"/>
+            <Setter Property="Maximum"     Value="100"/>
+            <Setter Property="Value"       Value="50"/>
+            <Setter Property="Width"       Value="10"/>
+            <Setter Property="Margin"      Value="10"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Slider">
+                        <Grid>
+                            <!-- Black Line -->
+                            <Rectangle Width="4"
+                               Fill="Black"
+                               HorizontalAlignment="Center"/>
+
+                            <!-- Logic -->
+                            <Track x:Name="PART_Track"
+                           Orientation="Vertical"
+                           IsDirectionReversed="True">
+
+                                <!-- Upper area (Decrease) -->
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Command="Slider.DecreaseLarge"
+                                          Style="{StaticResource InvisibleRepeatButton}"/>
+                                </Track.DecreaseRepeatButton>
+
+                                <!-- lower area (Increase) -->
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Command="Slider.IncreaseLarge"
+                                          Style="{StaticResource InvisibleRepeatButton}"/>
+                                </Track.IncreaseRepeatButton>
+
+                                <!-- Thumb -->
+                                <Track.Thumb>
+                                    <Thumb Margin="-7,0,-7,0" Width="24" Height="50"
+                                   Background="DarkGray"
+                                   BorderBrush="Black"
+                                   BorderThickness="1"/>
+                                </Track.Thumb>
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Black Buttons -->
+        <Style x:Key="SquareButton" TargetType="Button">
+            <Setter Property="Width"        Value="60"/>
+            <Setter Property="Height"       Value="60"/>
+            <Setter Property="Background"   Value="Black"/>
+            <Setter Property="BorderBrush"  Value="Black"/>
+            <Setter Property="Foreground"   Value="White"/>
+            <Setter Property="Margin"       Value="10"/>
+        </Style>
+
+        <Style x:Key="SliderLabel" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="TextAlignment"       Value="Center"/>
+            <Setter Property="TextWrapping"        Value="Wrap"/>
+            <Setter Property="Margin"              Value="0,0,0,5"/>
+            <Setter Property="FontSize"            Value="14"/>
+            <Setter Property="FontWeight"          Value="SemiBold"/>
+        </Style>
+
+    </Window.Resources>
+
+    <!-- ===== Layout ===== -->
     <Grid>
-        <Button x:Name="Btn_On" Content="On" HorizontalAlignment="Left" Margin="56,69,0,0" VerticalAlignment="Top" Height="32" Width="120" Click="Btn_On_Click"/>
-        <Button x:Name="Btn_Off" Content="Off" HorizontalAlignment="Left" Margin="56,106,0,0" VerticalAlignment="Top" Height="37" Width="120" Click="Btn_Off_Click"/>
-        <TextBox x:Name="tb_Delay" HorizontalAlignment="Left" Margin="56,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="300"/>
-        <Label Content="Delay:" HorizontalAlignment="Left" Margin="56,20,0,0" VerticalAlignment="Top"/>
+        <Grid Height="500">
+            <!-- 6 Slider Columns + 1 Button Column -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- first row texts, second row Sliders, third row Buttons -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
+            <!-- Labels -->
+            <TextBlock Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="0" Text="Spotify"/>
+            <TextBlock Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="1" Text="Browser"/>
+            <TextBlock Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="2" Text="Satisfactory"/>
+            <TextBlock Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="3" Text="Discord"/>
+            <TextBlock Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="4" Text="Monitor Brightness"/>
+            <TextBlock Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="5" Text="Mic"/>
+           
+            <!-- Slider -->
+            <Slider Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" IsEnabled="False"/>
+            <Slider Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" IsEnabled="False"/>
+            <Slider Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" IsEnabled="False"/>
+            <Slider Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" IsEnabled="False"/>
+            <Slider Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center" IsEnabled="False"/>
+            <Slider Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="5" HorizontalAlignment="Center" IsEnabled="False"/>
+
+            <!-- Mute Buttons -->
+            <Button Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="0" Content="Mute" Click="Button_Click"/>
+            <Button Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="1" Content="Mute" Click="Button_Click_1"/>
+            <Button Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="2" Content="Mute"/>
+            <Button Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="3" Content="Mute"/>
+            <Button Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="4" Content="Mute"/>
+            <Button Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="5" Content="Mute"/>
+
+            <!-- Button Column -->
+            <StackPanel Grid.Column="6" Grid.RowSpan="2"
+                    VerticalAlignment="Center">
+                <Button Style="{StaticResource SquareButton}" Content="Pause"/>
+                <Button Style="{StaticResource SquareButton}" Content="Next"/>
+                <Button Style="{StaticResource SquareButton}" Content="Discord"/>
+                <Button Style="{StaticResource SquareButton}" Content="Browser"/>
+                <Button Style="{StaticResource SquareButton}" Content="E"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>
