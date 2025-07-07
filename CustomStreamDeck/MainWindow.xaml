@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CustomStreamDeck"
         mc:Ignorable="d"
-        Title="Mixer-Mockup" Width="1000" Height="600"
+        Title="Mixer-Mockup" Width="651" Height="600"
         Background="White">
 
     <Window.Resources>
@@ -24,12 +24,13 @@
 
         <!-- Slider Style -->
         <Style x:Key="VerticalBarSlider" TargetType="Slider">
-            <Setter Property="Orientation" Value="Vertical"/>
-            <Setter Property="Minimum"     Value="0"/>
-            <Setter Property="Maximum"     Value="100"/>
-            <Setter Property="Value"       Value="50"/>
-            <Setter Property="Width"       Value="10"/>
-            <Setter Property="Margin"      Value="10"/>
+            <Setter Property="Orientation"   Value="Vertical"/>
+            <Setter Property="Minimum"       Value="0"/>
+            <Setter Property="Maximum"       Value="1024"/>
+            <Setter Property="IsDirectionReversed" Value="False"/>
+            <Setter Property="Value"         Value="50"/>
+            <Setter Property="Width"         Value="10"/>
+            <Setter Property="Margin"        Value="10"/>
 
             <Setter Property="Template">
                 <Setter.Value>
@@ -42,8 +43,7 @@
 
                             <!-- Logic -->
                             <Track x:Name="PART_Track"
-                           Orientation="Vertical"
-                           IsDirectionReversed="True">
+                           Orientation="Vertical">
 
                                 <!-- Upper area (Decrease) -->
                                 <Track.DecreaseRepeatButton>
@@ -103,7 +103,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
             <!-- first row texts, second row Sliders, third row Buttons -->
@@ -122,12 +122,12 @@
             <TextBlock Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="5" Text="Mic"/>
            
             <!-- Slider -->
-            <Slider Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" IsEnabled="False"/>
-            <Slider Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" IsEnabled="False"/>
-            <Slider Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" IsEnabled="False"/>
-            <Slider Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" IsEnabled="False"/>
-            <Slider Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center" IsEnabled="False"/>
-            <Slider Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="5" HorizontalAlignment="Center" IsEnabled="False"/>
+            <Slider x:Name="Slider1" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" IsEnabled="False"/>
+            <Slider x:Name="Slider2" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" IsEnabled="False"/>
+            <Slider x:Name="Slider3" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" IsEnabled="False"/>
+            <Slider x:Name="Slider4" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" IsEnabled="False"/>
+            <Slider x:Name="Slider5" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center" IsEnabled="False"/>
+            <Slider x:Name="Slider6" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="5" HorizontalAlignment="Center" IsEnabled="False"/>
 
             <!-- Mute Buttons -->
             <Button Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="0" Content="Mute" Click="Button_Click"/>

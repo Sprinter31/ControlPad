@@ -13,7 +13,7 @@ namespace CustomStreamDeck
         {
             InitializeComponent();
             auCo = new AudioController();
-            ardCo = new ArduinoController();
+            ardCo = new ArduinoController(this);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

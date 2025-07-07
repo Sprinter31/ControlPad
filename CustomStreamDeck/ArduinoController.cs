@@ -3,14 +3,22 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO.Ports;
 using System.Linq;
+using System.Management;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace CustomStreamDeck
 {   
     public class ArduinoController
     {
+        const string pattern = @"^\s*-?\d+\s*(,\s*-?\d+\s*){3}$";
+
+        MainWindow mw;
+
         private SerialPort? _serialPort;
 
         /*private enum dic
@@ -29,8 +37,10 @@ namespace CustomStreamDeck
             { "Switch2", 0 }
         };
 
-        public ArduinoController()
+        public ArduinoController(MainWindow mainWindow)
         {
+            mw = mainWindow;
+
             string port = ArduinoPortFinder.FindFirstArduinoPort();
             if (port != null)
             {
@@ -39,35 +49,46 @@ namespace CustomStreamDeck
                 _serialPort.Open();
             }
             else
-                MessageBox.Show("Arduino Port not found :(", "Custom Stream Deck", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Arduino Port not found", "Custom Stream Deck", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            string line = _serialPort.ReadLine().Replace("\r", "");
-            string[] inputs = line.Split(',');
+            try
+            {
 
-            values["Slider1"] = int.Parse(inputs[0]);
-            values["Slider2"] = int.Parse(inputs[1]);
+                string line = _serialPort.ReadLine().Replace("\r", "");
+                Regex.IsMatch(line, pattern);
 
-            Debug.WriteLine(values["Slider1"]);
+                if (line == "") return;
 
-           
+                string[] inputs = line.Split(',');
 
+                if (inputs.Length != values.Count) return;
 
+                values["Slider1"] = int.Parse(inputs[0]);
+                values["Slider2"] = int.Parse(inputs[1]);
+                values["Switch1"] = int.Parse(inputs[2]);
+                values["Switch2"] = int.Parse(inputs[3]);
 
-
-
-
-
-
-            /*string output = line.Split('%')[0]; // everything before '%'
-            Debug.WriteLine(output);
-            float.TryParse(output, out float value);
-            auCo.SetProcessVolume("Spotify", value * 0.01f);*/
-
-
-
+                UpdateControls();
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine($"EX: {ex}");
+            }
+        }  
+        
+        private void UpdateControls()
+        {
+            if (Application.Current?.Dispatcher?.HasShutdownStarted == false)
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    mw.Slider1.Value = values["Slider1"];
+                    mw.Slider2.Value = values["Slider2"];
+                });
+            }
         }
     }
 }
