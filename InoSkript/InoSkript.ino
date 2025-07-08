@@ -1,51 +1,30 @@
-bool shouldBlink = false;
-bool isLedOn = false;
-int delayTime = 500;
+const int slider1Pin = A0;
+const int slider2Pin = A1;
 
-void setup() 
-{
-  pinMode(LED_BUILTIN, OUTPUT);
+const int switch1Pin = 10;
+const int switch2Pin = 11;
+
+void setup() {
+  pinMode(switch1Pin, INPUT_PULLUP);
+  pinMode(switch2Pin, INPUT_PULLUP);
+  
   Serial.begin(9600);
 }
 
-void loop() 
-{
-  if (Serial.available() > 0) 
-  {
-    String input = Serial.readStringUntil('\n');
-    input.trim();
-    
-    if (input.indexOf("LED_ON") != -1) // input.Contains()
-    {
-      shouldBlink = true;
-      Serial.println("inputOn: " + input);
-      int sepIndex = input.indexOf(':');
-      if (sepIndex != -1) 
-      {
-        String numberPart = input.substring(sepIndex + 1);
-        delayTime = numberPart.toInt();        
-      }
-    } 
-    else if (input == "LED_OFF") 
-    {
-      shouldBlink = false;
-    }
-  }
+void loop() {
+  int slider1Value = analogRead(slider1Pin); // 0–1023
+  int slider2Value = analogRead(slider2Pin);
 
-  if(shouldBlink)
-  {
-    if(isLedOn)
-    {
-      digitalWrite(LED_BUILTIN, LOW);      
-      isLedOn = false;
-    }
-    else
-    {
-      digitalWrite(LED_BUILTIN, HIGH);
-      isLedOn = true;
-    }
-  } 
+  int switch1State = !digitalRead(switch1Pin); // 0/1
+  int switch2State = !digitalRead(switch2Pin);
 
-  Serial.println(delayTime);
-  delay(delayTime);
+  Serial.print(slider1Value);
+  Serial.print(",");
+  Serial.print(slider2Value);
+  Serial.print(",");
+  Serial.print(switch1State);
+  Serial.print(",");
+  Serial.println(switch2State);
+
+  delay(20);
 }
