@@ -7,9 +7,9 @@
         mc:Ignorable="d"
         Title="Categories" Height="420" Width="438">
     <Grid>
-        <Button Content="Create Category" HorizontalAlignment="Left" Margin="334,85,0,0" VerticalAlignment="Top"/>
-        <Button Content="Delete Category" HorizontalAlignment="Left" Margin="334,124,0,0" VerticalAlignment="Top"/>
-        <Button Content="Apply" HorizontalAlignment="Left" Margin="359,343,0,0" VerticalAlignment="Top" Width="65"/>
-        <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" Margin="84,54,219,123"/>
+        <Button x:Name="btn_CreateCat" Content="Create Category" HorizontalAlignment="Left" Margin="334,85,0,0" VerticalAlignment="Top" Click="btn_CreateCat_Click"/>
+        <Button x:Name="btn_DeleteCat" Content="Delete Category" HorizontalAlignment="Left" Margin="334,124,0,0" VerticalAlignment="Top" Click="btn_DeleteCat_Click"/>
+        <Button x:Name="btn_Apply" Content="Apply" HorizontalAlignment="Left" Margin="359,343,0,0" VerticalAlignment="Top" Width="65" Click="btn_Apply_Click"/>
+        <ListBox x:Name="lb_Categories" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,10,260,10"/>
     </Grid>
 </Window>

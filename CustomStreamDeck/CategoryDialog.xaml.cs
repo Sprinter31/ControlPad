@@ -24,12 +24,17 @@ namespace CustomStreamDeck
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void btn_CreateCat_Click(object sender, RoutedEventArgs e)
+        {
+            lb_Categories.
+        }
+
+        private void btn_DeleteCat_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void btn_Apply_Click(object sender, RoutedEventArgs e)
         {
 
         }

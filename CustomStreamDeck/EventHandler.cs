@@ -12,7 +12,7 @@ namespace CustomStreamDeck
         private AudioController auCo;
         private ArduinoController ardCo;
         private Dictionary<Object, int> values = new Dictionary<Object, int>();
-        private Dictionary<Object, int> valuesOld = new Dictionary<Object, int>();
+        private Dictionary<Object, int> valuesOld = new Dictionary<Object, int>();        
 
         private MainWindow mw;
 
