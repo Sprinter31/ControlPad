@@ -13,10 +13,11 @@ namespace CustomStreamDeck
     public partial class MainWindow : Window
     {
         private Forms.NotifyIcon notifyIcon;
+        private ArduinoController arCo;
         public MainWindow()
         {
             InitializeComponent();
-
+            arCo = new ArduinoController(this);
             notifyIcon = new NotifyIcon();
             notifyIcon.Visible = true;
             notifyIcon.Text = "Custom Stream Deck";

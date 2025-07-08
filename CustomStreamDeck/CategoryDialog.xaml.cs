@@ -26,7 +26,7 @@ namespace CustomStreamDeck
 
         private void btn_CreateCat_Click(object sender, RoutedEventArgs e)
         {
-            lb_Categories.
+            
         }
 
         private void btn_DeleteCat_Click(object sender, RoutedEventArgs e)
