@@ -1,11 +1,6 @@
-﻿using System.Diagnostics;
-using System.Drawing;
-using System.IO.Ports;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
-using Drawing = System.Drawing;
 using Forms = System.Windows.Forms;
 
 namespace CustomStreamDeck
