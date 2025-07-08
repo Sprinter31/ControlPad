@@ -97,7 +97,7 @@
         <!-- Menu bar -->
         <Menu DockPanel.Dock="Top" Background="AliceBlue">
             <MenuItem Header="_File">
-                <MenuItem Header="_Manage Slider groups"/>
+                <MenuItem x:Name="btn_ManageSliderGroups" Header="_Manage Slider groups" Click="ManageSliderGroups_Click"/>
                 <MenuItem Header="_Save"/>
                 <MenuItem Header="E_xit"/>
             </MenuItem>
@@ -159,7 +159,7 @@
                 <!-- Button Column -->
                 <StackPanel Grid.Column="6" Grid.RowSpan="2"
                  VerticalAlignment="Center">
-                    <Button x:Name="Switch7" Style="{StaticResource SquareButton}" Content="Pause" Click="Switch7_Click"/>
+                    <Button x:Name="Switch7" Style="{StaticResource SquareButton}" Content="Pause"/>
                     <Button x:Name="Switch8" Style="{StaticResource SquareButton}" Content="Next"/>
                     <Button x:Name="Switch9" Style="{StaticResource SquareButton}" Content="Discord"/>
                     <Button x:Name="Switch10" Style="{StaticResource SquareButton}" Content="Browser"/>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace ControlPad.Windows
+namespace ControlPad
 {
     /// <summary>
     /// Interaction logic for ProcessSelectPopup.xaml
@@ -29,17 +30,7 @@ namespace ControlPad.Windows
         {
             InitializeComponent();
 
-            ProcessNames = Process.GetProcesses()
-                              .OrderBy(p => p.ProcessName)
-                              .Select(p => p.ProcessName)
-                              .Distinct()
-                              .ToList();
-        }
-
-        private void btn_Ok_Click(object sender, RoutedEventArgs e)
-        {
-            SelectedProcessName = ProcessList.SelectedItem as string;
-            DialogResult = true;
+            ProcessCombo.ItemsSource = Process.GetProcesses().Where(p => !string.IsNullOrEmpty(p.MainWindowTitle));
         }
     }
 }

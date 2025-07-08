@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Drawing;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 
@@ -52,7 +53,7 @@ namespace ControlPad
             notifyIcon.ShowBalloonTip(5000, "Notice", "Control Pad minimized to system tray", ToolTipIcon.Info);
         }
 
-        private void Switch7_Click(object sender, RoutedEventArgs e)
+        private void ManageSliderGroups_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new CategoryDialog();
             dialog.Owner = this;

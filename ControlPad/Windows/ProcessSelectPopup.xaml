@@ -1,28 +1,27 @@
-﻿<Window x:Class="ControlPad.Windows.ProcessSelectPopup"
+﻿<Window x:Class="ControlPad.ProcessSelectPopup"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ControlPad.Windows"
-        mc:Ignorable="d"           
+        xmlns:local="clr-namespace:ControlPad"
+           
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
         Title="ProcessSelectPopup">
-    
-        <StackPanel Margin="20" MinWidth="300">
-            <TextBlock Text="Select a process" FontWeight="Bold" Margin="0 0 0 6"/>
 
-            <!-- Liste aller laufenden Prozesse -->
-            <ListBox x:Name="ProcessList"
-                 ItemsSource="{Binding ProcessNames}"
-                 Height="200"/>
+    <StackPanel Margin="12">
+        <TextBlock Text="Bitte einen laufenden Prozess auswählen:" Margin="0,0,0,6"/>
 
-            <!-- Buttons -->
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 10 0 0">
-                <Button x:Name="btn_Ok" Content="OK"  Width="80" Margin="0,0,10,0" IsDefault="True"
-                    IsEnabled="{Binding ElementName=ProcessList, Path=SelectedItem, Converter={StaticResource NullToBoolConverter}}" Click="btn_Ok_Click"/>
-                <Button x:Name="btn_Cancel" Content="Cancel" Width="80" IsCancel="True"/>
-            </StackPanel>
+        <!-- zeigt nur den Namen an, speichert aber das ganze Process-Objekt -->
+        <ComboBox x:Name="ProcessCombo"
+                  DisplayMemberPath="ProcessName"
+                  Width="260"
+                  IsEditable="False"/>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button Content="OK"  Width="70" Margin="0,0,6,0"/>
+            <Button Content="Abbrechen" Width="70"/>
         </StackPanel>
-    </Window>
+    </StackPanel>
+</Window>

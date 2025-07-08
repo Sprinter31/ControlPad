@@ -16,6 +16,7 @@ using System.Collections.ObjectModel;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.IO;
+using ControlPad.Windows;
 
 
 namespace ControlPad
@@ -45,6 +46,10 @@ namespace ControlPad
         private void btn_EditCat_Click(object sender, RoutedEventArgs e)
         {
             if (lb_Categories.SelectedIndex == -1) return;
+
+            var dialog = new EditCategoryWindow();
+            dialog.Owner = this;
+            dialog.ShowDialog();
         }
 
         private void btn_DeleteCat_Click(object sender, RoutedEventArgs e)
