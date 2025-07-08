@@ -8,6 +8,6 @@ namespace CustomStreamDeck
 {
     public static class GlobalData
     {
-        public static List<string> Categories = new List<string>();
+        public static List<List<string>> Categories = new List<List<string>>();
     }
 }
