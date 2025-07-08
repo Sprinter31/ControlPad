@@ -11,8 +11,8 @@ namespace CustomStreamDeck
     {
         private AudioController auCo;
         private ArduinoController ardCo;
-        private Dictionary<Object, int> values = new Dictionary<Object, int>();
-        private Dictionary<Object, int> valuesOld = new Dictionary<Object, int>();        
+        private Dictionary<Slider, int> values = new Dictionary<Slider, int>();
+        private Dictionary<Slider, int> valuesOld = new Dictionary<Slider, int>();        
 
         private MainWindow mw;
 
@@ -21,7 +21,7 @@ namespace CustomStreamDeck
             mw = mainWindow;
         }
 
-        public void TakeValues(Dictionary<Object, int> values)
+        public void TakeValues(Dictionary<Slider, int> values)
         {
             valuesOld = this.values;
             this.values = values;
@@ -34,9 +34,11 @@ namespace CustomStreamDeck
             if (values == valuesOld)
                 return;
 
-            foreach (Object obj in values)
+            foreach (var kvp in values)
             {
-                if(obj is Slider slider && values[slider] != valuesOld[slider])
+                Slider slider = kvp.Key;
+                int value = kvp.Value;
+                if (values[slider] != valuesOld[slider])
                 {
                     mw.UpdateUISlider(slider, values[slider]);
                 }

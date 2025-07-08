@@ -19,14 +19,14 @@ namespace CustomStreamDeck
         private MainWindow mw;
         private SerialPort? _serialPort;
         private EventHandler eventHandler;
-        private Dictionary<Object, int> values = new Dictionary<Object, int>();
+        private Dictionary<Slider, int> values = new Dictionary<Slider, int>();
 
         public ArduinoController(MainWindow mainWindow)
         {
             mw = mainWindow;
             eventHandler = new EventHandler(mw);
 
-            values = new Dictionary<Object, int>
+            values = new Dictionary<Slider, int>
             {
                 { mw.Slider1, 0 },
                 { mw.Slider2, 0 },
@@ -34,7 +34,7 @@ namespace CustomStreamDeck
                 { mw.Slider4, 0 },
                 { mw.Slider5, 0 },
                 { mw.Slider6, 0 },
-                { mw.Switch1, 0 },
+                /*{ mw.Switch1, 0 },
                 { mw.Switch2, 0 },
                 { mw.Switch3, 0 },
                 { mw.Switch4, 0 },
@@ -44,7 +44,7 @@ namespace CustomStreamDeck
                 { mw.Switch8, 0 },
                 { mw.Switch9, 0 },
                 { mw.Switch10, 0 },
-                { mw.Switch11, 0 }
+                { mw.Switch11, 0 }*/
             };
 
             string port = ArduinoPortFinder.FindFirstArduinoPort();
@@ -86,7 +86,7 @@ namespace CustomStreamDeck
             values[mw.Slider2] = int.Parse(inputs[1]);
             values[mw.Slider3] = int.Parse(inputs[2]);
             values[mw.Slider4] = int.Parse(inputs[3]);
-            values[mw.Slider5] = int.Parse(inputs[4]);
+            /*values[mw.Slider5] = int.Parse(inputs[4]);
             values[mw.Slider6] = int.Parse(inputs[5]);
             values[mw.Switch1] = int.Parse(inputs[6]);
             values[mw.Switch3] = int.Parse(inputs[7]);
@@ -97,7 +97,7 @@ namespace CustomStreamDeck
             values[mw.Switch8] = int.Parse(inputs[12]);
             values[mw.Switch9] = int.Parse(inputs[13]);
             values[mw.Switch10] = int.Parse(inputs[14]);
-            values[mw.Switch11] = int.Parse(inputs[15]);
+            values[mw.Switch11] = int.Parse(inputs[15]);*/
         }
 
         private void OnSerialPortDisconnected()
