@@ -19,7 +19,6 @@ namespace CustomStreamDeck
 
             notifyIcon = new NotifyIcon();
             notifyIcon.Visible = true;
-            notifyIcon.Icon = new Drawing.Icon(@"Resources\rofl.ico");
             notifyIcon.Text = "Custom Stream Deck";
 
             var contextMenu = new Forms.ContextMenuStrip();

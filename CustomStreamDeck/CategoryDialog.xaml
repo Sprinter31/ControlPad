@@ -5,8 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CustomStreamDeck"
         mc:Ignorable="d"
-        Title="CategoryDialog" Height="420" Width="438">
+        Title="Categories" Height="420" Width="438">
     <Grid>
-
+        <Button Content="Create Category" HorizontalAlignment="Left" Margin="334,85,0,0" VerticalAlignment="Top"/>
+        <Button Content="Delete Category" HorizontalAlignment="Left" Margin="334,124,0,0" VerticalAlignment="Top"/>
+        <Button Content="Apply" HorizontalAlignment="Left" Margin="359,343,0,0" VerticalAlignment="Top" Width="65"/>
+        <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" Margin="84,54,219,123"/>
     </Grid>
 </Window>
