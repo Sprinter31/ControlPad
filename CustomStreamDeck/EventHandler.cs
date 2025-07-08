@@ -11,37 +11,33 @@ namespace CustomStreamDeck
     {
         private AudioController auCo;
         private ArduinoController ardCo;
-        private Dictionary<Control, int> values = new Dictionary<Control, int>();
-        private Dictionary<Control, int> valuesOld = new Dictionary<Control, int>();        
+        private Dictionary<Control, int> values = new Dictionary<Control, int>();       
 
         private MainWindow mw;
 
-        public EventHandler(MainWindow mainWindow) 
-        { 
+        public EventHandler(MainWindow mainWindow)
+        {
             mw = mainWindow;
         }
-
-        public void TakeValues(Dictionary<Control, int> values)
+        public void Update(Dictionary<Control, int> values)
         {
-            valuesOld = this.values;
-            this.values = values;
 
-            CheckChanges();
-        }
+            if(this.values.Count == values.Count && !this.values.Except(values).Any()) return;
 
-        private void CheckChanges()
-        {
-            /*if (values == valuesOld)
-                return;*/
+            mw.Dispatcher.Invoke(() => mw.UpdateUISlider(mw.Slider1, values[mw.Slider1]));
+            mw.Dispatcher.Invoke(() => mw.UpdateUISlider(mw.Slider2, values[mw.Slider2]));
 
-            foreach (var kvp in values)
+            /*foreach (var kvp in values)
             {
                 Slider slider = (Slider)kvp.Key;
-                if (!valuesOld.ContainsKey(slider) || values[slider] != valuesOld[slider])
+                if (true)
                 {
-                    mw.Dispatcher.Invoke(() =>  mw.UpdateUISlider(slider, kvp.Value));
+                    
                 }
-            }
+            }*/
+
+            this.values = values;
+
         }
     }
 }

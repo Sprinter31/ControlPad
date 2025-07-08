@@ -68,7 +68,7 @@ namespace CustomStreamDeck
                 string[] inputs = line.Split(',');
 
                 UpdateValues(inputs);
-                eventHandler.TakeValues(values);
+                eventHandler.Update(values);
             }
             catch (IOException ex)
             {
