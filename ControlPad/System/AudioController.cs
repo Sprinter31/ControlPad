@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using SW = System.Windows;
 
-namespace CustomStreamDeck
+namespace ControlPad
 {
     public class AudioController
     {

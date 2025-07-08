@@ -2,7 +2,7 @@
 using System.Data;
 using System.Windows;
 
-namespace CustomStreamDeck
+namespace ControlPad
 {
     /// <summary>
     /// Interaction logic for App.xaml

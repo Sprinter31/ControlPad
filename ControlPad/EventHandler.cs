@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 
-namespace CustomStreamDeck
+namespace ControlPad
 {
     public class EventHandler
     {
@@ -21,6 +21,7 @@ namespace CustomStreamDeck
         public EventHandler(MainWindow mainWindow)
         {
             MainWindow = mainWindow;
+            auCo = new AudioController();
         }
         public void Update(Dictionary<Control, int> values)
         {
@@ -32,18 +33,16 @@ namespace CustomStreamDeck
                 int newValue = kvp.Value;
                 this.values.TryGetValue(key, out int oldValue);
 
-                if (Math.Abs(oldValue - newValue) > 2)
+                if (name.StartsWith("Slider", StringComparison.OrdinalIgnoreCase) && Math.Abs(oldValue - newValue) > 2)
                 {
-                    if (name.StartsWith("Slider", StringComparison.OrdinalIgnoreCase))
-                    {
-                        UpdateSlider(key, newValue);
-                    }
-                    else if (name.StartsWith("Switch", StringComparison.OrdinalIgnoreCase))
-                    {
-                        UpdateButton(key, newValue);
-                    }
-                    this.values[key] = newValue;
+                    UpdateSlider(key, newValue);
+                    auCo.SetProcessVolume("Spotify", 0.5f);
                 }
+                else if (name.StartsWith("Switch", StringComparison.OrdinalIgnoreCase))
+                {
+                    UpdateButton(key, newValue);
+                }
+                this.values[key] = newValue;
             }
         }
 

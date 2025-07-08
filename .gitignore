@@ -1,7 +1,7 @@
 .vs/
 
-CustomStreamDeck/bin/
-CustomStreamDeck/obj/
+ControlPad/bin/
+ControlPad/obj/
 
 *.user
 *.suo

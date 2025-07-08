@@ -1,9 +1,9 @@
-﻿<Window x:Class="CustomStreamDeck.CategoryDialog"
+﻿<Window x:Class="ControlPad.CategoryDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CustomStreamDeck"
+        xmlns:local="clr-namespace:ControlPad"
         mc:Ignorable="d"
         Title="Categories" Height="420" Width="438">
     <Grid>
@@ -13,7 +13,7 @@
         </Grid.ColumnDefinitions>
 
 
-        <ListBox x:Name="lb_Categories" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="30,30,30,30"/>
+        <ListBox x:Name="lb_Categories" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="30,30,30,30" KeyDown="lb_Categories_KeyDown"/>
 
 
         <Button x:Name="btn_CreateCat" Content="Create Category" Margin="28,30,28,0" VerticalAlignment="Top" Height="20" Grid.Column="1" Click="btn_CreateCat_Click"/>

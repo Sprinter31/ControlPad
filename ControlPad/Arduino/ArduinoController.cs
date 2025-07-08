@@ -12,7 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 
-namespace CustomStreamDeck
+namespace ControlPad
 {   
     public class ArduinoController
     {
@@ -55,7 +55,7 @@ namespace CustomStreamDeck
                 _serialPort.Open();
             }
             else
-                MessageBox.Show("Arduino Port not found", "Custom Stream Deck", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Arduino Port not found", "Control Pad", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -102,7 +102,7 @@ namespace CustomStreamDeck
 
         private void OnSerialPortDisconnected()
         {
-            MessageBox.Show("Arduino Port disconnected", "Custom Stream Deck", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show("Arduino Port disconnected", "Control Pad", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

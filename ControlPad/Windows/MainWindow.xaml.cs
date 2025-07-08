@@ -4,25 +4,23 @@ using System.IO.Ports;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
-using Drawing = System.Drawing;
-using Forms = System.Windows.Forms;
 
-namespace CustomStreamDeck
+namespace ControlPad
 {
     public partial class MainWindow : Window
     {
-        private Forms.NotifyIcon notifyIcon;
+        private NotifyIcon notifyIcon;
         private ArduinoController arCo;
         public MainWindow()
         {
             InitializeComponent();
             arCo = new ArduinoController(this);
             notifyIcon = new NotifyIcon();
+            notifyIcon.Icon = new Icon(@"Resources\logo.ico");
             notifyIcon.Visible = true;
-            notifyIcon.Text = "Custom Stream Deck";
+            notifyIcon.Text = "Control Pad";
 
-            var contextMenu = new Forms.ContextMenuStrip();
+            var contextMenu = new ContextMenuStrip();
             contextMenu.Items.Add("Open", null, (s, e) => {
                 this.Show();
                 this.WindowState = WindowState.Normal;
@@ -54,13 +52,13 @@ namespace CustomStreamDeck
         {
             e.Cancel = true;
             this.Hide();
-            notifyIcon.ShowBalloonTip(5000, "Notice", "Custom Stream Deck minimized to system tray", ToolTipIcon.Info);
+            notifyIcon.ShowBalloonTip(5000, "Notice", "Control Pad minimized to system tray", ToolTipIcon.Info);
         }
 
         private void Switch7_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new CategoryDialog();
-            dialog.Owner = this; // wichtig für zentrieren + Blockieren
+            dialog.Owner = this;
             dialog.ShowDialog();
         }
     }

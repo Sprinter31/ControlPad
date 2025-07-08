@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36212.18 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomStreamDeck", "CustomStreamDeck\CustomStreamDeck.csproj", "{A1049CB7-61C7-4228-AA8C-1B123BC7280C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlPad", "ControlPad\ControlPad.csproj", "{D35BB3DA-59CF-B3B9-1C64-51118D02B4EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A1049CB7-61C7-4228-AA8C-1B123BC7280C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A1049CB7-61C7-4228-AA8C-1B123BC7280C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A1049CB7-61C7-4228-AA8C-1B123BC7280C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A1049CB7-61C7-4228-AA8C-1B123BC7280C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D35BB3DA-59CF-B3B9-1C64-51118D02B4EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D35BB3DA-59CF-B3B9-1C64-51118D02B4EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D35BB3DA-59CF-B3B9-1C64-51118D02B4EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D35BB3DA-59CF-B3B9-1C64-51118D02B4EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {2D9379C2-BE1E-4849-9092-ED907C5C4A1D}
+		SolutionGuid = {6F4D9127-BCCB-4F59-9489-5F4AA1B14FCA}
 	EndGlobalSection
 EndGlobal
