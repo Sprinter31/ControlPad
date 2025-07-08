@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+//using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -29,9 +30,16 @@ namespace CustomStreamDeck
             
         }
 
-        private void btn_DeleteCat_Click(object sender, RoutedEventArgs e)
+        private void btn_EditCat_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void btn_DeleteCat_Click(object sender, RoutedEventArgs e)
+        {
+            if (lb_Categories.SelectedIndex == -1)            
+                MessageBox.Show("Nothing selected", "Custom Stream Deck", MessageBoxButton.OK, MessageBoxImage.Information);
+            
         }
 
         private void btn_Apply_Click(object sender, RoutedEventArgs e)

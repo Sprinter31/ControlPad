@@ -19,14 +19,14 @@ namespace CustomStreamDeck
         private MainWindow mw;
         private SerialPort? _serialPort;
         private EventHandler eventHandler;
-        private Dictionary<Slider, int> values = new Dictionary<Slider, int>();
+        private Dictionary<Control, int> values = new Dictionary<Control, int>();
 
         public ArduinoController(MainWindow mainWindow)
         {
             mw = mainWindow;
             eventHandler = new EventHandler(mw);
 
-            values = new Dictionary<Slider, int>
+            values = new Dictionary<Control, int>
             {
                 { mw.Slider1, 0 },
                 { mw.Slider2, 0 },

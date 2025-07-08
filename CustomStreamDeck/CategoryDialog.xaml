@@ -13,13 +13,13 @@
         </Grid.ColumnDefinitions>
 
 
-        <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" Margin="30,30,30,30"/>
+        <ListBox x:Name="lb_Categories" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="30,30,30,30"/>
 
 
-        <Button Content="Create Category" Margin="28,30,28,0" VerticalAlignment="Top" Height="20" Grid.Column="1"/>
-        <Button Content="Edit Category" Margin="28,70,28,0" VerticalAlignment="Top" Height="20" Grid.Column="1"/>
-        <Button Content="Delete Category" Margin="28,110,28,0" Grid.Column="1" Height="20" VerticalAlignment="Top"/>
+        <Button x:Name="btn_CreateCat" Content="Create Category" Margin="28,30,28,0" VerticalAlignment="Top" Height="20" Grid.Column="1" Click="btn_CreateCat_Click"/>
+        <Button x:Name="btn_EditCat" Content="Edit Category" Margin="28,70,28,0" VerticalAlignment="Top" Height="20" Grid.Column="1" Click="btn_EditCat_Click"/>
+        <Button x:Name="btn_DeleteCat" Content="Delete Category" Margin="28,110,28,0" Grid.Column="1" Height="20" VerticalAlignment="Top" Click="btn_DeleteCat_Click"/>
 
-        <Button Content="Apply" Margin="40,0,40,30" Grid.Column="1" Height="20" VerticalAlignment="Bottom"/>
+        <Button x:Name="btn_Apply" Content="Apply" Margin="40,0,40,30" Grid.Column="1" Height="20" VerticalAlignment="Bottom" Click="btn_Apply_Click"/>
     </Grid>
 </Window>
