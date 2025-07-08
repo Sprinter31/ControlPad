@@ -4,8 +4,9 @@ using System.IO.Ports;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
-using Forms = System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 using Drawing = System.Drawing;
+using Forms = System.Windows.Forms;
 
 namespace CustomStreamDeck
 {
@@ -54,6 +55,13 @@ namespace CustomStreamDeck
             e.Cancel = true;
             this.Hide();
             notifyIcon.ShowBalloonTip(5000, "Notice", "Custom Stream Deck minimized to system tray", ToolTipIcon.Info);
+        }
+
+        private void Switch7_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new CategoryDialog();
+            dialog.Owner = this; // wichtig für zentrieren + Blockieren
+            dialog.ShowDialog();
         }
     }
 }
