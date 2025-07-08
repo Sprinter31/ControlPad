@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Animation;
+using System.Windows.Threading;
 
 namespace CustomStreamDeck
 {
@@ -13,31 +16,44 @@ namespace CustomStreamDeck
         private ArduinoController ardCo;
         private Dictionary<Control, int> values = new Dictionary<Control, int>();       
 
-        private MainWindow mw;
+        private MainWindow MainWindow;
 
         public EventHandler(MainWindow mainWindow)
         {
-            mw = mainWindow;
+            MainWindow = mainWindow;
         }
         public void Update(Dictionary<Control, int> values)
         {
-
-            if(this.values.Count == values.Count && !this.values.Except(values).Any()) return;
-
-            mw.Dispatcher.Invoke(() => mw.UpdateUISlider(mw.Slider1, values[mw.Slider1]));
-            mw.Dispatcher.Invoke(() => mw.UpdateUISlider(mw.Slider2, values[mw.Slider2]));
-
-            /*foreach (var kvp in values)
+            foreach (var kvp in values)
             {
-                Slider slider = (Slider)kvp.Key;
-                if (true)
+                Control key = kvp.Key;
+                var name = MainWindow.Dispatcher.Invoke(() => key.Name);
+
+                int newValue = kvp.Value;
+                this.values.TryGetValue(key, out int oldValue);
+
+                if (Math.Abs(oldValue - newValue) > 2)
                 {
-                    
+                    if (name.StartsWith("Slider", StringComparison.OrdinalIgnoreCase))
+                    {
+                        UpdateSlider(key, newValue);
+                    }
+                    else if (name.StartsWith("Switch", StringComparison.OrdinalIgnoreCase))
+                    {
+                        UpdateButton(key, newValue);
+                    }
+                    this.values[key] = newValue;
                 }
-            }*/
+            }
+        }
 
-            this.values = values;
-
+        private void UpdateSlider(Control element, int value)
+        {
+            MainWindow.Dispatcher.Invoke(() => MainWindow.UpdateUISlider((Slider)element, value));
+        }
+        private void UpdateButton(Control element, int value)
+        {
+            // Code to update button state based on value
         }
     }
 }

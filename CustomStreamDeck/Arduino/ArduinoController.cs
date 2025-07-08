@@ -30,11 +30,11 @@ namespace CustomStreamDeck
             {
                 { mw.Slider1, 0 },
                 { mw.Slider2, 0 },
-                { mw.Slider3, 0 },
+                /*{ mw.Slider3, 0 },
                 { mw.Slider4, 0 },
                 { mw.Slider5, 0 },
                 { mw.Slider6, 0 },
-                /*{ mw.Switch1, 0 },
+                { mw.Switch1, 0 },
                 { mw.Switch2, 0 },
                 { mw.Switch3, 0 },
                 { mw.Switch4, 0 },
@@ -84,9 +84,9 @@ namespace CustomStreamDeck
         {
             values[mw.Slider1] = int.Parse(inputs[0]);
             values[mw.Slider2] = int.Parse(inputs[1]);
-            values[mw.Slider3] = int.Parse(inputs[2]);
+            /*values[mw.Slider3] = int.Parse(inputs[2]);
             values[mw.Slider4] = int.Parse(inputs[3]);
-            /*values[mw.Slider5] = int.Parse(inputs[4]);
+            values[mw.Slider5] = int.Parse(inputs[4]);
             values[mw.Slider6] = int.Parse(inputs[5]);
             values[mw.Switch1] = int.Parse(inputs[6]);
             values[mw.Switch3] = int.Parse(inputs[7]);
