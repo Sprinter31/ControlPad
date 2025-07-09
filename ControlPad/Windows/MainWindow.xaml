@@ -94,8 +94,9 @@
         <Style x:Key="Border" TargetType="Border">
             <Setter Property="BorderBrush"      Value="Black"/>
             <Setter Property="Background"       Value="Transparent"/>
-            <Setter Property="BorderThickness"  Value="1"/>
             <Setter Property="Cursor"           Value="Hand"/>
+            <Setter Property="Visibility"       Value="Hidden"/>
+            <Setter Property="BorderThickness"  Value="1"/>
             <Setter Property="Panel.ZIndex"     Value="1"/>
         </Style>
 
