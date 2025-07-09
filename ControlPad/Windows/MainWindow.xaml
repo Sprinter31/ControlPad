@@ -97,7 +97,7 @@
         <!-- Menu bar -->
         <Menu DockPanel.Dock="Top" Background="AliceBlue">
             <MenuItem Header="_File">
-                <MenuItem x:Name="btn_ManageSliderGroups" Header="_Manage Slider groups" Click="ManageSliderGroups_Click"/>
+                <MenuItem x:Name="btn_ManageSliderCategories" Header="_Manage Slider Categories" Click="ManageSliderCategories_Click"/>
                 <MenuItem Header="_Save"/>
                 <MenuItem Header="E_xit" Click="Exit_Click"/>
             </MenuItem>
