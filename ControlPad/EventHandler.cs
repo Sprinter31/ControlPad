@@ -16,7 +16,6 @@ namespace ControlPad
         }
         public void Update(Dictionary<Control, int> values)
         {
-            auCo.SetProcessVolume("Spotify", 0.5f);
 
             foreach (var kvp in values)
             {
@@ -26,7 +25,7 @@ namespace ControlPad
                 int newValue = kvp.Value;
                 this.values.TryGetValue(key, out int oldValue);
 
-                if (name.StartsWith("Slider", StringComparison.OrdinalIgnoreCase) && Math.Abs(oldValue - newValue) > 2)
+                if (name.StartsWith("Slider", StringComparison.OrdinalIgnoreCase) && Math.Abs(oldValue - newValue) > 1)
                 {
                     UpdateSlider(key, newValue);
                 }
@@ -42,7 +41,7 @@ namespace ControlPad
         {
             MainWindow.Dispatcher.Invoke(() => MainWindow.UpdateUISlider((Slider)element, value));
 
-            AudioController.SetProcessVolume("Spotify", SliderToFloat(value));
+            Task.Run(() => AudioController.SetProcessVolume("Spotify", SliderToFloat(value)));
         }
         private void UpdateButton(Control element, int value)
         {
@@ -50,7 +49,8 @@ namespace ControlPad
         }
         private float SliderToFloat(int value)
         {
-            return (float)value / 1024.0f;
+            value -= 2;
+            return (float)value / 1020.0f;
         }
 
     }
