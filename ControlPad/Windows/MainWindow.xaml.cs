@@ -101,15 +101,33 @@ namespace ControlPad
 
         private void cb_EditMode_Checked(object sender, RoutedEventArgs e)
         {
-            Border1.Visibility = Visibility.Visible;
+            SliderCell1.Visibility = Visibility.Visible;
+            SliderCell2.Visibility = Visibility.Visible;
+            SliderCell3.Visibility = Visibility.Visible;
+            SliderCell4.Visibility = Visibility.Visible;
+            SliderCell5.Visibility = Visibility.Visible;
+            SliderCell6.Visibility = Visibility.Visible;
         }
 
         private void cb_EditMode_Unchecked(object sender, RoutedEventArgs e)
-        {            
-            Border1.Visibility = Visibility.Collapsed;
+        {
+            SliderCell1.Visibility = Visibility.Hidden;
+            SliderCell2.Visibility = Visibility.Hidden;
+            SliderCell3.Visibility = Visibility.Hidden;
+            SliderCell4.Visibility = Visibility.Hidden;
+            SliderCell5.Visibility = Visibility.Hidden;
+            SliderCell6.Visibility = Visibility.Hidden;
         }
 
         public void UpdateUISlider(Slider slider, int value) => slider.Value = value;
         private void Exit_Click(object sender, EventArgs e) => this.Close();
+
+        private void SliderCell_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Border border)
+            {
+                System.Windows.MessageBox.Show(border.Name);
+            }
+        }
     }
 }
