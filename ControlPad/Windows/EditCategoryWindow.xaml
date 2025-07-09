@@ -21,10 +21,10 @@
 
 
         <Button x:Name="btn_AddProcess" Content="Add Process" Margin="28,30,28,0" VerticalAlignment="Top" Height="20" Grid.Column="1" Click="btn_AddProcess_Click" Grid.Row="1"/>
-        <Button x:Name="btn_RemoveProcess" Content="Remove Process" Margin="28,60,28,0" Grid.Column="1" Height="20" VerticalAlignment="Top" Grid.Row="1"/>
+        <Button x:Name="btn_RemoveProcess" Content="Remove Process" Margin="28,60,28,0" Grid.Column="1" Height="20" VerticalAlignment="Top" Grid.Row="1" Click="btn_RemoveProcess_Click"/>
 
-        <Button x:Name="btn_Apply" Content="Close" Margin="28,309,28,0" Grid.Column="1" Height="20" VerticalAlignment="Top" Click="btn_Apply_Click" Grid.Row="1"/>
+        <Button x:Name="btn_Close" Content="Close" Margin="28,309,28,0" Grid.Column="1" Height="20" VerticalAlignment="Top" Click="btn_Close_Click" Grid.Row="1"/>
         <Label Content="Processes:" HorizontalAlignment="Center" VerticalAlignment="Top" Width="232" FontSize="14" Height="30" Grid.Row="1"/>
-        <TextBox HorizontalAlignment="Center" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Center" Width="232" Height="18"/>
+        <TextBox x:Name="tb_CategoryName" HorizontalAlignment="Center" TextWrapping="Wrap" Text="CategoryName" VerticalAlignment="Center" Width="232" Height="18"/>
     </Grid>
 </Window>

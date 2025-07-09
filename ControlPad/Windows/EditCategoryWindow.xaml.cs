@@ -24,6 +24,8 @@ namespace ControlPad.Windows
         {
             InitializeComponent();
             this.indexOfCategory = indexOfCategory;
+
+            tb_CategoryName.Text = GlobalData.Categories[indexOfCategory].Name;
             programms = GlobalData.Categories[indexOfCategory].Programms;
             lb_Processes.ItemsSource = programms;
         }
@@ -41,9 +43,15 @@ namespace ControlPad.Windows
             }               
         }
 
-        private void btn_Apply_Click(object sender, RoutedEventArgs e)
+        private void btn_RemoveProcess_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btn_Close_Click(object sender, RoutedEventArgs e)
         {
             GlobalData.Categories[indexOfCategory].Programms = programms;
+            GlobalData.Categories[indexOfCategory].Name = tb_CategoryName.Text.Trim();
             this.Close();
         }
     }
