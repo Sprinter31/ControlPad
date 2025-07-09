@@ -16,7 +16,6 @@ namespace ControlPad
         }
         public void Update(Dictionary<Control, int> values)
         {
-
             foreach (var kvp in values)
             {
                 Control key = kvp.Key;

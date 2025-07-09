@@ -23,12 +23,12 @@ namespace ControlPad
 {
     public partial class ManageCategoriesWindow : Window
     {
-        private ObservableCollection<Category> categories = new ObservableCollection<Category>();
+        public ObservableCollection<Category> categoriesTemp = new ObservableCollection<Category>();
         public ManageCategoriesWindow()
         {
             InitializeComponent();
-            categories = GlobalData.Categories;
-            lb_Categories.ItemsSource = categories;
+            categoriesTemp = GlobalData.Categories;
+            lb_Categories.ItemsSource = categoriesTemp;
         }
 
         private void btn_CreateCat_Click(object sender, RoutedEventArgs e)
@@ -37,7 +37,7 @@ namespace ControlPad
 
             if (string.IsNullOrEmpty(name)) return;
 
-            categories.Add(new Category(name));        
+            categoriesTemp.Add(new Category(name));        
         }
 
         private void btn_EditCat_Click(object sender, RoutedEventArgs e)
@@ -46,14 +46,14 @@ namespace ControlPad
 
             if (index == -1) return;
 
-            var dialog = new EditCategoryWindow(index);
+            var dialog = new EditCategoryWindow(this, index);
             dialog.Owner = this;
             dialog.ShowDialog();
         }       
 
         private void btn_Apply_Click(object sender, RoutedEventArgs e)
         {
-            GlobalData.Categories = categories;
+            GlobalData.Categories = categoriesTemp;
             GlobalData.SaveCategories(GlobalData.CategoryPath);
             this.Close();
         }
@@ -68,9 +68,10 @@ namespace ControlPad
             int index = lb_Categories.SelectedIndex;
             if (index == -1) return;
 
-            categories.RemoveAt(index);
+            categoriesTemp.RemoveAt(index);
         }
 
+        public void RefreshListBox() => lb_Categories.Items.Refresh();
         private void btn_DeleteCat_Click(object sender, RoutedEventArgs e) => DeleteAtSelected();
         private void btn_Cancel_Click(object sender, RoutedEventArgs e) => this.Close();
     }

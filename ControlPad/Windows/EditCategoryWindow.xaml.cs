@@ -18,16 +18,16 @@ namespace ControlPad.Windows
     public partial class EditCategoryWindow : Window
     {
         private int indexOfCategory;
-        private ObservableCollection<string> programms;
+        ManageCategoriesWindow MCW;
 
-        public EditCategoryWindow(int indexOfCategory)
+        public EditCategoryWindow(ManageCategoriesWindow MCW, int indexOfCategory)
         {
             InitializeComponent();
-            GlobalData.LoadCategories(GlobalData.CategoryPath);
-
             this.indexOfCategory = indexOfCategory;
-            programms = GlobalData.Categories[indexOfCategory].Programms;
-            lb_Processes.ItemsSource = programms;
+            this.MCW = MCW;
+
+            tb_CategoryName.Text = GlobalData.Categories[indexOfCategory].Name;
+            lb_Processes.ItemsSource = MCW.categoriesTemp[indexOfCategory].Programms;
         }
 
         private void btn_AddProcess_Click(object sender, RoutedEventArgs e)
@@ -39,14 +39,20 @@ namespace ControlPad.Windows
             if (result == true)
             {
                 string process = dialog.SelectedProcessName;
-                programms.Add(process);
+                MCW.categoriesTemp[indexOfCategory].Programms.Add(process);
             }               
         }
 
-        private void btn_Apply_Click(object sender, RoutedEventArgs e)
+        private void btn_RemoveProcess_Click(object sender, RoutedEventArgs e)
         {
-            GlobalData.Categories[indexOfCategory].Programms = programms;
-            GlobalData.SaveCategories(GlobalData.CategoryPath);
+
+        }
+
+        private void btn_Close_Click(object sender, RoutedEventArgs e)
+        {
+            MCW.categoriesTemp[indexOfCategory].Name = tb_CategoryName.Text.Trim();
+            MCW.RefreshListBox();
+            this.Close();
         }
     }
 }
