@@ -2,6 +2,9 @@
 
 ControlPad/bin/
 ControlPad/obj/
+ControlPad/publish/
+ControlPadWizard/Release
+ControlPadWizard/Debug
 
 *.user
 *.suo

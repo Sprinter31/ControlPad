@@ -28,7 +28,6 @@ namespace ControlPad
                 if (name.StartsWith("Slider", StringComparison.OrdinalIgnoreCase) && Math.Abs(oldValue - newValue) > 2)
                 {
                     UpdateSlider(key, newValue);
-                    auCo.SetProcessVolume("Spotify", 0.5f);
                 }
                 else if (name.StartsWith("Switch", StringComparison.OrdinalIgnoreCase))
                 {
