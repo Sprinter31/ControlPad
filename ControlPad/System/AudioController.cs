@@ -7,21 +7,16 @@ namespace ControlPad
 {
     public class AudioController
     {
-        private MMDeviceEnumerator devEnum;
-        private MMDevice device;
-        MMDevice mic;
+        private MMDeviceEnumerator _enum;
 
         public AudioController()
         { 
-            devEnum = new MMDeviceEnumerator();
-            device = devEnum.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
-            mic = devEnum.GetDefaultAudioEndpoint(DataFlow.Capture, Role.Communications);
+            _enum = new MMDeviceEnumerator();           
         }
 
         public void SetProcessVolume(string processName, float volume)
         {
-            using var devEnum = new MMDeviceEnumerator();
-            using var device = devEnum.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+            using var device = _enum.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
             var sessions = device.AudioSessionManager.Sessions;
 
             volume = Math.Clamp(volume, 0f, 1f);
@@ -36,16 +31,17 @@ namespace ControlPad
 
         public void SetSystemVolume(float volume)
         {
-            if (volume >= 1)
-                volume = 1;
-            else if (volume < 0)
-                volume = 0;
+            using var device = _enum.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+            volume = Math.Clamp(volume, 0f, 1f);
 
-            if (device != null)
-                SW.Application.Current.Dispatcher.Invoke(() => device.AudioEndpointVolume.MasterVolumeLevelScalar = volume);
+            if(device != null) device.AudioEndpointVolume.MasterVolumeLevelScalar = volume;
         }
 
-        public void SetMicVolume(float volume) => mic.AudioEndpointVolume.MasterVolumeLevelScalar = volume;
+        public void SetMicVolume(float volume)
+        {
+            MMDevice mic = _enum.GetDefaultAudioEndpoint(DataFlow.Capture, Role.Communications);
+            mic.AudioEndpointVolume.MasterVolumeLevelScalar = volume;
+        }
         public void AdjustProcessVolume(string processName, float adjustment) => SetProcessVolume(processName, GetProcessVolume(processName) + adjustment);
         public void AdjustSystemVolume(float adjustment) => SetSystemVolume(GetSystemVolume() + adjustment);
         public void AdjustMicVolume(float adjustment) => SetMicVolume(GetMicVolume() + adjustment);
@@ -67,6 +63,7 @@ namespace ControlPad
 
         public float GetProcessVolume(string processName)
         {
+            using var device = _enum.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
             var sessions = device?.AudioSessionManager.Sessions;
 
             for (int i = 0; i < sessions?.Count; i++)
