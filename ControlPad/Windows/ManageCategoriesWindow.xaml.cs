@@ -38,16 +38,15 @@ namespace ControlPad
 
         private void btn_CreateCat_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new ProcessSelectPopup();
+            var dialog = new CreateCategoryPopup();
             dialog.Owner = this;
             bool? result = dialog.ShowDialog();
+            string name = "";
 
             if (result == true)
             {
-                string process = dialog.SelectedProcessName;
-                MCW.categoriesTemp[indexOfCategory].Programms.Add(process);
-            }
-            string name = Interaction.InputBox("Enter a name for the new category", "Create category").Trim(); // ugly, can be designed if needed
+                name = dialog.CategoryName;
+            }           
 
             if (string.IsNullOrEmpty(name)) return;
 

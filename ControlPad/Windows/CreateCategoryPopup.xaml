@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPad.Windows"
         mc:Ignorable="d"
-        Title="Please enter name" Height="80" Width="400">
+        Title="Please enter name" Height="110" Width="400">
     <Grid>
-        <TextBox x:Name="categoryBox" Margin="10,10,10,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top"/>
-        <Button x:Name="cancel" Content="Cancel" Margin="0,0,10,10" HorizontalAlignment="Right" Width="64" Height="20" VerticalAlignment="Bottom"/>
-        <Button x:Name="create" Content="Create" Margin="0,0,80,10" HorizontalAlignment="Right" Width="64" Height="20" VerticalAlignment="Bottom"/>
+        <TextBox x:Name="tb_CategoryName" Margin="10,10,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+        <Button x:Name="btn_Cancel" Content="Cancel" Margin="0,0,10,10" HorizontalAlignment="Right" Width="64" Height="20" VerticalAlignment="Bottom" Click="btn_Cancel_Click"/>
+        <Button x:Name="btn_Create" Content="Create" Margin="0,0,80,10" HorizontalAlignment="Right" Width="64" Height="20" VerticalAlignment="Bottom" Click="btn_Create_Click"/>
 
     </Grid>
 </Window>
