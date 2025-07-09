@@ -20,12 +20,11 @@ namespace ControlPad
 
         public void SetProcessVolume(string processName, float volume)
         {
+            using var devEnum = new MMDeviceEnumerator();
+            using var device = devEnum.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
             var sessions = device.AudioSessionManager.Sessions;
 
-            if (volume >= 1)
-                volume = 1;
-            else if(volume < 0)
-                volume = 0;           
+            volume = Math.Clamp(volume, 0f, 1f);
 
             for (int i = 0; i < sessions?.Count; i++)
             {

@@ -5,7 +5,6 @@ namespace ControlPad
     public class EventHandler
     {
         private AudioController auCo;
-        private ArduinoController ardCo;
         private Dictionary<Control, int> values = new Dictionary<Control, int>();       
 
         private MainWindow MainWindow;
@@ -17,6 +16,8 @@ namespace ControlPad
         }
         public void Update(Dictionary<Control, int> values)
         {
+            auCo.SetProcessVolume("Spotify", 0.5f);
+
             foreach (var kvp in values)
             {
                 Control key = kvp.Key;

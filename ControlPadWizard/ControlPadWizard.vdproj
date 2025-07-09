@@ -89,14 +89,9 @@
             "ComponentsUrl" = "8:"
                 "Items"
                 {
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
-                    {
-                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
-                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
-                    }
                     "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.NetCore.DesktopRuntime.9.0.x86"
                     {
-                    "Name" = "8:.NET Desktop Runtime 9.0.6 (x86)"
+                    "Name" = "8:.NET Desktop Runtime 9.0.7 (x86)"
                     "ProductCode" = "8:Microsoft.NetCore.DesktopRuntime.9.0.x86"
                     }
                 }
@@ -220,7 +215,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Control Pad"
         "ProductCode" = "8:{C86D4904-6C26-4B94-B7A9-E51822DB53B6}"
-        "PackageCode" = "8:{0ECD2619-731B-4CE7-8290-25122C2CB510}"
+        "PackageCode" = "8:{2950A5AC-557A-4451-8A0A-B69692071ECA}"
         "UpgradeCode" = "8:{5132021F-88B8-49DD-9007-3ECE26B92B02}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -769,7 +764,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_624F6430854645FBB9FBAE97CCF54508"
             {
-            "SourcePath" = "8:..\\ControlPad\\obj\\Release\\net9.0-windows\\win-x86\\apphost.exe"
+            "SourcePath" = "8:..\\ControlPad\\obj\\Debug\\net9.0-windows\\win-x86\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_C36901A17C684C45B842F714BC88B3D5"

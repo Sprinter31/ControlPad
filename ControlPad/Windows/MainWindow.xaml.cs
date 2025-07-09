@@ -60,7 +60,7 @@ namespace ControlPad
             notifyIcon = null;
         }      
 
-        private void ManageSliderGroups_Click(object sender, RoutedEventArgs e)
+        private void ManageSliderCategories_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new ManageCategoriesWindow();
             dialog.Owner = this;
