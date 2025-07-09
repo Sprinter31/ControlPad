@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,7 +27,7 @@ namespace ControlPad.Windows
             this.indexOfCategory = indexOfCategory;
             this.MCW = MCW;
 
-            tb_CategoryName.Text = GlobalData.Categories[indexOfCategory].Name;
+            tb_CategoryName.Text = MCW.categoriesTemp[indexOfCategory].Name;
             lb_Processes.ItemsSource = MCW.categoriesTemp[indexOfCategory].Programms;
         }
 
@@ -45,7 +46,9 @@ namespace ControlPad.Windows
 
         private void btn_RemoveProcess_Click(object sender, RoutedEventArgs e)
         {
-
+            int index = lb_Processes.SelectedIndex;
+            if (index == -1) return;
+            MCW.categoriesTemp[indexOfCategory].Programms.RemoveAt(index);
         }
 
         private void btn_Close_Click(object sender, RoutedEventArgs e)

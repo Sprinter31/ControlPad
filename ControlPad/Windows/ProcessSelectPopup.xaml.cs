@@ -32,13 +32,13 @@ namespace ControlPad
 
         private void btn_Ok_Click(object sender, RoutedEventArgs e)
         {
-            if (cb_Processes.SelectedIndex == -1 || string.IsNullOrEmpty(cb_Processes.SelectedItem.ToString()))
-            { 
-                MessageBox.Show("Please select a valid process", "Control Pad"); 
-                return; 
+            if (cb_Processes.SelectedItem is not Process proc)
+            {
+                MessageBox.Show("Please select a valid process", "Control Pad");
+                return;
             }
 
-            SelectedProcessName = cb_Processes.SelectedItem.ToString();
+            SelectedProcessName = proc.ProcessName;
             DialogResult = true;
         }
 
