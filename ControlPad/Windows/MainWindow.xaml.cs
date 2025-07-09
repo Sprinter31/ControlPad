@@ -101,12 +101,12 @@ namespace ControlPad
 
         private void cb_EditMode_Checked(object sender, RoutedEventArgs e)
         {
-
+            Border1.Visibility = Visibility.Visible;
         }
 
         private void cb_EditMode_Unchecked(object sender, RoutedEventArgs e)
-        {
-
+        {            
+            Border1.Visibility = Visibility.Collapsed;
         }
 
         public void UpdateUISlider(Slider slider, int value) => slider.Value = value;
