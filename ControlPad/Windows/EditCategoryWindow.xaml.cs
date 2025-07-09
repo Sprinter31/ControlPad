@@ -23,8 +23,6 @@ namespace ControlPad.Windows
         public EditCategoryWindow(int indexOfCategory)
         {
             InitializeComponent();
-            GlobalData.LoadCategories(GlobalData.CategoryPath);
-
             this.indexOfCategory = indexOfCategory;
             programms = GlobalData.Categories[indexOfCategory].Programms;
             lb_Processes.ItemsSource = programms;
@@ -46,7 +44,7 @@ namespace ControlPad.Windows
         private void btn_Apply_Click(object sender, RoutedEventArgs e)
         {
             GlobalData.Categories[indexOfCategory].Programms = programms;
-            GlobalData.SaveCategories(GlobalData.CategoryPath);
+            this.Close();
         }
     }
 }

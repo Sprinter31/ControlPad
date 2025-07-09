@@ -16,8 +16,6 @@ namespace ControlPad
         }
         public void Update(Dictionary<Control, int> values)
         {
-            auCo.SetProcessVolume("Spotify", 0.5f);
-
             foreach (var kvp in values)
             {
                 Control key = kvp.Key;
