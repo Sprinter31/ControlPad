@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Interop;
+using ControlPad.Windows;
 
 namespace ControlPad
 {
@@ -126,7 +127,9 @@ namespace ControlPad
         {
             if (sender is Border border)
             {
-                System.Windows.MessageBox.Show(border.Name);
+                var dialog = new SelectCategoryPopup();
+                dialog.Owner = this;
+                dialog.ShowDialog();
             }
         }
     }

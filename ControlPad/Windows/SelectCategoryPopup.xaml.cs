@@ -23,5 +23,15 @@ namespace ControlPad.Windows
         {
             InitializeComponent();
         }
+
+        private void btn_Apply_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btn_Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        } 
     }
 }

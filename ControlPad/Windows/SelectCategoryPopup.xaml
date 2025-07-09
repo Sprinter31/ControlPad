@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPad.Windows"
         mc:Ignorable="d"
-        Title="Please select category" Height="80" Width="400">
+        Title="Please select category" Height="110" Width="400">
     <Grid>
-        <ComboBox x:Name="categoryBox" Margin="10,10,10,0" VerticalAlignment="Top" Height="19"/>
-        <Button x:Name="cancel" Content="Cancel" Margin="0,0,10,10" HorizontalAlignment="Right" Width="64" Height="20" VerticalAlignment="Bottom"/>
-        <Button x:Name="create" Content="Apply" Margin="0,0,80,10" HorizontalAlignment="Right" Width="64" Height="20" VerticalAlignment="Bottom"/>
+        <ComboBox x:Name="cb_Categories" Margin="10,10,10,0" VerticalAlignment="Top" Height="19"/>
+        <Button x:Name="btn_Cancel" Content="Cancel" Margin="0,0,10,10" HorizontalAlignment="Right" Width="64" Height="20" VerticalAlignment="Bottom" Click="btn_Cancel_Click"/>
+        <Button x:Name="btn_Apply" Content="Apply" Margin="0,0,80,10" HorizontalAlignment="Right" Width="64" Height="20" VerticalAlignment="Bottom" Click="btn_Apply_Click"/>
 
     </Grid>
 </Window>
