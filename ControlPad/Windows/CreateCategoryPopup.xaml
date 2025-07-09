@@ -1,0 +1,15 @@
+﻿<Window x:Class="ControlPad.Windows.CreateCategoryPopup"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ControlPad.Windows"
+        mc:Ignorable="d"
+        Title="Please enter name" Height="80" Width="400">
+    <Grid>
+        <TextBox x:Name="categoryBox" Margin="10,10,10,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top"/>
+        <Button x:Name="cancel" Content="Cancel" Margin="0,0,10,10" HorizontalAlignment="Right" Width="64" Height="20" VerticalAlignment="Bottom"/>
+        <Button x:Name="create" Content="Create" Margin="0,0,80,10" HorizontalAlignment="Right" Width="64" Height="20" VerticalAlignment="Bottom"/>
+
+    </Grid>
+</Window>
