@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace ControlPad.Windows
 {
-    /// <summary>
-    /// Interaction logic for EditCategoryWindow.xaml
-    /// </summary>
     public partial class EditCategoryWindow : Window
     {
         private int indexOfCategory;
@@ -25,8 +22,9 @@ namespace ControlPad.Windows
 
         public EditCategoryWindow(int indexOfCategory)
         {
-            InitializeComponent();     
-            
+            InitializeComponent();
+            GlobalData.LoadCategories(GlobalData.CategoryPath);
+
             this.indexOfCategory = indexOfCategory;
             programms = GlobalData.Categories[indexOfCategory].Programms;
             lb_Processes.ItemsSource = programms;
@@ -36,10 +34,7 @@ namespace ControlPad.Windows
         {
             var dialog = new ProcessSelectPopup();
             dialog.Owner = this;
-            dialog.ShowDialog();
-
             bool? result = dialog.ShowDialog();
-
 
             if (result == true)
             {

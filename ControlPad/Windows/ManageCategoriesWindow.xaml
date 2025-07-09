@@ -22,5 +22,6 @@
 
         <Button x:Name="btn_Apply" Content="Apply" Margin="0,0,80,30" Grid.Column="1" Height="20" VerticalAlignment="Bottom" Click="btn_Apply_Click"/>
         <Button x:Name="btn_Cancel" Content="Cancel" Margin="80,0,0,30" Grid.Column="1" Height="20" VerticalAlignment="Bottom" Click="btn_Cancel_Click"/>
+        <Label Content="Categories:" HorizontalAlignment="Center" Margin="0,4,0,0" VerticalAlignment="Top" Width="232" FontSize="14"/>
     </Grid>
 </Window>

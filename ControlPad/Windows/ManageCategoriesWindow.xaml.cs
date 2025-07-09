@@ -23,11 +23,10 @@ namespace ControlPad
 {
     public partial class ManageCategoriesWindow : Window
     {
-        public static ObservableCollection<Category> categories;
+        private ObservableCollection<Category> categories = new ObservableCollection<Category>();
         public ManageCategoriesWindow()
         {
             InitializeComponent();
-            GlobalData.LoadCategories(GlobalData.CategoryPath);
             categories = GlobalData.Categories;
             lb_Categories.ItemsSource = categories;
         }

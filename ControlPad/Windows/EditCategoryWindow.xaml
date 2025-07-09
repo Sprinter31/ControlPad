@@ -20,5 +20,6 @@
         <Button x:Name="btn_RemoveProcess" Content="Remove Process" Margin="28,81,28,0" Grid.Column="1" Height="20" VerticalAlignment="Top"/>
 
         <Button x:Name="btn_Apply" Content="Apply" Margin="40,0,40,30" Grid.Column="1" Height="20" VerticalAlignment="Bottom" Click="btn_Apply_Click"/>
+        <Label Content="Processes:" HorizontalAlignment="Center" Margin="0,4,0,0" VerticalAlignment="Top" Width="232" FontSize="14"/>
     </Grid>
 </Window>
