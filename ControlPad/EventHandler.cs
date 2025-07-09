@@ -4,8 +4,7 @@ namespace ControlPad
 {
     public class EventHandler
     {
-        private AudioController auCo;
-        private ArduinoController ardCo;
+        private AudioController AudioController;
         private Dictionary<Control, int> values = new Dictionary<Control, int>();       
 
         private MainWindow MainWindow;
@@ -13,7 +12,7 @@ namespace ControlPad
         public EventHandler(MainWindow mainWindow)
         {
             MainWindow = mainWindow;
-            auCo = new AudioController();
+            AudioController = new AudioController();
         }
         public void Update(Dictionary<Control, int> values)
         {
@@ -40,10 +39,17 @@ namespace ControlPad
         private void UpdateSlider(Control element, int value)
         {
             MainWindow.Dispatcher.Invoke(() => MainWindow.UpdateUISlider((Slider)element, value));
+
+            AudioController.SetProcessVolume("Spotify", SliderToFloat(value));
         }
         private void UpdateButton(Control element, int value)
         {
             // Code to update button state based on value
         }
+        private float SliderToFloat(int value)
+        {
+            return (float)value / 1024.0f;
+        }
+
     }
 }
