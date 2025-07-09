@@ -13,6 +13,7 @@ namespace ControlPad
     {
         public static string CategoryPath { get; } = @"Resources\Categories.json";
         public static ObservableCollection<Category> Categories { get; set; } = new ObservableCollection<Category>();
+        public static ObservableCollection<Category> CategoriesTemp { get; set; } = new ObservableCollection<Category>();
 
         public static void SaveCategories(string path)
         {
