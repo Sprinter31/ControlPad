@@ -13,11 +13,15 @@ namespace ControlPad
         { 
             _enum = new MMDeviceEnumerator();           
         }
+        private SessionCollection GetSessions()
+        {
+            using var device = _enum.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+            return device.AudioSessionManager.Sessions;
+        }
 
         public void SetProcessVolume(string processName, float volume)
         {
-            using var device = _enum.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
-            var sessions = device.AudioSessionManager.Sessions;
+            var sessions = GetSessions();
 
             volume = Math.Clamp(volume, 0f, 1f);
 
