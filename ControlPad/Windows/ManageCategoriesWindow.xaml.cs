@@ -27,12 +27,26 @@ namespace ControlPad
         public ManageCategoriesWindow()
         {
             InitializeComponent();
-            categoriesTemp = GlobalData.Categories;
+            categoriesTemp = new ObservableCollection<Category>(
+                GlobalData.Categories
+                .Select(c => new Category(c.Name)
+                {
+                    Programms = new ObservableCollection<string>(c.Programms)
+                }));
             lb_Categories.ItemsSource = categoriesTemp;
         }
 
         private void btn_CreateCat_Click(object sender, RoutedEventArgs e)
         {
+            var dialog = new ProcessSelectPopup();
+            dialog.Owner = this;
+            bool? result = dialog.ShowDialog();
+
+            if (result == true)
+            {
+                string process = dialog.SelectedProcessName;
+                MCW.categoriesTemp[indexOfCategory].Programms.Add(process);
+            }
             string name = Interaction.InputBox("Enter a name for the new category", "Create category").Trim(); // ugly, can be designed if needed
 
             if (string.IsNullOrEmpty(name)) return;
