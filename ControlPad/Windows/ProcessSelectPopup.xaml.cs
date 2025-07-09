@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
@@ -21,16 +22,26 @@ namespace ControlPad
     /// </summary>
     public partial class ProcessSelectPopup : Window
     {
-        public List<string> ProcessNames { get; }
-
         public string SelectedProcessName { get; private set; } = string.Empty;
-
 
         public ProcessSelectPopup()
         {
-            InitializeComponent();
-
-            ProcessCombo.ItemsSource = Process.GetProcesses().Where(p => !string.IsNullOrEmpty(p.MainWindowTitle));
+            InitializeComponent();             
+            cb_Processes.ItemsSource = Process.GetProcesses().Where(p => !string.IsNullOrEmpty(p.MainWindowTitle));
         }
+
+        private void btn_Ok_Click(object sender, RoutedEventArgs e)
+        {
+            if (cb_Processes.SelectedIndex == -1 || string.IsNullOrEmpty(cb_Processes.SelectedItem.ToString()))
+            { 
+                MessageBox.Show("Please select a valid process", "Control Pad"); 
+                return; 
+            }
+
+            SelectedProcessName = cb_Processes.SelectedItem.ToString();
+            DialogResult = true;
+        }
+
+        private void btn_Cancel_Click(object sender, RoutedEventArgs e) => this.Close();
     }
 }

@@ -21,52 +21,47 @@ using ControlPad.Windows;
 
 namespace ControlPad
 {
-    /// <summary>
-    /// Interaction logic for CategoryDialog.xaml
-    /// </summary>
-    public partial class CategoryDialog : Window
+    public partial class ManageCategoriesWindow : Window
     {
-        private const string JsonPath = @"Resources\Categories.json";
-        public CategoryDialog()
+        public static ObservableCollection<Category> categories;
+        public ManageCategoriesWindow()
         {
             InitializeComponent();
-            GlobalData.LoadCategories(JsonPath);
-            lb_Categories.ItemsSource = GlobalData.Categories;
+            GlobalData.LoadCategories(GlobalData.CategoryPath);
+            categories = GlobalData.Categories;
+            lb_Categories.ItemsSource = categories;
         }
 
         private void btn_CreateCat_Click(object sender, RoutedEventArgs e)
         {
             string name = Interaction.InputBox("Enter a name for the new category", "Create category").Trim(); // ugly, can be designed if needed
 
-            if (string.IsNullOrEmpty(name)) { /*MessageBox.Show("Please enter a valid name", "Control Pad");*/ return; }
-            GlobalData.Categories.Add(new Category(name));
-            
+            if (string.IsNullOrEmpty(name)) return;
+
+            categories.Add(new Category(name));        
         }
 
         private void btn_EditCat_Click(object sender, RoutedEventArgs e)
         {
-            if (lb_Categories.SelectedIndex == -1) return;
+            int index = lb_Categories.SelectedIndex;
 
-            var dialog = new EditCategoryWindow();
+            if (index == -1) return;
+
+            var dialog = new EditCategoryWindow(index);
             dialog.Owner = this;
             dialog.ShowDialog();
-        }
-
-        private void btn_DeleteCat_Click(object sender, RoutedEventArgs e)
-        {
-            DeleteAtSelected();
-        }
+        }       
 
         private void btn_Apply_Click(object sender, RoutedEventArgs e)
         {
-            GlobalData.SaveCategories(JsonPath);
+            GlobalData.Categories = categories;
+            GlobalData.SaveCategories(GlobalData.CategoryPath);
             this.Close();
         }
 
         private void lb_Categories_KeyDown(object sender, KeyEventArgs e) 
         {
-            if (e.Key == Key.Delete)
-                DeleteAtSelected();
+            if (e.Key == Key.Delete) DeleteAtSelected();
         }
 
         private void DeleteAtSelected()
@@ -74,7 +69,10 @@ namespace ControlPad
             int index = lb_Categories.SelectedIndex;
             if (index == -1) return;
 
-            GlobalData.Categories.RemoveAt(index);
+            categories.RemoveAt(index);
         }
+
+        private void btn_DeleteCat_Click(object sender, RoutedEventArgs e) => DeleteAtSelected();
+        private void btn_Cancel_Click(object sender, RoutedEventArgs e) => this.Close();
     }
 }

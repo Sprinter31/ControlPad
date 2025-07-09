@@ -10,7 +10,7 @@ namespace ControlPad
     public class ArduinoController
     {
         private MainWindow mw;
-        private SerialPort? _serialPort;
+        private SerialPort _serialPort;
         private EventHandler eventHandler;
         private Dictionary<Control, int> values = new Dictionary<Control, int>();
 
@@ -65,7 +65,7 @@ namespace ControlPad
             }
             catch (IOException ex)
             {
-                OnSerialPortDisconnected();
+                OnSerialPortDisconnected(ex.ToString());
             }
             catch (Exception ex)
             {
@@ -93,9 +93,9 @@ namespace ControlPad
             values[mw.Switch11] = int.Parse(inputs[15]);*/
         }
 
-        private void OnSerialPortDisconnected()
+        private void OnSerialPortDisconnected(string ex)
         {
-            MessageBox.Show("Arduino Port disconnected", "Control Pad", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show($"Arduino Port disconnected with the exception: {ex}", "Control Pad", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

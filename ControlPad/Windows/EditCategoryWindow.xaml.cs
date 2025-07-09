@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +20,38 @@ namespace ControlPad.Windows
     /// </summary>
     public partial class EditCategoryWindow : Window
     {
-        public EditCategoryWindow()
+        private int indexOfCategory;
+        private ObservableCollection<string> programms;
+
+        public EditCategoryWindow(int indexOfCategory)
         {
-            InitializeComponent();
+            InitializeComponent();     
+            
+            this.indexOfCategory = indexOfCategory;
+            programms = GlobalData.Categories[indexOfCategory].Programms;
+            lb_Processes.ItemsSource = programms;
+        }
+
+        private void btn_AddProcess_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new ProcessSelectPopup();
+            dialog.Owner = this;
+            dialog.ShowDialog();
+
+            bool? result = dialog.ShowDialog();
+
+
+            if (result == true)
+            {
+                string process = dialog.SelectedProcessName;
+                programms.Add(process);
+            }               
+        }
+
+        private void btn_Apply_Click(object sender, RoutedEventArgs e)
+        {
+            GlobalData.Categories[indexOfCategory].Programms = programms;
+            GlobalData.SaveCategories(GlobalData.CategoryPath);
         }
     }
 }

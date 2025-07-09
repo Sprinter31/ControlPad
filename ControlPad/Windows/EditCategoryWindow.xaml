@@ -5,8 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPad.Windows"
         mc:Ignorable="d"
-        Title="EditCategoryWindow" Height="450" Width="800">
+        Title="EditCategoryWindow" Height="420" Width="438">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+
+        <ListBox x:Name="lb_Processes" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="30,30,30,30"/>
+
+
+        <Button x:Name="btn_AddProcess" Content="Add Process" Margin="28,30,28,0" VerticalAlignment="Top" Height="20" Grid.Column="1" Click="btn_AddProcess_Click"/>
+        <Button x:Name="btn_RemoveProcess" Content="Remove Process" Margin="28,81,28,0" Grid.Column="1" Height="20" VerticalAlignment="Top"/>
+
+        <Button x:Name="btn_Apply" Content="Apply" Margin="40,0,40,30" Grid.Column="1" Height="20" VerticalAlignment="Bottom" Click="btn_Apply_Click"/>
     </Grid>
 </Window>

@@ -11,7 +11,8 @@ namespace ControlPad
 {
     public static class GlobalData
     {
-        public static ObservableCollection<Category> Categories { get; private set; } = new ObservableCollection<Category>();
+        public static string CategoryPath { get; } = @"Resources\Categories.json";
+        public static ObservableCollection<Category> Categories { get; set; } = new ObservableCollection<Category>();
 
         public static void SaveCategories(string path)
         {

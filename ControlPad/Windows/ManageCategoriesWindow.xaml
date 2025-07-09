@@ -1,4 +1,4 @@
-﻿<Window x:Class="ControlPad.CategoryDialog"
+﻿<Window x:Class="ControlPad.ManageCategoriesWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -20,6 +20,7 @@
         <Button x:Name="btn_EditCat" Content="Edit Category" Margin="28,70,28,0" VerticalAlignment="Top" Height="20" Grid.Column="1" Click="btn_EditCat_Click"/>
         <Button x:Name="btn_DeleteCat" Content="Delete Category" Margin="28,110,28,0" Grid.Column="1" Height="20" VerticalAlignment="Top" Click="btn_DeleteCat_Click"/>
 
-        <Button x:Name="btn_Apply" Content="Apply" Margin="40,0,40,30" Grid.Column="1" Height="20" VerticalAlignment="Bottom" Click="btn_Apply_Click"/>
+        <Button x:Name="btn_Apply" Content="Apply" Margin="0,0,80,30" Grid.Column="1" Height="20" VerticalAlignment="Bottom" Click="btn_Apply_Click"/>
+        <Button x:Name="btn_Cancel" Content="Cancel" Margin="80,0,0,30" Grid.Column="1" Height="20" VerticalAlignment="Bottom" Click="btn_Cancel_Click"/>
     </Grid>
 </Window>

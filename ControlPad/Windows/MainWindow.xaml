@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ControlPad"
         mc:Ignorable="d"
         Title="Control Pad" Width="651" Height="600"
-        Background="White" ResizeMode="NoResize" Closing="mainWindow_Closing">
+        Background="White" ResizeMode="NoResize" Closing="mainWindow_Closing" Closed="mainWindow_Closed">
 
     <Window.Resources>
         <Style x:Key="InvisibleRepeatButton" TargetType="RepeatButton">
@@ -99,7 +99,7 @@
             <MenuItem Header="_File">
                 <MenuItem x:Name="btn_ManageSliderGroups" Header="_Manage Slider groups" Click="ManageSliderGroups_Click"/>
                 <MenuItem Header="_Save"/>
-                <MenuItem Header="E_xit"/>
+                <MenuItem Header="E_xit" Click="Exit_Click"/>
             </MenuItem>
             <MenuItem Header="_Edit">
                 <MenuItem Header="_Copy"/>

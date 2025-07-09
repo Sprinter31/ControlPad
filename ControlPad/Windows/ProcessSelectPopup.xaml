@@ -11,17 +11,16 @@
         Title="ProcessSelectPopup">
 
     <StackPanel Margin="12">
-        <TextBlock Text="Bitte einen laufenden Prozess auswählen:" Margin="0,0,0,6"/>
+        <TextBlock Text="Please select a runnning process:" Margin="0,0,0,6"/>
 
-        <!-- zeigt nur den Namen an, speichert aber das ganze Process-Objekt -->
-        <ComboBox x:Name="ProcessCombo"
+        <ComboBox x:Name="cb_Processes"
                   DisplayMemberPath="ProcessName"
                   Width="260"
                   IsEditable="False"/>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
-            <Button Content="OK"  Width="70" Margin="0,0,6,0"/>
-            <Button Content="Abbrechen" Width="70"/>
+            <Button x:Name="btn_Ok" Content="OK"  Width="70" Margin="0,0,6,0" Click="btn_Ok_Click"/>
+            <Button x:Name="btn_Cancel" Content="Cancel" Width="70" Click="btn_Cancel_Click"/>
         </StackPanel>
     </StackPanel>
 </Window>
