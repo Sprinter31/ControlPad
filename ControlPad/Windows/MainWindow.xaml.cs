@@ -99,6 +99,16 @@ namespace ControlPad
             };
         }
 
+        private void cb_EditMode_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void cb_EditMode_Unchecked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         public void UpdateUISlider(Slider slider, int value) => slider.Value = value;
         private void Exit_Click(object sender, EventArgs e) => this.Close();
     }
