@@ -1,4 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using System.Reflection;
+using System.Windows.Controls;
+using System.Windows.Input;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace ControlPad
 {
@@ -40,7 +43,25 @@ namespace ControlPad
         {
             MainWindow.Dispatcher.Invoke(() => MainWindow.UpdateUISlider((Slider)element, value));
 
-            Task.Run(() => AudioController.SetProcessVolume("Spotify", SliderToFloat(value)));
+            int.TryParse(MainWindow.Dispatcher.Invoke(() => element.Name).Replace("Slider", ""), out int nr);
+
+            var assignment = DataHandler.SliderAssignments.FirstOrDefault(a => a.SliderNr == nr);
+
+            if (assignment == null) return;
+
+            int categoryId = assignment.CategoryId;
+
+            var category = DataHandler.Categories.FirstOrDefault(c => c.Id == categoryId);
+
+            if (category == null) return;
+
+            var programms = category.Programms;
+
+            foreach (var p in programms)
+            {
+                Task.Run(() => AudioController.SetProcessVolume(p, SliderToFloat(value)));
+            }
+
         }
         private void UpdateButton(Control element, int value)
         {

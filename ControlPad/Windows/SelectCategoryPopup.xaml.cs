@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
 
 namespace ControlPad.Windows
 {
@@ -22,12 +10,37 @@ namespace ControlPad.Windows
         public SelectCategoryPopup()
         {
             InitializeComponent();
+
+            cb_Categories.ItemsSource = DataHandler.Categories;
         }
+        public int SliderNr { get; set; }
 
         private void btn_Apply_Click(object sender, RoutedEventArgs e)
         {
+            if (cb_Categories.SelectedItem is Category selectedCategory)
+            {
+                var existing = DataHandler.SliderAssignments.FirstOrDefault(a => a.SliderNr == this.SliderNr);
 
+                if (existing != null)
+                {
+                    existing.CategoryId = selectedCategory.Id;
+                }
+                else
+                {
+                    var assignment = new SliderAssignments
+                    {
+                        SliderNr = this.SliderNr,
+                        CategoryId = selectedCategory.Id
+                    };
+
+                    DataHandler.SliderAssignments.Add(assignment);
+                }
+                DataHandler.SaveDataToFile(DataHandler.SliderAssignmentPath, DataHandler.SliderAssignments);
+
+                this.Close();
+            }
         }
+
 
         private void btn_Cancel_Click(object sender, RoutedEventArgs e)
         {

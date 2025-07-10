@@ -1,6 +1,8 @@
 ﻿using NAudio.CoreAudioApi;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using SW = System.Windows;
 
 namespace ControlPad
@@ -28,8 +30,24 @@ namespace ControlPad
             for (int i = 0; i < sessions?.Count; i++)
             {
                 var session = sessions[i];
-                if (session.DisplayName == processName)
-                    session.SimpleAudioVolume.Volume = volume;
+
+                int? pid = null;
+
+                try { pid = (int)session.GetProcessID; }
+                catch { continue; }
+
+                if (pid == null) continue;
+
+                try
+                {
+                    using var process = Process.GetProcessById(pid.Value);
+                    if (string.Equals(process.ProcessName, processName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        session.SimpleAudioVolume.Volume = volume;
+                    }
+                }
+                // The process does not exist anymore
+                catch { continue; }
             }
         }
 

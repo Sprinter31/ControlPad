@@ -1,21 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Microsoft.VisualBasic;
 using System.Collections.ObjectModel;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.IO;
 using ControlPad.Windows;
 
 
@@ -27,10 +12,12 @@ namespace ControlPad
         public ManageCategoriesWindow()
         {
             InitializeComponent();
+
             categoriesTemp = new ObservableCollection<Category>(
-                GlobalData.Categories
+                DataHandler.Categories
                 .Select(c => new Category(c.Name)
                 {
+                    Id = c.Id,
                     Programms = new ObservableCollection<string>(c.Programms)
                 }));
             lb_Categories.ItemsSource = categoriesTemp;
@@ -50,7 +37,14 @@ namespace ControlPad
 
             if (string.IsNullOrEmpty(name)) return;
 
-            categoriesTemp.Add(new Category(name));        
+            int newId = DataHandler.GetNextCategoryId();
+
+            var newCategory = new Category(name)
+            {
+                Id = newId
+            };
+
+            categoriesTemp.Add(newCategory);        
         }
 
         private void btn_EditCat_Click(object sender, RoutedEventArgs e)
@@ -66,8 +60,8 @@ namespace ControlPad
 
         private void btn_Apply_Click(object sender, RoutedEventArgs e)
         {
-            GlobalData.Categories = categoriesTemp;
-            GlobalData.SaveCategories(GlobalData.CategoryPath);
+            DataHandler.Categories = categoriesTemp;
+            DataHandler.SaveDataToFile(DataHandler.CategoriesPath, DataHandler.Categories);
             this.Close();
         }
 

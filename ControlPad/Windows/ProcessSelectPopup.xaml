@@ -8,11 +8,9 @@
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
-        Title="ProcessSelectPopup">
+        Title="Please select a runnning process">
 
     <StackPanel Margin="12">
-        <TextBlock Text="Please select a runnning process:" Margin="0,0,0,6"/>
-
         <ComboBox x:Name="cb_Processes"
                   DisplayMemberPath="ProcessName"
                   Width="260"

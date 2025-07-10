@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using System.Windows;
-using System.Runtime.InteropServices;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Interop;
@@ -19,7 +18,9 @@ namespace ControlPad
 
             arCo = new ArduinoController(this);
             CreateNotifyIcon();
-            GlobalData.LoadCategories(GlobalData.CategoryPath);
+
+            DataHandler.Categories = DataHandler.LoadDataFromFile<Category>(DataHandler.CategoriesPath, DataHandler.Categories);
+            DataHandler.SliderAssignments = DataHandler.LoadDataFromFile<SliderAssignments>(DataHandler.SliderAssignmentPath, DataHandler.SliderAssignments);
         }
 
         protected override void OnSourceInitialized(EventArgs e)
@@ -128,6 +129,12 @@ namespace ControlPad
             if (sender is Border border)
             {
                 var dialog = new SelectCategoryPopup();
+
+                if (int.TryParse(border.Name.Replace("SliderCell", ""), out int nr))
+                {
+                    dialog.SliderNr = nr;
+                }
+
                 dialog.Owner = this;
                 dialog.ShowDialog();
             }
