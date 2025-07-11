@@ -9,7 +9,8 @@ namespace ControlPad.Windows
         public SelectCategoryPopup()
         {
             InitializeComponent();
-            //if(CategorySliderHasCategoryAssignt
+            if(CategorySlider?.Category != null)
+                cb_Categories.SelectedItem = CategorySlider.Category;
             cb_Categories.ItemsSource = DataHandler.Categories;
         }
 

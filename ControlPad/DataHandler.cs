@@ -12,10 +12,10 @@ namespace ControlPad
     public static class DataHandler
     {
         public static string CategoryPath { get; } = @"Resources\Categories.json";
-        public static string CategorySlidersPath { get; } = @"Resources\CategorySliders.json";
+        public static string CategorySlidersPath { get; } = @"Resources\CategorySliders.txt";
         public static ObservableCollection<Category> Categories { get; set; } = new ObservableCollection<Category>();
         public static ObservableCollection<Category> CategoriesTemp { get; set; } = new ObservableCollection<Category>();
-        public static List<CategorySlider> CategorySliders { get; set; } = new List<CategorySlider>();
+        public static CategorySlider[] CategorySliders { get; set; } = new CategorySlider[6];
 
         public static void SaveDataToFile<T>(string path, List<T> data)
         {
@@ -37,6 +37,23 @@ namespace ControlPad
             }
             
             return list;
+        }
+
+        public static void SaveCategorySliders(string path)
+        {
+            var lines = CategorySliders.Select((slider, i) => $"Slider{i + 1}.Category.Id is {slider.Category?.Id}");
+            File.WriteAllLines(path, lines);
+        }
+
+        public static void LoadCategorySliders(string path)
+        {
+            string[] lines = File.ReadAllLines(path);
+
+            for(int i = 0; i < lines.Length; i++)
+            {
+                if(int.TryParse(lines[i][^1].ToString(), out int categoryId))
+                    CategorySliders[i].Category = Categories.First(c => c.Id == categoryId);
+            }
         }
     }
 }

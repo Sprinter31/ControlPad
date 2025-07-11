@@ -25,7 +25,6 @@ namespace ControlPad
 
         public CategorySlider()
         {
-            DataHandler.CategorySliders.Add(this);
             
         }
     }

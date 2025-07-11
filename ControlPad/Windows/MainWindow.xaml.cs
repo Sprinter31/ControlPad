@@ -24,7 +24,7 @@ namespace ControlPad
 
             InitializeComponent();
 
-            DataHandler.SaveDataToFile(DataHandler.CategorySlidersPath, DataHandler.CategorySliders);
+            DataHandler.CategorySliders = new CategorySlider[] { Slider1, Slider2, Slider3, Slider4, Slider5, Slider6 };            
 
             DataContext = this;
             arCo = new ArduinoController(this);
@@ -144,7 +144,7 @@ namespace ControlPad
                 if (result == true)
                 {
                     border.CategorySlider.Category = dialog.SelectedCategory;
-                    DataHandler.SaveDataToFile(DataHandler.CategorySlidersPath, DataHandler.CategorySliders);
+                    DataHandler.SaveCategorySliders(DataHandler.CategorySlidersPath);
                 }
             }
         }
