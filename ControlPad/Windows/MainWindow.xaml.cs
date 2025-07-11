@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Collections.ObjectModel;
 
 namespace ControlPad
 {
@@ -15,26 +16,14 @@ namespace ControlPad
         private NotifyIcon notifyIcon;
         private ArduinoController arCo;
 
-        public static readonly DependencyProperty EditModeProperty =
-        DependencyProperty.Register(
-            nameof(EditMode),
-            typeof(bool),
-            typeof(MainWindow),
-            new PropertyMetadata(false));
-
-        public bool EditMode
-        {
-            get => (bool)GetValue(EditModeProperty);
-            set => SetValue(EditModeProperty, value);
-        }
-
         public MainWindow()
         {
             InitializeComponent();
             DataContext = this;
             arCo = new ArduinoController(this);
             CreateNotifyIcon();
-            DataHandler.LoadCategories(DataHandler.CategoryPath);
+            DataHandler.Categories = new ObservableCollection<Category>(DataHandler.LoadDataFromFile<Category>(DataHandler.CategoryPath));
+            DataHandler.sliderAssignments = DataHandler.LoadDataFromFile<SliderAssignment>(DataHandler.SliderAssignmentsPath);
         }
 
         protected override void OnSourceInitialized(EventArgs e)
@@ -123,7 +112,6 @@ namespace ControlPad
             SliderCell4.Visibility = Visibility.Visible;
             SliderCell5.Visibility = Visibility.Visible;
             SliderCell6.Visibility = Visibility.Visible;
-            IsEditMode = true;
         }
 
         private void cb_EditMode_Unchecked(object sender, RoutedEventArgs e)
@@ -134,15 +122,7 @@ namespace ControlPad
             SliderCell4.Visibility = Visibility.Hidden;
             SliderCell5.Visibility = Visibility.Hidden;
             SliderCell6.Visibility = Visibility.Hidden;
-            IsEditMode = false;
         }
-
-        private void das_Click(object sender, MouseButtonEventArgs e)
-        {
-            System.Windows.MessageBox.Show("kecj");
-        }
-
-        public bool IsEditMode = false;
 
         public void UpdateUISlider(Slider slider, int value) => slider.Value = value;
         private void Exit_Click(object sender, EventArgs e) => this.Close();
@@ -151,12 +131,17 @@ namespace ControlPad
         {
             if (sender is SliderBorder border)
             {
-                var dialog = new SelectCategoryPopup()
-                {
-                    sliderToAssignCategoryTo = border.CategorySlider
-                };
+                var dialog = new SelectCategoryPopup();                
                 dialog.Owner = this;
-                dialog.ShowDialog();
+                bool? result = dialog.ShowDialog();
+                Category? category;
+
+                if (result == true)
+                {
+                    category = dialog.SelectedCategory;
+                    DataHandler.sliderAssignments.Add(new SliderAssignment(border.CategorySlider, category.Id));
+                    DataHandler.SaveDataToFile(DataHandler.SliderAssignmentsPath, DataHandler.sliderAssignments);
+                }
             }
         }
     }   

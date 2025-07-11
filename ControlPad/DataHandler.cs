@@ -12,22 +12,31 @@ namespace ControlPad
     public static class DataHandler
     {
         public static string CategoryPath { get; } = @"Resources\Categories.json";
+        public static string SliderAssignmentsPath { get; } = @"Resources\SliderAssignments.json";
         public static ObservableCollection<Category> Categories { get; set; } = new ObservableCollection<Category>();
         public static ObservableCollection<Category> CategoriesTemp { get; set; } = new ObservableCollection<Category>();
+        public static List<SliderAssignment> sliderAssignments { get; set; } = new List<SliderAssignment>();
 
-        public static void SaveCategories(string path)
+        public static void SaveDataToFile<T>(string path, List<T> data)
         {
-            string json = JsonSerializer.Serialize(Categories, new JsonSerializerOptions { WriteIndented = true });
+            string json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(path, json);
         }
 
-        public static void LoadCategories(string path)
+        public static List<T> LoadDataFromFile<T>(string path)
         {
-            if(!File.Exists(path)) { Debug.WriteLine($"File does not exist: {path}"); return; }
-
-            string json = File.ReadAllText(path);
-            var list = JsonSerializer.Deserialize<List<Category>>(json) ?? new List<Category>();
-            Categories = new ObservableCollection<Category>(list);
+            var list = new List<T>();
+            if (!File.Exists(path))
+            {
+                Debug.WriteLine($"File does not exist: {path}");
+            }
+            else
+            {
+                string json = File.ReadAllText(path);
+                list = JsonSerializer.Deserialize<List<T>>(json) ?? new List<T>();
+            }
+            
+            return list;
         }
     }
 }

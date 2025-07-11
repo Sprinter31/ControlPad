@@ -67,7 +67,7 @@ namespace ControlPad
         {
             DataHandler.Categories = DataHandler.CategoriesTemp;
             DataHandler.CategoriesTemp = new ObservableCollection<Category>();
-            DataHandler.SaveCategories(DataHandler.CategoryPath);
+            DataHandler.SaveDataToFile(DataHandler.CategoryPath, DataHandler.Categories.ToList());
             this.Close();
         }
 
