@@ -4,7 +4,7 @@ namespace ControlPad
 {
     public class EventHandler
     {
-        private AudioController AudioController;
+        private AudioController audioController;
         private Dictionary<Control, int> values = new Dictionary<Control, int>();       
 
         private MainWindow MainWindow;
@@ -12,7 +12,7 @@ namespace ControlPad
         public EventHandler(MainWindow mainWindow)
         {
             MainWindow = mainWindow;
-            AudioController = new AudioController();
+            audioController = new AudioController();
         }
         public void Update(Dictionary<Control, int> values)
         {
@@ -24,9 +24,9 @@ namespace ControlPad
                 int newValue = kvp.Value;
                 this.values.TryGetValue(key, out int oldValue);
 
-                if (name.StartsWith("Slider", StringComparison.OrdinalIgnoreCase) && Math.Abs(oldValue - newValue) > 1)
+                if (name.StartsWith("Slider", StringComparison.OrdinalIgnoreCase) /*&& Math.Abs(oldValue - newValue) > 1*/)
                 {
-                    UpdateSlider(key, newValue);
+                    UpdateSlider(key, newValue);                   
                 }
                 else if (name.StartsWith("Switch", StringComparison.OrdinalIgnoreCase))
                 {
@@ -36,11 +36,14 @@ namespace ControlPad
             }
         }
 
-        private void UpdateSlider(Control element, int value)
+        private void UpdateSlider(Control slider, int value)
         {
-            MainWindow.Dispatcher.Invoke(() => MainWindow.UpdateUISlider((Slider)element, value));
+            MainWindow.Dispatcher.Invoke(() => MainWindow.UpdateUISlider((Slider)slider, value));
 
-            Task.Run(() => AudioController.SetProcessVolume("Spotify", SliderToFloat(value)));
+            CategorySlider categorySlider = (CategorySlider)slider;
+            if(categorySlider.Category != null)
+                foreach(string programmName in categorySlider.Category.Programms)
+                    audioController.SetProcessVolume(programmName, SliderToFloat(value));               
         }
         private void UpdateButton(Control element, int value)
         {
@@ -51,6 +54,5 @@ namespace ControlPad
             value -= 2;
             return (float)value / 1020.0f;
         }
-
     }
 }
