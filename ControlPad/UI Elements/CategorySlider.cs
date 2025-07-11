@@ -22,5 +22,11 @@ namespace ControlPad
             get => (Category?)GetValue(CategoryProperty);
             set => SetValue(CategoryProperty, value);
         }
+
+        public CategorySlider()
+        {
+            DataHandler.CategorySliders.Add(this);
+            
+        }
     }
 }

@@ -12,10 +12,10 @@ namespace ControlPad
     public static class DataHandler
     {
         public static string CategoryPath { get; } = @"Resources\Categories.json";
-        public static string SliderAssignmentsPath { get; } = @"Resources\SliderAssignments.json";
+        public static string CategorySlidersPath { get; } = @"Resources\CategorySliders.json";
         public static ObservableCollection<Category> Categories { get; set; } = new ObservableCollection<Category>();
         public static ObservableCollection<Category> CategoriesTemp { get; set; } = new ObservableCollection<Category>();
-        public static List<SliderAssignment> sliderAssignments { get; set; } = new List<SliderAssignment>();
+        public static List<CategorySlider> CategorySliders { get; set; } = new List<CategorySlider>();
 
         public static void SaveDataToFile<T>(string path, List<T> data)
         {

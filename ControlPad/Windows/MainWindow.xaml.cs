@@ -18,12 +18,18 @@ namespace ControlPad
 
         public MainWindow()
         {
+            DataHandler.Categories = new ObservableCollection<Category>(DataHandler.LoadDataFromFile<Category>(DataHandler.CategoryPath));
+            //DataHandler.CategorySliders = DataHandler.LoadDataFromFile<CategorySlider>(DataHandler.CategorySlidersPath);
+            
+
             InitializeComponent();
+
+            DataHandler.SaveDataToFile(DataHandler.CategorySlidersPath, DataHandler.CategorySliders);
+
             DataContext = this;
             arCo = new ArduinoController(this);
+
             CreateNotifyIcon();
-            DataHandler.Categories = new ObservableCollection<Category>(DataHandler.LoadDataFromFile<Category>(DataHandler.CategoryPath));
-            DataHandler.sliderAssignments = DataHandler.LoadDataFromFile<SliderAssignment>(DataHandler.SliderAssignmentsPath);
         }
 
         protected override void OnSourceInitialized(EventArgs e)
@@ -134,13 +140,11 @@ namespace ControlPad
                 var dialog = new SelectCategoryPopup();                
                 dialog.Owner = this;
                 bool? result = dialog.ShowDialog();
-                Category? category;
 
                 if (result == true)
                 {
-                    category = dialog.SelectedCategory;
-                    DataHandler.sliderAssignments.Add(new SliderAssignment(border.CategorySlider, category.Id));
-                    DataHandler.SaveDataToFile(DataHandler.SliderAssignmentsPath, DataHandler.sliderAssignments);
+                    border.CategorySlider.Category = dialog.SelectedCategory;
+                    DataHandler.SaveDataToFile(DataHandler.CategorySlidersPath, DataHandler.CategorySliders);
                 }
             }
         }
