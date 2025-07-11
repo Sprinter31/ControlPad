@@ -23,17 +23,16 @@ namespace ControlPad
 {
     public partial class ManageCategoriesWindow : Window
     {
-        public ObservableCollection<Category> categoriesTemp = new ObservableCollection<Category>();
         public ManageCategoriesWindow()
         {
             InitializeComponent();
-            categoriesTemp = new ObservableCollection<Category>(
-                GlobalData.Categories
+            DataHandler.CategoriesTemp = new ObservableCollection<Category>(
+                DataHandler.Categories
                 .Select(c => new Category(c.Name)
                 {
                     Programms = new ObservableCollection<string>(c.Programms)
                 }));
-            lb_Categories.ItemsSource = categoriesTemp;
+            lb_Categories.ItemsSource = DataHandler.CategoriesTemp;
         }
 
         private void btn_CreateCat_Click(object sender, RoutedEventArgs e)
@@ -50,7 +49,7 @@ namespace ControlPad
 
             if (string.IsNullOrEmpty(name)) return;
 
-            categoriesTemp.Add(new Category(name));        
+            DataHandler.CategoriesTemp.Add(new Category(name));
         }
 
         private void btn_EditCat_Click(object sender, RoutedEventArgs e)
@@ -66,8 +65,9 @@ namespace ControlPad
 
         private void btn_Apply_Click(object sender, RoutedEventArgs e)
         {
-            GlobalData.Categories = categoriesTemp;
-            GlobalData.SaveCategories(GlobalData.CategoryPath);
+            DataHandler.Categories = DataHandler.CategoriesTemp;
+            DataHandler.CategoriesTemp = new ObservableCollection<Category>();
+            DataHandler.SaveCategories(DataHandler.CategoryPath);
             this.Close();
         }
 
@@ -81,7 +81,7 @@ namespace ControlPad
             int index = lb_Categories.SelectedIndex;
             if (index == -1) return;
 
-            categoriesTemp.RemoveAt(index);
+            DataHandler.CategoriesTemp.RemoveAt(index);
         }
 
         public void RefreshListBox() => lb_Categories.Items.Refresh();

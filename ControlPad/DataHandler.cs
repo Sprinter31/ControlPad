@@ -9,7 +9,7 @@ using System.Text.Json;
 
 namespace ControlPad
 {
-    public static class GlobalData
+    public static class DataHandler
     {
         public static string CategoryPath { get; } = @"Resources\Categories.json";
         public static ObservableCollection<Category> Categories { get; set; } = new ObservableCollection<Category>();
