@@ -5,12 +5,11 @@ namespace ControlPad.Windows
     public partial class SelectCategoryPopup : Window
     {
         public Category SelectedCategory { get; set; }
-        public CategorySlider CategorySlider { get; set; }
-        public SelectCategoryPopup()
+        public SelectCategoryPopup(CategorySlider categorySlider)
         {
             InitializeComponent();
-            if(CategorySlider?.Category != null)
-                cb_Categories.SelectedItem = CategorySlider.Category;
+            if(categorySlider?.Category != null)
+                cb_Categories.SelectedItem = categorySlider.Category;
             cb_Categories.ItemsSource = DataHandler.Categories;
         }
 

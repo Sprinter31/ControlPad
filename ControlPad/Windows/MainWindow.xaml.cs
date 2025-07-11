@@ -18,13 +18,11 @@ namespace ControlPad
 
         public MainWindow()
         {
-            DataHandler.Categories = new ObservableCollection<Category>(DataHandler.LoadDataFromFile<Category>(DataHandler.CategoryPath));
-            //DataHandler.CategorySliders = DataHandler.LoadDataFromFile<CategorySlider>(DataHandler.CategorySlidersPath);
-            
-
             InitializeComponent();
 
             DataHandler.CategorySliders = new CategorySlider[] { Slider1, Slider2, Slider3, Slider4, Slider5, Slider6 };            
+            DataHandler.Categories = new ObservableCollection<Category>(DataHandler.LoadDataFromFile<Category>(DataHandler.CategoryPath));
+            DataHandler.LoadCategorySliders(DataHandler.CategorySlidersPath);
 
             DataContext = this;
             arCo = new ArduinoController(this);
@@ -137,7 +135,7 @@ namespace ControlPad
         {
             if (sender is SliderBorder border)
             {
-                var dialog = new SelectCategoryPopup();                
+                var dialog = new SelectCategoryPopup(border.CategorySlider);
                 dialog.Owner = this;
                 bool? result = dialog.ShowDialog();
 

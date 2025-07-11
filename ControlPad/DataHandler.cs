@@ -41,7 +41,7 @@ namespace ControlPad
 
         public static void SaveCategorySliders(string path)
         {
-            var lines = CategorySliders.Select((slider, i) => $"Slider{i + 1}.Category.Id is {slider.Category?.Id}");
+            var lines = CategorySliders.Select((slider, i) => $"Slider{i + 1}.Category.Id is: {slider.Category?.Id}");
             File.WriteAllLines(path, lines);
         }
 
@@ -51,9 +51,19 @@ namespace ControlPad
 
             for(int i = 0; i < lines.Length; i++)
             {
-                if(int.TryParse(lines[i][^1].ToString(), out int categoryId))
+                if (int.TryParse(lines[i].Split(':')[1].Trim(), out int categoryId))
                     CategorySliders[i].Category = Categories.First(c => c.Id == categoryId);
             }
+        }
+
+        public static int GetNextCategoryId() // gets the lowest not yet existing id
+        {
+            var used = new HashSet<int>(DataHandler.Categories.Select(c => c.Id));
+            var usedTemp = new HashSet<int>(DataHandler.CategoriesTemp.Select(c => c.Id));
+
+            for (int i = 0; ; i++)
+                if (!used.Contains(i) && !usedTemp.Contains(i))
+                    return i;
         }
     }
 }

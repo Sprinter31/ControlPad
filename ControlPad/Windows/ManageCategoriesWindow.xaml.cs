@@ -28,7 +28,7 @@ namespace ControlPad
             InitializeComponent();
             DataHandler.CategoriesTemp = new ObservableCollection<Category>(
                 DataHandler.Categories
-                .Select(c => new Category(c.Name)
+                .Select(c => new Category(c.Name, c.Id)
                 {
                     Programms = new ObservableCollection<string>(c.Programms)
                 }));
@@ -49,7 +49,7 @@ namespace ControlPad
 
             if (string.IsNullOrEmpty(name)) return;
 
-            DataHandler.CategoriesTemp.Add(new Category(name));
+            DataHandler.CategoriesTemp.Add(new Category(name, DataHandler.GetNextCategoryId()));
         }
 
         private void btn_EditCat_Click(object sender, RoutedEventArgs e)
