@@ -22,7 +22,7 @@ namespace ControlPad
 
             volume = Math.Clamp(volume, 0f, 1f);
 
-            List<int> processIds = Process.GetProcessesByName(processName).Select(c => c.Id).ToList();
+            List<int> processIds = Process.GetProcessesByName(processName).Select(c => c.Id).ToList(); // this might be slow
 
             for (int i = 0; i < sessions?.Count; i++)
             {

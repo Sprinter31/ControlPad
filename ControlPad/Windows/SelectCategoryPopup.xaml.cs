@@ -8,9 +8,17 @@ namespace ControlPad.Windows
         public SelectCategoryPopup(CategorySlider categorySlider)
         {
             InitializeComponent();
-            if(categorySlider?.Category != null)
-                cb_Categories.SelectedItem = categorySlider.Category;
-            cb_Categories.ItemsSource = DataHandler.Categories;
+
+            var usedIds = DataHandler.CategorySliders.Select(s => s.Category?.Id).ToHashSet();
+
+            var currentCatId = categorySlider?.Category?.Id;
+
+            var availableCategories = DataHandler.Categories.Where(c => !usedIds.Contains(c.Id) || c.Id == currentCatId).ToList();
+
+            cb_Categories.ItemsSource = availableCategories;
+
+            if (currentCatId != null)
+                cb_Categories.SelectedItem = availableCategories.First(c => c.Id == currentCatId);
         }
 
         private void btn_Apply_Click(object sender, RoutedEventArgs e)

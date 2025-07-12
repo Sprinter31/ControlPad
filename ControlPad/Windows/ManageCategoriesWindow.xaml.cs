@@ -70,7 +70,7 @@ namespace ControlPad
             DataHandler.SaveDataToFile(DataHandler.CategoryPath, DataHandler.Categories.ToList());
             foreach(CategorySlider categorySlider in DataHandler.CategorySliders)
             {
-                if (categorySlider.Category != null && !DataHandler.Categories.Contains(categorySlider.Category))
+                if (categorySlider.Category != null && !DataHandler.Categories.Any(c => c.Name == categorySlider.Category.Name))
                 {
                     categorySlider.Category = null;
                 }

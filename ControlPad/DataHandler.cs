@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Windows.Documents;
 
 namespace ControlPad
 {
@@ -47,13 +48,20 @@ namespace ControlPad
 
         public static void LoadCategorySliders(string path)
         {
-            string[] lines = File.ReadAllLines(path);
-
-            for(int i = 0; i < lines.Length; i++)
+            if (!File.Exists(path))
             {
-                if (int.TryParse(lines[i].Split(':')[1].Trim(), out int categoryId))
-                    CategorySliders[i].Category = Categories.First(c => c.Id == categoryId);
+                Debug.WriteLine($"File does not exist: {path}");
             }
+            else
+            {
+                string[] lines = File.ReadAllLines(path);
+
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    if (int.TryParse(lines[i].Split(':')[1].Trim(), out int categoryId))
+                        CategorySliders[i].Category = Categories.First(c => c.Id == categoryId);
+                }
+            }            
         }
 
         public static int GetNextCategoryId() // gets the lowest not yet existing id
