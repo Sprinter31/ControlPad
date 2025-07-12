@@ -8,19 +8,16 @@ namespace ControlPad
 {
     public partial class ManageCategoriesWindow : Window
     {
-        public ObservableCollection<Category> categoriesTemp = new ObservableCollection<Category>();
         public ManageCategoriesWindow()
         {
             InitializeComponent();
-
-            categoriesTemp = new ObservableCollection<Category>(
+            DataHandler.CategoriesTemp = new ObservableCollection<Category>(
                 DataHandler.Categories
-                .Select(c => new Category(c.Name)
+                .Select(c => new Category(c.Name, c.Id)
                 {
-                    Id = c.Id,
-                    Programms = new ObservableCollection<string>(c.Programms)
+                    Processes = new ObservableCollection<string>(c.Processes)
                 }));
-            lb_Categories.ItemsSource = categoriesTemp;
+            lb_Categories.ItemsSource = DataHandler.CategoriesTemp;
         }
 
         private void btn_CreateCat_Click(object sender, RoutedEventArgs e)
@@ -37,14 +34,7 @@ namespace ControlPad
 
             if (string.IsNullOrEmpty(name)) return;
 
-            int newId = DataHandler.GetNextCategoryId();
-
-            var newCategory = new Category(name)
-            {
-                Id = newId
-            };
-
-            categoriesTemp.Add(newCategory);        
+            DataHandler.CategoriesTemp.Add(new Category(name, DataHandler.GetNextCategoryId()));
         }
 
         private void btn_EditCat_Click(object sender, RoutedEventArgs e)
@@ -60,8 +50,10 @@ namespace ControlPad
 
         private void btn_Apply_Click(object sender, RoutedEventArgs e)
         {
-            DataHandler.Categories = categoriesTemp;
-            DataHandler.SaveDataToFile(DataHandler.CategoriesPath, DataHandler.Categories);
+            DataHandler.Categories = DataHandler.CategoriesTemp;
+            DataHandler.CategoriesTemp = new ObservableCollection<Category>();
+            DataHandler.SaveDataToFile(DataHandler.CategoryPath, DataHandler.Categories.ToList());
+            DataHandler.RemoveCategoriesFromSlidersIfTheyGotDeleted();
             this.Close();
         }
 
@@ -75,7 +67,7 @@ namespace ControlPad
             int index = lb_Categories.SelectedIndex;
             if (index == -1) return;
 
-            categoriesTemp.RemoveAt(index);
+            DataHandler.CategoriesTemp.RemoveAt(index);
         }
 
         public void RefreshListBox() => lb_Categories.Items.Refresh();

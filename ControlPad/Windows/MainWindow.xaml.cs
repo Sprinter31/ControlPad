@@ -1,9 +1,12 @@
-﻿using System.Drawing;
+﻿using ControlPad.Windows;
+using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using System.Windows.Input;
 using System.Windows.Interop;
-using ControlPad.Windows;
+using System.Collections.ObjectModel;
 
 namespace ControlPad
 {
@@ -12,15 +15,19 @@ namespace ControlPad
         private bool closeFromX = false;
         private NotifyIcon notifyIcon;
         private ArduinoController arCo;
+
         public MainWindow()
         {
             InitializeComponent();
 
-            arCo = new ArduinoController(this);
-            CreateNotifyIcon();
+            DataHandler.CategorySliders = new CategorySlider[] { Slider1, Slider2, Slider3, Slider4, Slider5, Slider6 };            
+            DataHandler.Categories = new ObservableCollection<Category>(DataHandler.LoadDataFromFile<Category>(DataHandler.CategoryPath));
+            DataHandler.LoadCategorySliders(DataHandler.CategorySlidersPath);
 
-            DataHandler.Categories = DataHandler.LoadDataFromFile<Category>(DataHandler.CategoriesPath, DataHandler.Categories);
-            DataHandler.SliderAssignments = DataHandler.LoadDataFromFile<SliderAssignments>(DataHandler.SliderAssignmentPath, DataHandler.SliderAssignments);
+            DataContext = this;
+            arCo = new ArduinoController(this);
+
+            CreateNotifyIcon();
         }
 
         protected override void OnSourceInitialized(EventArgs e)
@@ -124,20 +131,20 @@ namespace ControlPad
         public void UpdateUISlider(Slider slider, int value) => slider.Value = value;
         private void Exit_Click(object sender, EventArgs e) => this.Close();
 
-        private void SliderCell_Click(object sender, RoutedEventArgs e)
+        private void SliderCell_Click(object sender, MouseButtonEventArgs e)
         {
-            if (sender is Border border)
+            if (sender is SliderBorder border)
             {
-                var dialog = new SelectCategoryPopup();
-
-                if (int.TryParse(border.Name.Replace("SliderCell", ""), out int nr))
-                {
-                    dialog.SliderNr = nr;
-                }
-
+                var dialog = new SelectCategoryPopup(border.CategorySlider);
                 dialog.Owner = this;
-                dialog.ShowDialog();
+                bool? result = dialog.ShowDialog();
+
+                if (result == true)
+                {
+                    border.CategorySlider.Category = dialog.SelectedCategory;
+                    DataHandler.SaveCategorySliders(DataHandler.CategorySlidersPath);
+                }
             }
         }
-    }
+    }   
 }

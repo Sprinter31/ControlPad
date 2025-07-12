@@ -1,5 +1,9 @@
 ﻿using NAudio.CoreAudioApi;
 using System.Diagnostics;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 
 namespace ControlPad
 {
@@ -11,39 +15,23 @@ namespace ControlPad
         { 
             _enum = new MMDeviceEnumerator();           
         }
-        private SessionCollection GetSessions()
-        {
-            using var device = _enum.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
-            return device.AudioSessionManager.Sessions;
-        }
 
         public void SetProcessVolume(string processName, float volume)
         {
-            var sessions = GetSessions();
+            using var device = _enum.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+            var sessions = device.AudioSessionManager.Sessions;
 
             volume = Math.Clamp(volume, 0f, 1f);
+
+            List<int> processIds = Process.GetProcessesByName(processName).Select(c => c.Id).ToList(); // this might be slow
 
             for (int i = 0; i < sessions?.Count; i++)
             {
                 var session = sessions[i];
-
-                int? pid = null;
-
-                try { pid = (int)session.GetProcessID; }
-                catch { continue; }
-
-                if (pid == null) continue;
-
-                try
+                if (processIds.Contains((int)session.GetProcessID))
                 {
-                    using var process = Process.GetProcessById(pid.Value);
-                    if (string.Equals(process.ProcessName, processName, StringComparison.OrdinalIgnoreCase))
-                    {
-                        session.SimpleAudioVolume.Volume = volume;
-                    }
-                }
-                // The process does not exist anymore
-                catch { continue; }
+                    session.SimpleAudioVolume.Volume = volume;
+                }                    
             }
         }
 
@@ -60,9 +48,6 @@ namespace ControlPad
             MMDevice mic = _enum.GetDefaultAudioEndpoint(DataFlow.Capture, Role.Communications);
             mic.AudioEndpointVolume.MasterVolumeLevelScalar = volume;
         }
-        public void AdjustProcessVolume(string processName, float adjustment) => SetProcessVolume(processName, GetProcessVolume(processName) + adjustment);
-        public void AdjustSystemVolume(float adjustment) => SetSystemVolume(GetSystemVolume() + adjustment);
-        public void AdjustMicVolume(float adjustment) => SetMicVolume(GetMicVolume() + adjustment);
 
         public void MuteProcess(string processName, bool mute)
         {
