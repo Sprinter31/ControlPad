@@ -30,7 +30,7 @@ namespace ControlPad
                 DataHandler.Categories
                 .Select(c => new Category(c.Name, c.Id)
                 {
-                    Programms = new ObservableCollection<string>(c.Programms)
+                    Processes = new ObservableCollection<string>(c.Processes)
                 }));
             lb_Categories.ItemsSource = DataHandler.CategoriesTemp;
         }
@@ -68,6 +68,14 @@ namespace ControlPad
             DataHandler.Categories = DataHandler.CategoriesTemp;
             DataHandler.CategoriesTemp = new ObservableCollection<Category>();
             DataHandler.SaveDataToFile(DataHandler.CategoryPath, DataHandler.Categories.ToList());
+            foreach(CategorySlider categorySlider in DataHandler.CategorySliders)
+            {
+                if (categorySlider.Category != null && !DataHandler.Categories.Contains(categorySlider.Category))
+                {
+                    categorySlider.Category = null;
+                }
+            }
+            DataHandler.SaveCategorySliders(DataHandler.CategorySlidersPath);
             this.Close();
         }
 

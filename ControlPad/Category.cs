@@ -15,7 +15,7 @@ namespace ControlPad
 
         public int Id { get; set; }
 
-        public ObservableCollection<string> Programms { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<string> Processes { get; set; } = new ObservableCollection<string>();
 
         public Category(string name, int id)
         {

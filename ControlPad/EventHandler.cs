@@ -41,9 +41,9 @@ namespace ControlPad
             MainWindow.Dispatcher.Invoke(() => MainWindow.UpdateUISlider((Slider)slider, value));
 
             CategorySlider categorySlider = (CategorySlider)slider;
-            if(categorySlider.Category != null)
-                foreach(string programmName in categorySlider.Category.Programms)
-                    audioController.SetProcessVolume(programmName, SliderToFloat(value));               
+            if (categorySlider.Category != null)
+                foreach(string processName in categorySlider.Category.Processes)
+                    Task.Run(() => audioController.SetProcessVolume(processName, SliderToFloat(value)));          
         }
         private void UpdateButton(Control element, int value)
         {
