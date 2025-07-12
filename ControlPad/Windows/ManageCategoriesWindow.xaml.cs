@@ -1,12 +1,13 @@
-﻿using System.Windows;
-using System.Windows.Input;
+﻿using ControlPad.Windows;
 using System.Collections.ObjectModel;
-using ControlPad.Windows;
+using System.Windows;
+using System.Windows.Input;
+using Wpf.Ui.Controls;
 
 
 namespace ControlPad
 {
-    public partial class ManageCategoriesWindow : Window
+    public partial class ManageCategoriesWindow : FluentWindow
     {
         public ManageCategoriesWindow()
         {

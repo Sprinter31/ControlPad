@@ -1,12 +1,13 @@
 ﻿using System.Diagnostics;
 using System.Windows;
+using Wpf.Ui.Controls;
 
 namespace ControlPad
 {
     /// <summary>
     /// Interaction logic for ProcessSelectPopup.xaml
     /// </summary>
-    public partial class ProcessSelectPopup : Window
+    public partial class ProcessSelectPopup : FluentWindow
     {
         public string SelectedProcessName { get; private set; } = string.Empty;
 
@@ -20,7 +21,7 @@ namespace ControlPad
         {
             if (cb_Processes.SelectedItem is not Process proc)
             {
-                MessageBox.Show("Please select a valid process", "Control Pad");
+                System.Windows.MessageBox.Show("");
                 return;
             }
 

@@ -1,8 +1,9 @@
 ﻿using System.Windows;
+using Wpf.Ui.Controls;
 
 namespace ControlPad.Windows
 {
-    public partial class CreateCategoryPopup : Window
+    public partial class CreateCategoryPopup : FluentWindow
     {
         public string CategoryName { get; set; } = string.Empty;
         public CreateCategoryPopup()

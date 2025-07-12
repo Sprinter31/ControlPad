@@ -1,8 +1,9 @@
 ﻿using System.Windows;
+using Wpf.Ui.Controls;
 
 namespace ControlPad.Windows
 {
-    public partial class EditCategoryWindow : Window
+    public partial class EditCategoryWindow : FluentWindow
     {
         private int indexOfCategory;
         ManageCategoriesWindow MCW;

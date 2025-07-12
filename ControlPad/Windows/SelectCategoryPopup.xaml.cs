@@ -1,9 +1,10 @@
 ﻿using System.Windows;
 using System.Windows.Media.Imaging;
+using Wpf.Ui.Controls;
 
 namespace ControlPad.Windows
 {
-    public partial class SelectCategoryPopup : Window
+    public partial class SelectCategoryPopup : FluentWindow
     {
         public Category SelectedCategory { get; set; }
         private CustomSlider categorySlider;
