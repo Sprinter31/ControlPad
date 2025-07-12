@@ -1,4 +1,5 @@
 ﻿using NAudio.CoreAudioApi;
+using System.Diagnostics;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,39 +16,23 @@ namespace ControlPad
         { 
             _enum = new MMDeviceEnumerator();           
         }
-        private SessionCollection GetSessions()
-        {
-            using var device = _enum.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
-            return device.AudioSessionManager.Sessions;
-        }
 
         public void SetProcessVolume(string processName, float volume)
         {
-            var sessions = GetSessions();
+            using var device = _enum.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+            var sessions = device.AudioSessionManager.Sessions;
 
             volume = Math.Clamp(volume, 0f, 1f);
+
+            List<int> processIds = Process.GetProcessesByName(processName).Select(c => c.Id).ToList(); // this might be slow
 
             for (int i = 0; i < sessions?.Count; i++)
             {
                 var session = sessions[i];
-
-                int? pid = null;
-
-                try { pid = (int)session.GetProcessID; }
-                catch { continue; }
-
-                if (pid == null) continue;
-
-                try
+                if (processIds.Contains((int)session.GetProcessID))
                 {
-                    using var process = Process.GetProcessById(pid.Value);
-                    if (string.Equals(process.ProcessName, processName, StringComparison.OrdinalIgnoreCase))
-                    {
-                        session.SimpleAudioVolume.Volume = volume;
-                    }
-                }
-                // The process does not exist anymore
-                catch { continue; }
+                    session.SimpleAudioVolume.Volume = volume;
+                }                    
             }
         }
 

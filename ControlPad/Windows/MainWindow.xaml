@@ -99,7 +99,6 @@
             <Setter Property="BorderThickness"  Value="1"/>
             <Setter Property="Panel.ZIndex"     Value="1"/>
         </Style>
-
     </Window.Resources>
 
 
@@ -122,7 +121,6 @@
 
         <!-- ===== Layout ===== -->
         <Grid>
-
             <Grid Height="500">
                 <!-- 6 Slider Columns + 1 Button Column -->
                 <Grid.ColumnDefinitions>
@@ -150,21 +148,23 @@
                 <TextBlock Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="4" Text="Monitor Brightness"/>
                 <TextBlock Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="5" Text="Mic"/>
 
+                
+                
                 <!-- Border -->
-                <Border x:Name="SliderCell1" Style="{StaticResource Border}" Grid.Column="0" Grid.Row="1" MouseLeftButtonDown="SliderCell_Click"/>
-                <Border x:Name="SliderCell2" Style="{StaticResource Border}" Grid.Column="1" Grid.Row="1" MouseLeftButtonDown="SliderCell_Click"/>
-                <Border x:Name="SliderCell3" Style="{StaticResource Border}" Grid.Column="2" Grid.Row="1" MouseLeftButtonDown="SliderCell_Click"/>
-                <Border x:Name="SliderCell4" Style="{StaticResource Border}" Grid.Column="3" Grid.Row="1" MouseLeftButtonDown="SliderCell_Click"/>
-                <Border x:Name="SliderCell5" Style="{StaticResource Border}" Grid.Column="4" Grid.Row="1" MouseLeftButtonDown="SliderCell_Click"/>
-                <Border x:Name="SliderCell6" Style="{StaticResource Border}" Grid.Column="5" Grid.Row="1" MouseLeftButtonDown="SliderCell_Click"/>
+                <local:SliderBorder x:Name="SliderCell1" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="0" MouseLeftButtonDown="SliderCell_Click" CategorySlider="{Binding ElementName=Slider1}"/>
+                <local:SliderBorder x:Name="SliderCell2" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="1" MouseLeftButtonDown="SliderCell_Click" CategorySlider="{Binding ElementName=Slider2}"/>
+                <local:SliderBorder x:Name="SliderCell3" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="2" MouseLeftButtonDown="SliderCell_Click" CategorySlider="{Binding ElementName=Slider3}"/>
+                <local:SliderBorder x:Name="SliderCell4" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="3" MouseLeftButtonDown="SliderCell_Click" CategorySlider="{Binding ElementName=Slider4}"/>
+                <local:SliderBorder x:Name="SliderCell5" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="4" MouseLeftButtonDown="SliderCell_Click" CategorySlider="{Binding ElementName=Slider5}"/>
+                <local:SliderBorder x:Name="SliderCell6" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="5" MouseLeftButtonDown="SliderCell_Click" CategorySlider="{Binding ElementName=Slider6}"/>
 
                 <!-- Slider -->
-                <Slider x:Name="Slider1" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center"/>
-                <Slider x:Name="Slider2" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center"/>
-                <Slider x:Name="Slider3" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center"/>
-                <Slider x:Name="Slider4" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center"/>
-                <Slider x:Name="Slider5" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center"/>
-                <Slider x:Name="Slider6" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="5" HorizontalAlignment="Center"/>
+                <local:CategorySlider x:Name="Slider1" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center"/>
+                <local:CategorySlider x:Name="Slider2" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center"/>
+                <local:CategorySlider x:Name="Slider3" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center"/>
+                <local:CategorySlider x:Name="Slider4" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center"/>
+                <local:CategorySlider x:Name="Slider5" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center"/>
+                <local:CategorySlider x:Name="Slider6" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="5" HorizontalAlignment="Center"/>
 
                 <!-- Mute Buttons -->
                 <Button x:Name="Switch1" Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="0" Content="Mute"/>

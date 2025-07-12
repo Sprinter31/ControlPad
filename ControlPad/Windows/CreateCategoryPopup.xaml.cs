@@ -2,9 +2,6 @@
 
 namespace ControlPad.Windows
 {
-    /// <summary>
-    /// Interaction logic for CreateCategoryPopup.xaml
-    /// </summary>
     public partial class CreateCategoryPopup : Window
     {
         public string CategoryName { get; set; } = string.Empty;

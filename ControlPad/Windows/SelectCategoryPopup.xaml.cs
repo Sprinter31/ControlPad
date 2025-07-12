@@ -1,50 +1,55 @@
 ﻿using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace ControlPad.Windows
 {
-    /// <summary>
-    /// Interaction logic for SelectCategoryPopup.xaml
-    /// </summary>
     public partial class SelectCategoryPopup : Window
     {
-        public SelectCategoryPopup()
+        private bool remove = false;
+        public Category SelectedCategory { get; set; }
+        private CategorySlider categorySlider;
+        public SelectCategoryPopup(CategorySlider categorySlider)
         {
             InitializeComponent();
-
-            cb_Categories.ItemsSource = DataHandler.Categories;
-        }
-        public int SliderNr { get; set; }
+            this.categorySlider = categorySlider;
+            ButtonImage.Source = new BitmapImage(new Uri(@"\Resources\x.png", UriKind.Relative));
+            SetDropDown();            
+        }       
 
         private void btn_Apply_Click(object sender, RoutedEventArgs e)
         {
-            if (cb_Categories.SelectedItem is Category selectedCategory)
+            if(cb_Categories.SelectedItem is Category selectedCategory)
             {
-                var existing = DataHandler.SliderAssignments.FirstOrDefault(a => a.SliderNr == this.SliderNr);
-
-                if (existing != null)
-                {
-                    existing.CategoryId = selectedCategory.Id;
-                }
-                else
-                {
-                    var assignment = new SliderAssignments
-                    {
-                        SliderNr = this.SliderNr,
-                        CategoryId = selectedCategory.Id
-                    };
-
-                    DataHandler.SliderAssignments.Add(assignment);
-                }
-                DataHandler.SaveDataToFile(DataHandler.SliderAssignmentPath, DataHandler.SliderAssignments);
-
-                this.Close();
+                SelectedCategory = selectedCategory;
+                DialogResult = true;
+            }
+            else if(cb_Categories.SelectedItem == null && remove)
+            {
+                categorySlider.Category = null;
+                DialogResult = true;
             }
         }
 
-
-        private void btn_Cancel_Click(object sender, RoutedEventArgs e)
+        private void btn_Remove_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
-        } 
+            cb_Categories.SelectedItem = null;
+            remove = true;
+        }
+
+        private void SetDropDown()
+        {
+            var usedIds = DataHandler.CategorySliders.Select(s => s.Category?.Id).ToHashSet();
+
+            var currentCatId = categorySlider?.Category?.Id;
+
+            var availableCategories = DataHandler.Categories.Where(c => !usedIds.Contains(c.Id) || c.Id == currentCatId).ToList();
+
+            cb_Categories.ItemsSource = availableCategories;
+
+            if (currentCatId != null)
+                cb_Categories.SelectedItem = availableCategories.First(c => c.Id == currentCatId);
+        }
+
+        private void btn_Cancel_Click(object sender, RoutedEventArgs e) => this.Close();
     }
 }

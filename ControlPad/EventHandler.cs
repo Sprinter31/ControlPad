@@ -1,13 +1,10 @@
-﻿using System.Reflection;
-using System.Windows.Controls;
-using System.Windows.Input;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
+﻿using System.Windows.Controls;
 
 namespace ControlPad
 {
     public class EventHandler
     {
-        private AudioController AudioController;
+        private AudioController audioController;
         private Dictionary<Control, int> values = new Dictionary<Control, int>();       
 
         private MainWindow MainWindow;
@@ -15,7 +12,7 @@ namespace ControlPad
         public EventHandler(MainWindow mainWindow)
         {
             MainWindow = mainWindow;
-            AudioController = new AudioController();
+            audioController = new AudioController();
         }
         public void Update(Dictionary<Control, int> values)
         {
@@ -27,9 +24,9 @@ namespace ControlPad
                 int newValue = kvp.Value;
                 this.values.TryGetValue(key, out int oldValue);
 
-                if (name.StartsWith("Slider", StringComparison.OrdinalIgnoreCase) && Math.Abs(oldValue - newValue) > 1)
+                if (name.StartsWith("Slider", StringComparison.OrdinalIgnoreCase) /*&& Math.Abs(oldValue - newValue) > 1*/)
                 {
-                    UpdateSlider(key, newValue);
+                    UpdateSlider(key, newValue);                   
                 }
                 else if (name.StartsWith("Switch", StringComparison.OrdinalIgnoreCase))
                 {
@@ -39,29 +36,14 @@ namespace ControlPad
             }
         }
 
-        private void UpdateSlider(Control element, int value)
+        private void UpdateSlider(Control slider, int value)
         {
-            MainWindow.Dispatcher.Invoke(() => MainWindow.UpdateUISlider((Slider)element, value));
+            MainWindow.Dispatcher.Invoke(() => MainWindow.UpdateUISlider((Slider)slider, value));
 
-            int.TryParse(MainWindow.Dispatcher.Invoke(() => element.Name).Replace("Slider", ""), out int nr);
-
-            var assignment = DataHandler.SliderAssignments.FirstOrDefault(a => a.SliderNr == nr);
-
-            if (assignment == null) return;
-
-            int categoryId = assignment.CategoryId;
-
-            var category = DataHandler.Categories.FirstOrDefault(c => c.Id == categoryId);
-
-            if (category == null) return;
-
-            var programms = category.Programms;
-
-            foreach (var p in programms)
-            {
-                Task.Run(() => AudioController.SetProcessVolume(p, SliderToFloat(value)));
-            }
-
+            CategorySlider categorySlider = (CategorySlider)slider;
+            if (categorySlider.Category != null)
+                foreach(string processName in categorySlider.Category.Processes)
+                    Task.Run(() => audioController.SetProcessVolume(processName, SliderToFloat(value)));          
         }
         private void UpdateButton(Control element, int value)
         {
@@ -72,6 +54,5 @@ namespace ControlPad
             value -= 2;
             return (float)value / 1020.0f;
         }
-
     }
 }

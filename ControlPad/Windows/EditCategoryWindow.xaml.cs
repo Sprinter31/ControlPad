@@ -13,8 +13,8 @@ namespace ControlPad.Windows
             this.indexOfCategory = indexOfCategory;
             this.MCW = MCW;
 
-            tb_CategoryName.Text = MCW.categoriesTemp[indexOfCategory].Name;
-            lb_Processes.ItemsSource = MCW.categoriesTemp[indexOfCategory].Programms;
+            tb_CategoryName.Text = DataHandler.CategoriesTemp[indexOfCategory].Name;
+            lb_Processes.ItemsSource = DataHandler.CategoriesTemp[indexOfCategory].Processes;
         }
 
         private void btn_AddProcess_Click(object sender, RoutedEventArgs e)
@@ -26,7 +26,7 @@ namespace ControlPad.Windows
             if (result == true)
             {
                 string process = dialog.SelectedProcessName;
-                MCW.categoriesTemp[indexOfCategory].Programms.Add(process);
+                DataHandler.CategoriesTemp[indexOfCategory].Processes.Add(process);
             }               
         }
 
@@ -34,12 +34,12 @@ namespace ControlPad.Windows
         {
             int index = lb_Processes.SelectedIndex;
             if (index == -1) return;
-            MCW.categoriesTemp[indexOfCategory].Programms.RemoveAt(index);
+            DataHandler.CategoriesTemp[indexOfCategory].Processes.RemoveAt(index);
         }
 
         private void btn_Close_Click(object sender, RoutedEventArgs e)
         {
-            MCW.categoriesTemp[indexOfCategory].Name = tb_CategoryName.Text.Trim();
+            DataHandler.CategoriesTemp[indexOfCategory].Name = tb_CategoryName.Text.Trim();
             MCW.RefreshListBox();
             this.Close();
         }
