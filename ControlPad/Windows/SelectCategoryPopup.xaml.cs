@@ -1,14 +1,43 @@
 ﻿using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace ControlPad.Windows
 {
     public partial class SelectCategoryPopup : Window
     {
+        private bool remove = false;
         public Category SelectedCategory { get; set; }
+        private CategorySlider categorySlider;
         public SelectCategoryPopup(CategorySlider categorySlider)
         {
             InitializeComponent();
+            this.categorySlider = categorySlider;
+            ButtonImage.Source = new BitmapImage(new Uri(@"\Resources\x.png", UriKind.Relative));
+            SetDropDown();            
+        }       
 
+        private void btn_Apply_Click(object sender, RoutedEventArgs e)
+        {
+            if(cb_Categories.SelectedItem is Category selectedCategory)
+            {
+                SelectedCategory = selectedCategory;
+                DialogResult = true;
+            }
+            else if(cb_Categories.SelectedItem == null && remove)
+            {
+                categorySlider.Category = null;
+                DialogResult = true;
+            }
+        }
+
+        private void btn_Remove_Click(object sender, RoutedEventArgs e)
+        {
+            cb_Categories.SelectedItem = null;
+            remove = true;
+        }
+
+        private void SetDropDown()
+        {
             var usedIds = DataHandler.CategorySliders.Select(s => s.Category?.Id).ToHashSet();
 
             var currentCatId = categorySlider?.Category?.Id;
@@ -21,18 +50,6 @@ namespace ControlPad.Windows
                 cb_Categories.SelectedItem = availableCategories.First(c => c.Id == currentCatId);
         }
 
-        private void btn_Apply_Click(object sender, RoutedEventArgs e)
-        {
-            if(cb_Categories.SelectedItem is Category selectedCategory)
-            {
-                SelectedCategory = selectedCategory;
-                DialogResult = true;
-            }
-        }
-
-        private void btn_Cancel_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        } 
+        private void btn_Cancel_Click(object sender, RoutedEventArgs e) => this.Close();
     }
 }

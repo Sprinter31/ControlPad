@@ -64,6 +64,14 @@ namespace ControlPad
             }            
         }
 
+        public static void RemoveCategoriesFromSlidersIfTheyGotDeleted()
+        {
+            foreach (CategorySlider categorySlider in DataHandler.CategorySliders)
+                if (categorySlider.Category != null && !DataHandler.Categories.Any(c => c.Id == categorySlider.Category.Id))
+                    categorySlider.Category = null;
+            DataHandler.SaveCategorySliders(DataHandler.CategorySlidersPath);
+        }
+
         public static int GetNextCategoryId() // gets the lowest not yet existing id
         {
             var used = new HashSet<int>(DataHandler.Categories.Select(c => c.Id));

@@ -68,14 +68,7 @@ namespace ControlPad
             DataHandler.Categories = DataHandler.CategoriesTemp;
             DataHandler.CategoriesTemp = new ObservableCollection<Category>();
             DataHandler.SaveDataToFile(DataHandler.CategoryPath, DataHandler.Categories.ToList());
-            foreach(CategorySlider categorySlider in DataHandler.CategorySliders)
-            {
-                if (categorySlider.Category != null && !DataHandler.Categories.Any(c => c.Name == categorySlider.Category.Name))
-                {
-                    categorySlider.Category = null;
-                }
-            }
-            DataHandler.SaveCategorySliders(DataHandler.CategorySlidersPath);
+            DataHandler.RemoveCategoriesFromSlidersIfTheyGotDeleted();
             this.Close();
         }
 
