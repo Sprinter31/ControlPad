@@ -26,7 +26,7 @@ namespace ControlPad.Windows
             {
                 categorySlider.Category = null;
                 DialogResult = true;
-            }
+            }            
         }
 
         private void btn_Remove_Click(object sender, RoutedEventArgs e) => cb_Categories.SelectedItem = null;

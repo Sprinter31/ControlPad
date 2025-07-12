@@ -23,6 +23,7 @@ namespace ControlPad
             DataHandler.CategorySliders = new CustomSlider[] { Slider1, Slider2, Slider3, Slider4, Slider5, Slider6 };            
             DataHandler.Categories = new ObservableCollection<Category>(DataHandler.LoadDataFromFile<Category>(DataHandler.CategoryPath));
             DataHandler.LoadCategorySliders(DataHandler.CategorySlidersPath);
+            DataHandler.SetSliderTextBlocks();
 
             DataContext = this;
             arCo = new ArduinoController(this);
@@ -143,6 +144,7 @@ namespace ControlPad
                 {
                     border.CustomSlider.Category = dialog.SelectedCategory;
                     DataHandler.SaveCategorySliders(DataHandler.CategorySlidersPath);
+                    DataHandler.SetSliderTextBlocks();
                 }
             }
         }

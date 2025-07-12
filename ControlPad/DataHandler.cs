@@ -85,9 +85,11 @@ namespace ControlPad
 
         public static void SetSliderTextBlocks()
         {
-            /*foreach (CustomSlider categorySlider in DataHandler.CategorySliders)
-                if (categorySlider.Category != null)*/
-
+            foreach (CustomSlider categorySlider in DataHandler.CategorySliders)
+                if (categorySlider.Category != null)
+                    categorySlider.TextBlock.Text = categorySlider.Category.Name;
+                else
+                    categorySlider.TextBlock.Text = "";
         }
     }
 }
