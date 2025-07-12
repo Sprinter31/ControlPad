@@ -61,7 +61,7 @@ namespace ControlPad
                 string[] inputs = line.Split(',');
 
                 UpdateValues(inputs);
-                Application.Current.Dispatcher.Invoke(() => eventHandler.Update(values));
+                mw.Dispatcher.Invoke(() => eventHandler.Update(values));
             }
             catch (IOException ex)
             {

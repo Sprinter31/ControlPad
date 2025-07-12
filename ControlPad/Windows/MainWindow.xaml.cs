@@ -1,4 +1,5 @@
 ﻿using ControlPad.Windows;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -6,11 +7,11 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Collections.ObjectModel;
+using Wpf.Ui.Controls;
 
 namespace ControlPad
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : FluentWindow
     {
         private bool closeFromX = false;
         private NotifyIcon notifyIcon;
@@ -20,7 +21,7 @@ namespace ControlPad
         {
             InitializeComponent();
 
-            DataHandler.CategorySliders = new CustomSlider[] { Slider1, Slider2, Slider3, Slider4, Slider5, Slider6 };            
+            DataHandler.CategorySliders = new CustomSlider[] { (CustomSlider)Slider1, Slider2, Slider3, Slider4, Slider5, Slider6 };            
             DataHandler.Categories = new ObservableCollection<Category>(DataHandler.LoadDataFromFile<Category>(DataHandler.CategoryPath));
             DataHandler.LoadCategorySliders(DataHandler.CategorySlidersPath);
             DataHandler.SetSliderTextBlocks();
