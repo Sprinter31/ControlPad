@@ -82,5 +82,12 @@ namespace ControlPad
                 if (!used.Contains(i) && !usedTemp.Contains(i))
                     return i;
         }
+
+        public static void SetSliderTextBlocks()
+        {
+            /*foreach (CustomSlider categorySlider in DataHandler.CategorySliders)
+                if (categorySlider.Category != null)*/
+
+        }
     }
 }

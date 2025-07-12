@@ -17,15 +17,23 @@ namespace ControlPad
                 typeof(CustomSlider),
                 new PropertyMetadata(null));
 
+        public static readonly DependencyProperty TextBlockProperty =
+            DependencyProperty.Register(
+                nameof(TextBlock),
+                typeof(TextBlock),
+                typeof(CustomSlider),
+                new PropertyMetadata(null));
+
         public Category? Category
         {
             get => (Category?)GetValue(CategoryProperty);
             set => SetValue(CategoryProperty, value);
         }
 
-        public CustomSlider()
+        public TextBlock TextBlock
         {
-            
+            get => (TextBlock)GetValue(TextBlockProperty);
+            set => SetValue(TextBlockProperty, value);
         }
     }
 }

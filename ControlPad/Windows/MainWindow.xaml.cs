@@ -135,13 +135,13 @@ namespace ControlPad
         {
             if (sender is SliderBorder border)
             {
-                var dialog = new SelectCategoryPopup(border.CategorySlider);
+                var dialog = new SelectCategoryPopup(border.CustomSlider);
                 dialog.Owner = this;
                 bool? result = dialog.ShowDialog();
 
                 if (result == true)
                 {
-                    border.CategorySlider.Category = dialog.SelectedCategory;
+                    border.CustomSlider.Category = dialog.SelectedCategory;
                     DataHandler.SaveCategorySliders(DataHandler.CategorySlidersPath);
                 }
             }

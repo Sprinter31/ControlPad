@@ -140,31 +140,29 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <!-- Labels -->
-                <TextBlock Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="0" Text="Spotify"/>
-                <TextBlock Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="1" Text="Browser"/>
-                <TextBlock Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="2" Text="Satisfactory"/>
-                <TextBlock Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="3" Text="Discord"/>
-                <TextBlock Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="4" Text="Monitor Brightness"/>
-                <TextBlock Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="5" Text="Mic"/>
+                <!-- Text Blocks -->
+                <TextBlock x:Name="TextBlock1" Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="0" Text=""/>
+                <TextBlock x:Name="TextBlock2" Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="1" Text=""/>
+                <TextBlock x:Name="TextBlock3" Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="2" Text=""/>
+                <TextBlock x:Name="TextBlock4" Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="3" Text=""/>
+                <TextBlock x:Name="TextBlock5" Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="4" Text=""/>
+                <TextBlock x:Name="TextBlock6" Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="5" Text=""/>
 
-                
-                
                 <!-- Border -->
-                <local:SliderBorder x:Name="SliderCell1" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="0" MouseLeftButtonDown="SliderCell_Click" CategorySlider="{Binding ElementName=Slider1}"/>
-                <local:SliderBorder x:Name="SliderCell2" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="1" MouseLeftButtonDown="SliderCell_Click" CategorySlider="{Binding ElementName=Slider2}"/>
-                <local:SliderBorder x:Name="SliderCell3" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="2" MouseLeftButtonDown="SliderCell_Click" CategorySlider="{Binding ElementName=Slider3}"/>
-                <local:SliderBorder x:Name="SliderCell4" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="3" MouseLeftButtonDown="SliderCell_Click" CategorySlider="{Binding ElementName=Slider4}"/>
-                <local:SliderBorder x:Name="SliderCell5" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="4" MouseLeftButtonDown="SliderCell_Click" CategorySlider="{Binding ElementName=Slider5}"/>
-                <local:SliderBorder x:Name="SliderCell6" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="5" MouseLeftButtonDown="SliderCell_Click" CategorySlider="{Binding ElementName=Slider6}"/>
+                <local:SliderBorder x:Name="SliderCell1" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="0" MouseLeftButtonDown="SliderCell_Click" CustomSlider="{Binding ElementName=Slider1}"/>
+                <local:SliderBorder x:Name="SliderCell2" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="1" MouseLeftButtonDown="SliderCell_Click" CustomSlider="{Binding ElementName=Slider2}"/>
+                <local:SliderBorder x:Name="SliderCell3" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="2" MouseLeftButtonDown="SliderCell_Click" CustomSlider="{Binding ElementName=Slider3}"/>
+                <local:SliderBorder x:Name="SliderCell4" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="3" MouseLeftButtonDown="SliderCell_Click" CustomSlider="{Binding ElementName=Slider4}"/>
+                <local:SliderBorder x:Name="SliderCell5" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="4" MouseLeftButtonDown="SliderCell_Click" CustomSlider="{Binding ElementName=Slider5}"/>
+                <local:SliderBorder x:Name="SliderCell6" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="5" MouseLeftButtonDown="SliderCell_Click" CustomSlider="{Binding ElementName=Slider6}"/>
 
                 <!-- Slider -->
-                <local:CustomSlider x:Name="Slider1" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center"/>
-                <local:CustomSlider x:Name="Slider2" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center"/>
-                <local:CustomSlider x:Name="Slider3" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center"/>
-                <local:CustomSlider x:Name="Slider4" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center"/>
-                <local:CustomSlider x:Name="Slider5" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center"/>
-                <local:CustomSlider x:Name="Slider6" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="5" HorizontalAlignment="Center"/>
+                <local:CustomSlider x:Name="Slider1" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" TextBlock="{Binding ElementName=TextBlock1}"/>
+                <local:CustomSlider x:Name="Slider2" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" TextBlock="{Binding ElementName=TextBlock2}"/>
+                <local:CustomSlider x:Name="Slider3" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" TextBlock="{Binding ElementName=TextBlock3}"/>
+                <local:CustomSlider x:Name="Slider4" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" TextBlock="{Binding ElementName=TextBlock4}"/>
+                <local:CustomSlider x:Name="Slider5" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center" TextBlock="{Binding ElementName=TextBlock5}"/>
+                <local:CustomSlider x:Name="Slider6" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="5" HorizontalAlignment="Center" TextBlock="{Binding ElementName=TextBlock6}"/>
 
                 <!-- Mute Buttons -->
                 <Button x:Name="Switch1" Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="0" Content="Mute"/>

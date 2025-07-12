@@ -12,12 +12,12 @@ namespace ControlPad
     {
         public static readonly DependencyProperty SliderProperty =
         DependencyProperty.Register(
-            nameof(CategorySlider),
+            nameof(CustomSlider),
             typeof(CustomSlider),
             typeof(SliderBorder),
             new FrameworkPropertyMetadata(null));
 
-        public CustomSlider CategorySlider
+        public CustomSlider CustomSlider
         {
             get => (CustomSlider)GetValue(SliderProperty);
             set => SetValue(SliderProperty, value);
