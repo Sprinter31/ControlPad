@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPad"
         mc:Ignorable="d"
+        
+        WindowStartupLocation="CenterOwner"
         Title="Categories" Height="420" Width="438">
     <Grid>
         <Grid.ColumnDefinitions>

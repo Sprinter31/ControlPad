@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPad.Windows"
         mc:Ignorable="d"
+        
+        WindowStartupLocation="CenterOwner"
         Title="Please select category" Height="115" Width="384" ResizeMode="NoResize">
     <Grid>
 

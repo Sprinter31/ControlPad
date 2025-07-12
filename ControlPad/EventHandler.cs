@@ -51,8 +51,8 @@ namespace ControlPad
         }
         private float SliderToFloat(int value)
         {
-            value -= 2;
-            return (float)value / 1020.0f;
+            value -= 1;
+            return Math.Min((float)value / 1022.0f, 1);
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using SW = System.Windows;
+using System.Diagnostics;
 
 namespace ControlPad
 {

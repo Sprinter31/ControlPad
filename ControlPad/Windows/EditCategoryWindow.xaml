@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPad.Windows"
         mc:Ignorable="d"
+        
+        WindowStartupLocation="CenterOwner"
         Title="EditCategoryWindow" Height="420" Width="438">
     <Grid>
         <Grid.RowDefinitions>
