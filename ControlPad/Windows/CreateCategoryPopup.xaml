@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPad.Windows"
         mc:Ignorable="d"
+        
+        WindowStartupLocation="CenterOwner"
         Title="Please enter name" Height="110" Width="400">
     <Grid>
         <TextBox x:Name="tb_CategoryName" Margin="10,10,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
