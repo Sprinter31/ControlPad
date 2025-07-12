@@ -49,9 +49,6 @@ namespace ControlPad
             MMDevice mic = _enum.GetDefaultAudioEndpoint(DataFlow.Capture, Role.Communications);
             mic.AudioEndpointVolume.MasterVolumeLevelScalar = volume;
         }
-        public void AdjustProcessVolume(string processName, float adjustment) => SetProcessVolume(processName, GetProcessVolume(processName) + adjustment);
-        public void AdjustSystemVolume(float adjustment) => SetSystemVolume(GetSystemVolume() + adjustment);
-        public void AdjustMicVolume(float adjustment) => SetMicVolume(GetMicVolume() + adjustment);
 
         public void MuteProcess(string processName, bool mute)
         {

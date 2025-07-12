@@ -5,7 +5,6 @@ namespace ControlPad.Windows
 {
     public partial class SelectCategoryPopup : Window
     {
-        private bool remove = false;
         public Category SelectedCategory { get; set; }
         private CategorySlider categorySlider;
         public SelectCategoryPopup(CategorySlider categorySlider)
@@ -23,18 +22,14 @@ namespace ControlPad.Windows
                 SelectedCategory = selectedCategory;
                 DialogResult = true;
             }
-            else if(cb_Categories.SelectedItem == null && remove)
+            else if(cb_Categories.SelectedItem == null)
             {
                 categorySlider.Category = null;
                 DialogResult = true;
             }
         }
 
-        private void btn_Remove_Click(object sender, RoutedEventArgs e)
-        {
-            cb_Categories.SelectedItem = null;
-            remove = true;
-        }
+        private void btn_Remove_Click(object sender, RoutedEventArgs e) => cb_Categories.SelectedItem = null;
 
         private void SetDropDown()
         {
