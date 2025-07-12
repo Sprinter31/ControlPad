@@ -13,10 +13,10 @@ namespace ControlPad
     public static class DataHandler
     {
         public static string CategoryPath { get; } = @"Resources\Categories.json";
-        public static string CategorySlidersPath { get; } = @"Resources\CategorySliders.txt";
+        public static string CategorySlidersPath { get; } = @"Resources\CustomSliders.txt";
         public static ObservableCollection<Category> Categories { get; set; } = new ObservableCollection<Category>();
         public static ObservableCollection<Category> CategoriesTemp { get; set; } = new ObservableCollection<Category>();
-        public static CategorySlider[] CategorySliders { get; set; } = new CategorySlider[6];
+        public static CustomSlider[] CategorySliders { get; set; } = new CustomSlider[6];
 
         public static void SaveDataToFile<T>(string path, List<T> data)
         {
@@ -67,7 +67,7 @@ namespace ControlPad
 
         public static void RemoveCategoriesFromSlidersIfTheyGotDeleted()
         {
-            foreach (CategorySlider categorySlider in DataHandler.CategorySliders)
+            foreach (CustomSlider categorySlider in DataHandler.CategorySliders)
                 if (categorySlider.Category != null && !DataHandler.Categories.Any(c => c.Id == categorySlider.Category.Id))
                     categorySlider.Category = null;
             DataHandler.SaveCategorySliders(DataHandler.CategorySlidersPath);

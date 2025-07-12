@@ -8,13 +8,13 @@ using System.Windows.Controls;
 
 namespace ControlPad
 {
-    public class CategorySlider : Slider
+    public class CustomSlider : Slider
     {
         public static readonly DependencyProperty CategoryProperty =
             DependencyProperty.Register(
                 nameof(Category),
                 typeof(Category),
-                typeof(CategorySlider),
+                typeof(CustomSlider),
                 new PropertyMetadata(null));
 
         public Category? Category
@@ -23,7 +23,7 @@ namespace ControlPad
             set => SetValue(CategoryProperty, value);
         }
 
-        public CategorySlider()
+        public CustomSlider()
         {
             
         }

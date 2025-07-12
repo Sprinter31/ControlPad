@@ -6,8 +6,8 @@ namespace ControlPad.Windows
     public partial class SelectCategoryPopup : Window
     {
         public Category SelectedCategory { get; set; }
-        private CategorySlider categorySlider;
-        public SelectCategoryPopup(CategorySlider categorySlider)
+        private CustomSlider categorySlider;
+        public SelectCategoryPopup(CustomSlider categorySlider)
         {
             InitializeComponent();
             this.categorySlider = categorySlider;

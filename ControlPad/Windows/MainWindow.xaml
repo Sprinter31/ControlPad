@@ -159,12 +159,12 @@
                 <local:SliderBorder x:Name="SliderCell6" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="5" MouseLeftButtonDown="SliderCell_Click" CategorySlider="{Binding ElementName=Slider6}"/>
 
                 <!-- Slider -->
-                <local:CategorySlider x:Name="Slider1" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center"/>
-                <local:CategorySlider x:Name="Slider2" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center"/>
-                <local:CategorySlider x:Name="Slider3" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center"/>
-                <local:CategorySlider x:Name="Slider4" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center"/>
-                <local:CategorySlider x:Name="Slider5" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center"/>
-                <local:CategorySlider x:Name="Slider6" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="5" HorizontalAlignment="Center"/>
+                <local:CustomSlider x:Name="Slider1" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center"/>
+                <local:CustomSlider x:Name="Slider2" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center"/>
+                <local:CustomSlider x:Name="Slider3" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center"/>
+                <local:CustomSlider x:Name="Slider4" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center"/>
+                <local:CustomSlider x:Name="Slider5" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center"/>
+                <local:CustomSlider x:Name="Slider6" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="5" HorizontalAlignment="Center"/>
 
                 <!-- Mute Buttons -->
                 <Button x:Name="Switch1" Style="{StaticResource SquareButton}" Grid.Row="2" Grid.Column="0" Content="Mute"/>

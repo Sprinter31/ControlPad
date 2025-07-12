@@ -24,7 +24,7 @@ namespace ControlPad
                 int newValue = kvp.Value;
                 this.values.TryGetValue(key, out int oldValue);
 
-                if (name.StartsWith("Slider", StringComparison.OrdinalIgnoreCase) /*&& Math.Abs(oldValue - newValue) > 1*/)
+                if (name.StartsWith("Slider", StringComparison.OrdinalIgnoreCase) && Math.Abs(oldValue - newValue) > 1)
                 {
                     UpdateSlider(key, newValue);                   
                 }
@@ -40,7 +40,7 @@ namespace ControlPad
         {
             MainWindow.Dispatcher.Invoke(() => MainWindow.UpdateUISlider((Slider)slider, value));
 
-            CategorySlider categorySlider = (CategorySlider)slider;
+            CustomSlider categorySlider = (CustomSlider)slider;
             if (categorySlider.Category != null)
                 foreach(string processName in categorySlider.Category.Processes)
                     Task.Run(() => audioController.SetProcessVolume(processName, SliderToFloat(value)));          

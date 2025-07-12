@@ -20,7 +20,7 @@ namespace ControlPad
         {
             InitializeComponent();
 
-            DataHandler.CategorySliders = new CategorySlider[] { Slider1, Slider2, Slider3, Slider4, Slider5, Slider6 };            
+            DataHandler.CategorySliders = new CustomSlider[] { Slider1, Slider2, Slider3, Slider4, Slider5, Slider6 };            
             DataHandler.Categories = new ObservableCollection<Category>(DataHandler.LoadDataFromFile<Category>(DataHandler.CategoryPath));
             DataHandler.LoadCategorySliders(DataHandler.CategorySlidersPath);
 
