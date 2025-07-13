@@ -135,6 +135,12 @@
 
 
     <DockPanel>
+        <ui:TitleBar
+             DockPanel.Dock="Top" x:Name="MyTitleBar"
+                     Title="Control Pad"
+                     Icon="{ui:SymbolIcon Fluent24}"
+                     ButtonsBackground="Transparent"/>
+        
         <!-- Menu bar -->
 
         <ui:TitleBar
