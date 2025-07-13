@@ -10,24 +10,106 @@
         Width="651"
         Height="600"
         Closing="mainWindow_Closing"
-        Closed="mainWindow_Closed">
+        Closed="mainWindow_Closed"
+        WindowBackdropType="Mica"
+        ExtendsContentIntoTitleBar="True"
+        ResizeMode="NoResize">
 
     <ui:FluentWindow.Resources>
-
+        
+        
         <!-- Slider Style -->
+        <Style x:Key="TopSlider" TargetType="RepeatButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Rectangle Fill="Transparent"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="BottomSlider" TargetType="RepeatButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Border CornerRadius="0,0,4,4" Width="4" Background="#3dabff"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style x:Key="VerticalBarSlider" TargetType="Slider">
             <Setter Property="Orientation"   Value="Vertical"/>
             <Setter Property="Maximum"       Value="1024"/>
             <Setter Property="IsEnabled"     Value="False"/>
             <Setter Property="Margin"        Value="10"/>
-        </Style>
+            <Setter Property="TickFrequency" Value="102.4"/>
 
-        <!-- Black Buttons -->
-        <Style x:Key="SquareButton" TargetType="Button">
-            <Setter Property="Width"        Value="60"/>
-            <Setter Property="Height"       Value="60"/>
-            <Setter Property="Margin"       Value="10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Slider">
+                        <Grid>
+                            <!-- Linke TickBar -->
+                            <TickBar x:Name="TickBarLeft"
+                             Fill="#454545"
+                             Placement="Left"
+                             Height="Auto"
+                             Width="6"
+                             Margin="0,0,28,0"
+                             IsDirectionReversed="True"
+                             TickFrequency="{TemplateBinding TickFrequency}"/>
+                            
+                            <!-- Rechte TickBar -->
+                            <TickBar x:Name="TickBarRight"
+                             Fill="#454545"
+                             Placement="Right"
+                             Height="Auto"
+                             Width="6"
+                             Margin="28,0,0,0"
+                             IsDirectionReversed="False"
+                             TickFrequency="{TemplateBinding TickFrequency}"/>
+                            
+                            <Rectangle Width="4"
+                               Fill="#999a9b"
+                               HorizontalAlignment="Center"
+                               RadiusX="2"
+                               RadiusY="2"/>
+
+                            <Track x:Name="PART_Track"
+                                   Orientation="Vertical">
+
+                                <!-- Upper area (Decrease) -->
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Command="Slider.DecreaseLarge"
+                                                  Style="{StaticResource BottomSlider}"/>
+                                </Track.DecreaseRepeatButton>
+
+                                <!-- lower area (Increase) -->
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Command="Slider.IncreaseLarge"
+                                                  Style="{StaticResource TopSlider}"/>
+                                </Track.IncreaseRepeatButton>
+
+                                <!-- Thumb -->
+                                <Track.Thumb>
+                                    <Thumb Width="24" Height="24">
+                                        <Thumb.Template>
+                                            <ControlTemplate TargetType="Thumb">
+                                                <Border Background="#3dabff"
+                                                        BorderBrush="#454545"
+                                                        BorderThickness="4"
+                                                        CornerRadius="100"/>
+                                            </ControlTemplate>
+                                        </Thumb.Template>
+                                    </Thumb>
+                                </Track.Thumb>
+
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
+        
 
         <Style x:Key="SliderLabel" TargetType="TextBlock">
             <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -40,11 +122,13 @@
 
         <!-- Border -->
         <Style x:Key="Border" TargetType="Border">
-            <Setter Property="BorderBrush"      Value="Black"/>
+            <Setter Property="BorderBrush"      Value="#2d2d2d"/>
             <Setter Property="Background"       Value="Transparent"/>
             <Setter Property="Cursor"           Value="Hand"/>
             <Setter Property="Visibility"       Value="Hidden"/>
-            <Setter Property="BorderThickness"  Value="1"/>
+            <Setter Property="BorderThickness"  Value="4"/>
+            <Setter Property="Margin"           Value="1"/>
+            <Setter Property="CornerRadius"     Value="4"/>
             <Setter Property="Panel.ZIndex"     Value="1"/>
         </Style>
     </ui:FluentWindow.Resources>
@@ -52,6 +136,15 @@
 
     <DockPanel>
         <!-- Menu bar -->
+
+        <ui:TitleBar
+             DockPanel.Dock="Top" x:Name="MyTitleBar"
+                     Title="Control Pad"
+                     ButtonsBackground="Transparent"
+                     ShowMaximize="False"
+                     ShowMinimize="False"
+                     />
+
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
                 <MenuItem x:Name="btn_ManageSliderCategories" Header="_Manage Slider Categories" Click="ManageSliderCategories_Click"/>
@@ -67,6 +160,25 @@
             </MenuItem>
         </Menu>
 
+        <ui:NavigationView
+            MinHeight="300"
+            Margin="0"
+            Width="100"
+            OpenPaneLength="220"
+            PaneDisplayMode="LeftFluent"
+            IsPaneToggleVisible="False"
+            IsBackButtonVisible="Collapsed">
+            <ui:NavigationView.MenuItems>
+                <ui:NavigationViewItem Content="Home" Icon="{ui:SymbolIcon Home24}"/>
+                <ui:NavigationViewItem Content="Categories" Icon="{ui:SymbolIcon Library24}"/>
+            </ui:NavigationView.MenuItems>
+
+            <ui:NavigationView.FooterMenuItems>
+                <ui:NavigationViewItem Content="Settings" Icon="{ui:SymbolIcon Settings24}"/>
+                <ui:NavigationViewItem Content="Exit" Icon="{ui:SymbolIcon ArrowExit20}"/>
+            </ui:NavigationView.FooterMenuItems>
+        </ui:NavigationView>
+        
         <!-- ===== Layout ===== -->
         <Grid>
             <Grid Height="500">
@@ -105,7 +217,6 @@
                 <local:SliderBorder x:Name="SliderCell6" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="5" MouseLeftButtonDown="SliderCell_Click" CustomSlider="{Binding ElementName=Slider6}"/>
 
                 <!-- Slider -->
-                <Slider TickFrequency="102.4" TickPlacement="Both" Orientation="Vertical" Maximum="1024" Margin="10" IsEnabled="False" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"/>
                 <local:CustomSlider x:Name="Slider1" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" TextBlock="{Binding ElementName=TextBlock1}"/>
                 <local:CustomSlider x:Name="Slider2" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" TextBlock="{Binding ElementName=TextBlock2}"/>
                 <local:CustomSlider x:Name="Slider3" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" TextBlock="{Binding ElementName=TextBlock3}"/>
