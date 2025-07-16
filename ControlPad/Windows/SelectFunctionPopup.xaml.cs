@@ -12,43 +12,32 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Wpf.Ui.Controls;
 
 namespace ControlPad.Windows
 {
-    /// <summary>
-    /// Interaction logic for SelectFunctionPopup.xaml
-    /// </summary>
-    public partial class SelectFunctionPopup : Window
+    public partial class SelectFunctionPopup : FluentWindow
     {
         public SelectFunctionPopup()
         {
-            InitializeComponent();
-            
-            
+            InitializeComponent();          
         }
 
         private double currentHeight = 0;
-
         private void AddControl_Click(object sender, RoutedEventArgs e)
         {
-            var newControl = new ButtonFunction(); // Dein UserControl
+            var newControl = new ButtonFunction();
 
-            // Optional: Vor dem Hinzufügen berechnen, wie viel Höhe es brauchen wird
             newControl.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
             double controlHeight = newControl.DesiredSize.Height;
 
-            // Fallback falls DesiredSize noch 0 ist (z. B. beim ersten Mal)
             if (controlHeight == 0)
-                controlHeight = 100; // Annahme oder feste Höhe
+                controlHeight = 100; 
 
             if (currentHeight + controlHeight <= MaxHeight)
             {
                 ControlContainer.Children.Add(newControl);
                 currentHeight += controlHeight;
-            }
-            else
-            {
-                System.Windows.MessageBox.Show("Maximale Höhe erreicht.");
             }
         }
     }

@@ -165,5 +165,12 @@ namespace ControlPad
         private void Close_Click(object sender, RoutedEventArgs e) => this.Close();
 
         private void Exit_Click(object sender, RoutedEventArgs e) => this.Close();
+
+        private void Switch7_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new SelectFunctionPopup();
+            dialog.Owner = this;
+            dialog.ShowDialog();
+        }
     }   
 }

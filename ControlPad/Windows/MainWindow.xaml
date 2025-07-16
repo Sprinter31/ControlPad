@@ -16,8 +16,6 @@
         ResizeMode="NoResize">
 
     <ui:FluentWindow.Resources>
-        
-        
         <!-- Slider Style -->
         <Style x:Key="TopSlider" TargetType="RepeatButton">
             <Setter Property="Template">
@@ -136,20 +134,11 @@
 
     <DockPanel>
         <ui:TitleBar
-             DockPanel.Dock="Top" x:Name="MyTitleBar"
+             DockPanel.Dock="Top" x:Name="titleBarMainWindow"
                      Title="Control Pad"
                      Icon="{ui:SymbolIcon Fluent24}"
                      ButtonsBackground="Transparent"/>
-        
-        <!-- Menu bar -->
-
-        <ui:TitleBar
-             DockPanel.Dock="Top" x:Name="MyTitleBar"
-                     Title="Control Pad"
-                     ButtonsBackground="Transparent"
-                     ShowMaximize="False"
-                     ShowMinimize="False"
-                     />
+                
 
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
@@ -169,8 +158,8 @@
         <ui:NavigationView
             MinHeight="300"
             Margin="0"
-            Width="100"
-            OpenPaneLength="220"
+            
+            OpenPaneLength="60"
             PaneDisplayMode="LeftFluent"
             IsPaneToggleVisible="False"
             IsBackButtonVisible="Collapsed">
@@ -240,7 +229,7 @@
 
                 <!-- Button Column -->
                 <StackPanel Grid.Row="1" Grid.Column="6">
-                    <Button x:Name="Switch7" Width="60" Height="60" Margin="10" Content="Pause"/>
+                    <Button x:Name="Switch7" Width="60" Height="60" Margin="10" Content="Pause" Click="Switch7_Click"/>
                     <Button x:Name="Switch8" Width="60" Height="60" Margin="10" Content="Next"/>
                     <Button x:Name="Switch9" Width="60" Height="60" Margin="10" Content="Discord"/>
                     <Button x:Name="Switch10" Width="60" Height="60" Margin="10" Content="Browser"/>

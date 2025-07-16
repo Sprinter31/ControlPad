@@ -1,15 +1,36 @@
-﻿<Window x:Class="ControlPad.Windows.SelectFunctionPopup"
+﻿<ui:FluentWindow x:Class="ControlPad.Windows.SelectFunctionPopup"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPad.Windows"
         mc:Ignorable="d"
-        Title="SelectFunctionPopup" Height="600" Width="450">
+        Title="SelectFunctionPopup" Height="600" Width="450" Background="#1A1A1A">
     <DockPanel>
-        <Button Content="Add Control" DockPanel.Dock="Top" Click="AddControl_Click"/>
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel x:Name="ControlContainer"/>
-        </ScrollViewer>
+        <ui:TitleBar
+             DockPanel.Dock="Top" x:Name="TitleBarSelectFunctionPopup"
+             Title="Select a function"
+             Icon="{ui:SymbolIcon Fluent24}"           
+             ButtonsBackground="Transparent"/>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Select type:" FontSize="14" Margin="10 10"/>
+            <ComboBox Width="310" Margin="10 32" VerticalAlignment="Top"/>
+            <Button Content="Add Control" Click="AddControl_Click" Height="37" Width="100" Margin="10 32" VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Column="1"/>
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1" Grid.ColumnSpan="2">
+                <StackPanel x:Name="ControlContainer"/>
+            </ScrollViewer>
+        </Grid>
     </DockPanel>
-</Window>
+</ui:FluentWindow>
