@@ -17,9 +17,7 @@
         </Grid.ColumnDefinitions>
 
         <ComboBox x:Name="cb_Categories" Margin="10,10,10,0" VerticalAlignment="Top" Height="25"/>
-        <Button x:Name="btn_Remove" Width="28" Height="25" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,10,0,0" Click="btn_Remove_Click">
-            <Image x:Name="ButtonImage"  Stretch="Fill"/>
-        </Button>
+        <Button x:Name="btn_Remove" Content="❌" Foreground="Red" Width="28" Height="25" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,10,0,0" Click="btn_Remove_Click"/>
 
         <Button x:Name="btn_Cancel" Content="Cancel" Margin="0,0,10,10" HorizontalAlignment="Right" Width="64" Height="20" VerticalAlignment="Bottom" Click="btn_Cancel_Click"/>
         <Button x:Name="btn_Apply" Content="Apply" Margin="0,0,80,10" HorizontalAlignment="Right" Width="64" Height="20" VerticalAlignment="Bottom" Click="btn_Apply_Click"/>

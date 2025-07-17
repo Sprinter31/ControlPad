@@ -37,7 +37,7 @@ namespace ControlPad
                 string json = File.ReadAllText(path);
                 list = JsonSerializer.Deserialize<List<T>>(json) ?? new List<T>();
             }
-            
+
             return list;
         }
 
@@ -62,7 +62,7 @@ namespace ControlPad
                     if (int.TryParse(lines[i].Split(':')[1].Trim(), out int categoryId))
                         CategorySliders[i].Category = Categories.First(c => c.Id == categoryId);
                 }
-            }            
+            }
         }
 
         public static void RemoveCategoriesFromSlidersIfTheyGotDeleted()
@@ -91,5 +91,15 @@ namespace ControlPad
                 else
                     categorySlider.TextBlock.Text = "";
         }
+
+        public static List<string> FunctionTypes = new() 
+        {
+            "Mute Process",
+            "Mute Main Audio Stream",
+            "Mute Microphone",
+            "Open Process",
+            "Open Website",
+            "Key Press",
+        };
     }
 }

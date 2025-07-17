@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPad.Windows"
         mc:Ignorable="d"
-        Title="SelectFunctionPopup" Height="600" Width="450" Background="#1A1A1A">
+        Title="SelectFunctionPopup" Height="600" Width="450">
     <DockPanel>
         <ui:TitleBar
              DockPanel.Dock="Top" x:Name="TitleBarSelectFunctionPopup"
@@ -24,12 +24,12 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Text="Select type:" FontSize="14" Margin="10 10"/>
-            <ComboBox Width="310" Margin="10 32" VerticalAlignment="Top"/>
-            <Button Content="Add Control" Click="AddControl_Click" Height="37" Width="100" Margin="10 32" VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Column="1"/>
+            <TextBlock Text="Select type:" FontSize="14" Margin="10 9"/>
+            <ComboBox x:Name="ComboBox_Type" Width="310" Margin="10 32" VerticalAlignment="Top"/>
+            <Button Content="Add Function" Click="AddFunction_Click" Height="37" Width="100" Margin="10 32" VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Column="1"/>
 
             <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1" Grid.ColumnSpan="2">
-                <StackPanel x:Name="ControlContainer"/>
+                <StackPanel x:Name="FunctionsContainer"/>
             </ScrollViewer>
         </Grid>
     </DockPanel>

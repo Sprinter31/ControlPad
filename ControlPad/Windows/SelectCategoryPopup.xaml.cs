@@ -11,8 +11,7 @@ namespace ControlPad.Windows
         public SelectCategoryPopup(CustomSlider categorySlider)
         {
             InitializeComponent();
-            this.categorySlider = categorySlider;
-            ButtonImage.Source = new BitmapImage(new Uri(@"\Resources\x.png", UriKind.Relative));
+            this.categorySlider = categorySlider;          
             SetDropDown();            
         }       
 

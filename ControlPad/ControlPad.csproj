@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <None Remove="Resources\logo.ico" />
-    <None Remove="Resources\x.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,7 +26,6 @@
     <Content Include="Resources\logo.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\x.png" />
   </ItemGroup>
 
 </Project>
