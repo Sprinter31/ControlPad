@@ -168,7 +168,7 @@ namespace ControlPad
 
         private void Switch7_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new SelectFunctionPopup();
+            var dialog = new SelectActionPopup();
             dialog.Owner = this;
             dialog.ShowDialog();
         }

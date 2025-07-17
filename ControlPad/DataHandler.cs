@@ -92,7 +92,7 @@ namespace ControlPad
                     categorySlider.TextBlock.Text = "";
         }
 
-        public static List<string> FunctionTypes = new() 
+        public static List<string> ActionTypes = new() 
         {
             "Mute Process",
             "Mute Main Audio Stream",

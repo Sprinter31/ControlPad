@@ -10,17 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Wpf.Ui.Controls;
 
 namespace ControlPad.Windows
 {
     /// <summary>
-    /// Interaction logic for ButtonFunction.xaml
+    /// Interaction logic for ProcessActionSettingsPopup.xaml
     /// </summary>
-    public partial class ButtonFunction : UserControl
+    public partial class ProcessActionSettingsPopup : FluentWindow
     {
-        public ButtonFunction()
+        public ProcessActionSettingsPopup()
         {
             InitializeComponent();
         }
