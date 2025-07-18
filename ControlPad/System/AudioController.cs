@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Collections.ObjectModel;
 
 namespace ControlPad
 {
@@ -86,6 +87,22 @@ namespace ControlPad
         public float GetMicVolume()
         {
             return 0;
+        }
+
+        public List<MMDevice> GetMics()
+        {
+            var mics = new List<MMDevice>();
+            var enumerator = new MMDeviceEnumerator();
+            var devices = enumerator.EnumerateAudioEndPoints(
+                DataFlow.Capture,
+                DeviceState.Active
+            );
+           
+            foreach (var device in devices)
+            {
+                mics.Add(device);
+            }
+            return mics;
         }
     }
 }

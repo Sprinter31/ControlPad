@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Wpf.Ui.Controls;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ControlPad.Windows
 {
@@ -55,12 +51,28 @@ namespace ControlPad.Windows
             switch (ComboBox_Type.SelectedItem.ToString())
             {
                 case "Mute Process":
-                    var dialog = new ManageCategoriesWindow();
-                    dialog.Owner = this;
-                    bool? result = dialog.ShowDialog();
-                    break;
+                    {
+                        var processDialog = new SelectProcessPopup { Owner = this };
+                        if (processDialog.ShowDialog() == true && sender is System.Windows.Controls.Button btn)
+                        {
+                            var grid = (Grid)btn.Parent;
+                            var buttonAction = (ButtonAction)grid.Parent;
+                            buttonAction.Text.Text = $"Mute Process: {processDialog.SelectedProcessName}";
+                        }
+                        break;
+                    }                   
                 case "Mute Main Audio Stream": break;
-                case "Mute Microphone": break;
+                case "Mute Microphone":
+                    {
+                        var micDialog = new SelectMicPopup { Owner = this };
+                        if (micDialog.ShowDialog() == true && sender is System.Windows.Controls.Button btn)
+                        {
+                            var grid = (Grid)btn.Parent;
+                            var buttonAction = (ButtonAction)grid.Parent;
+                            buttonAction.Text.Text = $"Mute Microphone: {micDialog.SelectedMicName}";
+                        }
+                        break;
+                    }                   
                 case "Open Process": break;
                 case "Open Website": break;
                 case "Key Press": break;

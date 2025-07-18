@@ -20,7 +20,7 @@ namespace ControlPad.Windows
 
         private void btn_AddProcess_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new ProcessSelectPopup();
+            var dialog = new SelectProcessPopup();
             dialog.Owner = this;
             bool? result = dialog.ShowDialog();
 

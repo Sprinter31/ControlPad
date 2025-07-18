@@ -4,26 +4,19 @@ using Wpf.Ui.Controls;
 
 namespace ControlPad
 {
-    /// <summary>
-    /// Interaction logic for ProcessSelectPopup.xaml
-    /// </summary>
-    public partial class ProcessSelectPopup : FluentWindow
-    {
+    public partial class SelectProcessPopup : FluentWindow
+    {       
         public string SelectedProcessName { get; private set; } = string.Empty;
 
-        public ProcessSelectPopup()
+        public SelectProcessPopup()
         {
-            InitializeComponent();
+            InitializeComponent();            
             cb_Processes.ItemsSource = Process.GetProcesses().Where(p => !string.IsNullOrEmpty(p.MainWindowTitle));
         }
 
         private void btn_Ok_Click(object sender, RoutedEventArgs e)
         {
-            if (cb_Processes.SelectedItem is not Process proc)
-            {
-                System.Windows.MessageBox.Show("");
-                return;
-            }
+            if (cb_Processes.SelectedItem is not Process proc) return;
 
             SelectedProcessName = proc.ProcessName;
             DialogResult = true;

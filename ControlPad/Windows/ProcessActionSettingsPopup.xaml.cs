@@ -13,16 +13,27 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Wpf.Ui.Controls;
 
-namespace ControlPad.Windows
+namespace ControlPad
 {
-    /// <summary>
-    /// Interaction logic for ProcessActionSettingsPopup.xaml
-    /// </summary>
     public partial class ProcessActionSettingsPopup : FluentWindow
     {
+        public string? ProcessName;
         public ProcessActionSettingsPopup()
         {
             InitializeComponent();
+        }
+
+        private void btn_SelectProcess_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new SelectProcessPopup();
+            dialog.Owner = this;
+            bool? result = dialog.ShowDialog();
+
+            if (result == true)
+            {
+                ProcessName = dialog.SelectedProcessName;
+                TextBlock_ProcessName.Text = ProcessName;
+            }
         }
     }
 }
