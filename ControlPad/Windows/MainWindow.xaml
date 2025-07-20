@@ -134,10 +134,10 @@
 
     <DockPanel>
         <ui:TitleBar
-             DockPanel.Dock="Top" x:Name="titleBarMainWindow"
-                     Title="Control Pad"
-                     Icon="{ui:SymbolIcon Fluent24}"/>
-                
+    DockPanel.Dock="Top"
+    x:Name="titleBarMainWindow"
+    Title="Control Pad"
+    Icon="{ui:ImageIcon 'pack://application:,,,/Resources/logo.ico'}" />
 
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">

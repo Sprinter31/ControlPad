@@ -8,23 +8,23 @@
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
         Title="Please select a runnning process" Width="400" Height="140" MinHeight="20" MinWidth="20">
-    
+
     <DockPanel>
         <ui:TitleBar
-     DockPanel.Dock="Top" x:Name="TitleBarSelectProcess"
-             Title="Please select a runnning process"
-             Icon="{ui:SymbolIcon Fluent24}"/>
+DockPanel.Dock="Top" x:Name="TitleBarSelectProcess"
+        Title="Please select a runnning process"
+        Icon="{ui:ImageIcon 'pack://application:,,,/Resources/logo.ico'}"/>
         
         <Grid>
             <ComboBox x:Name="cb_Processes"
                       HorizontalAlignment="Left"
                       VerticalAlignment="Top"
-                      Margin="10 5"
+                      Margin="10 10"
                       DisplayMemberPath="ProcessName"
                       Width="380"
                       IsEditable="False"/>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,40,10,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,45,10,0">
                 <Button x:Name="btn_Ok" Content="OK"  Width="70" Margin="0,0,6,0" Click="btn_Ok_Click"/>
                 <Button x:Name="btn_Cancel" Content="Cancel" Width="70" Click="btn_Cancel_Click"/>
             </StackPanel>

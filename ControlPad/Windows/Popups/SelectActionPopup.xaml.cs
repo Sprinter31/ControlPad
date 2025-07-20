@@ -9,8 +9,9 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using Wpf.Ui.Controls;
 using Microsoft.Win32;
+using System.Reflection.Metadata;
 
-namespace ControlPad.Windows
+namespace ControlPad
 {
     public partial class SelectActionPopup : FluentWindow
     {
@@ -50,15 +51,20 @@ namespace ControlPad.Windows
 
         private void btn_settings_Click(object sender, EventArgs e)
         {
-            switch (((ActionType)ComboBox_Type.SelectedItem).Type)
+            var btn = (System.Windows.Controls.Button)sender;
+            var buttonAction = (ButtonAction)((Grid)btn.Parent).Parent;
+
+            switch (buttonAction.ActionType.Type)
             {
                 case EActionType.MuteProcess:
                     {
                         var processDialog = new SelectProcessPopup { Owner = this };
-                        if (processDialog.ShowDialog() == true && sender is System.Windows.Controls.Button btn)
+                        processDialog.cb_Processes.Text = buttonAction.ActionProperty as string ?? processDialog.cb_Processes.Text;
+
+                        if (processDialog.ShowDialog() == true)
                         {
-                            ((ButtonAction)((Grid)btn.Parent).Parent)
-                                .TextBlock.Text = $"{DataHandler.ActionTypes[0].Description}: {processDialog.SelectedProcessName}";
+                            buttonAction.ActionProperty = processDialog.SelectedProcessName;
+                            buttonAction.TextBlock.Text = $"{buttonAction.ActionType.Description}: {processDialog.SelectedProcessName}";
                         }
                         break;
                     }
@@ -66,10 +72,12 @@ namespace ControlPad.Windows
                 case EActionType.MuteMic:
                     {
                         var micDialog = new SelectMicPopup { Owner = this };
-                        if (micDialog.ShowDialog() == true && sender is System.Windows.Controls.Button btn)
+                        micDialog.cb_Mics.Text = buttonAction.ActionProperty as string ?? micDialog.cb_Mics.Text;
+
+                        if (micDialog.ShowDialog() == true)
                         {
-                            ((ButtonAction)((Grid)btn.Parent).Parent)
-                                .TextBlock.Text = $"{DataHandler.ActionTypes[2].Description}: {micDialog.SelectedMicName}";
+                            buttonAction.ActionProperty = micDialog.SelectedMic;
+                            buttonAction.TextBlock.Text = $"{buttonAction.ActionType.Description}: {micDialog.SelectedMic?.DeviceFriendlyName}";
                         }
                         break;
                     }                   
@@ -84,20 +92,22 @@ namespace ControlPad.Windows
                             DefaultExt = ".exe"
                         };
 
-                        if (fileDialog.ShowDialog() == true && sender is System.Windows.Controls.Button btn)
+                        if (fileDialog.ShowDialog() == true)
                         {
-                            ((ButtonAction)((Grid)btn.Parent).Parent)
-                                .TextBlock.Text = $"{DataHandler.ActionTypes[3].Description}: {fileDialog.SafeFileName}";
+                            buttonAction.ActionProperty = fileDialog.FileName;
+                            buttonAction.TextBlock.Text = $"{buttonAction.ActionType.Description}: {fileDialog.SafeFileName}";
                         }
                         break;
                     }                   
                 case EActionType.OpenWebsite: 
                     {
                         var websiteDialog = new EnterWebsitePopup { Owner = this };
-                        if (websiteDialog.ShowDialog() == true && sender is System.Windows.Controls.Button btn)
+                        websiteDialog.tb_WebsiteURL.Text = buttonAction.ActionProperty as string ?? websiteDialog.tb_WebsiteURL.Text;
+
+                        if (websiteDialog.ShowDialog() == true)
                         {
-                            ((ButtonAction)((Grid)btn.Parent).Parent)
-                                .TextBlock.Text = $"{DataHandler.ActionTypes[4].Description}: {websiteDialog.DisplayURL}";
+                            buttonAction.ActionProperty = websiteDialog.URL;
+                            buttonAction.TextBlock.Text = $"{buttonAction.ActionType.Description}: {websiteDialog.DisplayURL}";
                         }
                         break;
                     }

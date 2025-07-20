@@ -33,9 +33,7 @@
             <RowDefinition Height="12*"/>
         </Grid.RowDefinitions>
 
-        <ui:TitleBar Grid.ColumnSpan="2" Title="Categories">
-            
-        </ui:TitleBar>
+        <ui:TitleBar Grid.ColumnSpan="2" Title="Categories" Icon="{ui:ImageIcon 'pack://application:,,,/Resources/logo.ico'}"/>
 
 
         <Border BorderThickness="1" Grid.Row="1" Margin="30,30,30,30"

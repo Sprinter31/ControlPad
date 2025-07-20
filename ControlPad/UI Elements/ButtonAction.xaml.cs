@@ -17,8 +17,8 @@ namespace ControlPad
 {
     public partial class ButtonAction : UserControl
     {
-        public ActionType? ActionType;
-        public object? actionProperty;
+        public ActionType ActionType;
+        public object? ActionProperty;
         public ButtonAction(ActionType actionType)
         {
             InitializeComponent();

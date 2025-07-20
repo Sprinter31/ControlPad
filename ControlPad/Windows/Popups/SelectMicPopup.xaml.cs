@@ -20,7 +20,7 @@ namespace ControlPad
     public partial class SelectMicPopup : FluentWindow
     {
         AudioController audioController = new AudioController();
-        public string? SelectedMicName { get; set; }
+        public MMDevice? SelectedMic { get; set; }
         public SelectMicPopup()
         {
             InitializeComponent();
@@ -32,7 +32,7 @@ namespace ControlPad
         {
             if (cb_Mics.SelectedItem is not MMDevice device) return;
 
-            SelectedMicName = device.DeviceFriendlyName;
+            SelectedMic = device;
             DialogResult = true;
         }
 

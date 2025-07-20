@@ -14,7 +14,7 @@
         <ui:TitleBar
  DockPanel.Dock="Top" x:Name="TitleBarSelectMic"
          Title="Please select a microphone"
-         Icon="{ui:SymbolIcon Fluent24}"/>
+         Icon="{ui:ImageIcon 'pack://application:,,,/Resources/logo.ico'}"/>
 
         <Grid>
             <ComboBox x:Name="cb_Mics"

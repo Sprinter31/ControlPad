@@ -13,7 +13,7 @@
         <ui:TitleBar
      DockPanel.Dock="Top" x:Name="TitleBarEnterWebsite"
              Title="Please enter a website URL"
-             Icon="{ui:SymbolIcon Fluent24}"/>
+             Icon="{ui:ImageIcon 'pack://application:,,,/Resources/logo.ico'}"/>
         
         <Grid>
             <ui:TextBox x:Name="tb_WebsiteURL"
