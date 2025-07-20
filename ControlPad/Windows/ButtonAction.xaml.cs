@@ -17,10 +17,12 @@ namespace ControlPad
 {
     public partial class ButtonAction : UserControl
     {
-        public string? process;
-        public ButtonAction()
+        public ActionType? ActionType;
+        public object? actionProperty;
+        public ButtonAction(ActionType actionType)
         {
             InitializeComponent();
+            ActionType = actionType;
         }
     }
 }

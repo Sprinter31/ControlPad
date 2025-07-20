@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Collections.ObjectModel;
 
 namespace ControlPad
@@ -63,30 +62,6 @@ namespace ControlPad
         public void MuteMic(bool mute)
         {
 
-        }
-
-        public float GetProcessVolume(string processName)
-        {
-            using var device = _enum.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
-            var sessions = device?.AudioSessionManager.Sessions;
-
-            for (int i = 0; i < sessions?.Count; i++)
-            {
-                var session = sessions[i];
-                if (session.DisplayName == processName)
-                    return session.SimpleAudioVolume.Volume;
-            }
-            return 0;
-        }
-
-        public float GetSystemVolume()
-        {
-            return 0;
-        }
-
-        public float GetMicVolume()
-        {
-            return 0;
         }
 
         public List<MMDevice> GetMics()

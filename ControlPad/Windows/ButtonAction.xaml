@@ -15,7 +15,7 @@
 
         <!-- ComboBox HorizontalAlignment="Left" Margin="36,0,0,0" Width="340" Height="34"/> -->
         <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Margin="5" Height="34" >
-            <TextBlock x:Name="Text" Text="&lt;Action&gt;" Margin="5" Height="24" FontSize="16"/>
+            <TextBlock x:Name="TextBlock" Text="&lt;Action&gt;" Margin="5" Height="24" FontSize="16"/>
         </Border>
         <Button x:Name="btn_Settings" Content="⚙" Height="34" Width="42.5" Grid.Column="2" Margin="5,0,0,0"/>
         <Button x:Name="btn_Remove" Content="❌" Foreground="Red" Height="35" Width="43" Grid.Column="2" Margin="52,0,0,0"/>

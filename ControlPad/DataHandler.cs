@@ -92,14 +92,14 @@ namespace ControlPad
                     categorySlider.TextBlock.Text = "";
         }
 
-        public static List<string> ActionTypes = new() 
+        public static readonly List<ActionType> ActionTypes = new()
         {
-            "Mute Process",
-            "Mute Main Audio Stream",
-            "Mute Microphone",
-            "Open Process",
-            "Open Website",
-            "Key Press",
+            new ActionType(EActionType.MuteProcess,   "Mute Process"),
+            new ActionType(EActionType.MuteMainAudio, "Mute Main Audio Stream"),
+            new ActionType(EActionType.MuteMic,       "Mute Microphone"),
+            new ActionType(EActionType.OpenProcess,   "Open Process"),
+            new ActionType(EActionType.OpenWebsite,   "Open Website"),
+            new ActionType(EActionType.KeyPress,      "Key Press"),
         };
     }
 }

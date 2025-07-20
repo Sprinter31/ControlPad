@@ -24,7 +24,7 @@ namespace ControlPad
         public SelectMicPopup()
         {
             InitializeComponent();
-            cb_Mics.DisplayMemberPath = "FriendlyName";
+            cb_Mics.DisplayMemberPath = "DeviceFriendlyName";
             cb_Mics.ItemsSource = audioController.GetMics();
         }
 
@@ -32,7 +32,7 @@ namespace ControlPad
         {
             if (cb_Mics.SelectedItem is not MMDevice device) return;
 
-            SelectedMicName = device.FriendlyName;
+            SelectedMicName = device.DeviceFriendlyName;
             DialogResult = true;
         }
 
