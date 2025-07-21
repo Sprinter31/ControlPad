@@ -21,7 +21,7 @@ namespace ControlPad
         {
             InitializeComponent();
 
-            DataHandler.CategorySliders = new CustomSlider[] { (CustomSlider)Slider1, Slider2, Slider3, Slider4, Slider5, Slider6 };            
+            DataHandler.CategorySliders = new CustomSlider[] { Slider1, Slider2, Slider3, Slider4, Slider5, Slider6 };
             DataHandler.Categories = new ObservableCollection<Category>(DataHandler.LoadDataFromFile<Category>(DataHandler.CategoryPath));
             DataHandler.LoadCategorySliders(DataHandler.CategorySlidersPath);
             DataHandler.SetSliderTextBlocks();
@@ -131,7 +131,6 @@ namespace ControlPad
         }
 
         public void UpdateUISlider(Slider slider, int value) => slider.Value = value;
-        private void Exit_Click(object sender, EventArgs e) => this.Close();
 
         private void SliderCell_Click(object sender, MouseButtonEventArgs e)
         {
@@ -149,29 +148,19 @@ namespace ControlPad
                 }
             }
         }
-        private void CustomTitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.LeftButton == MouseButtonState.Pressed)
-                this.DragMove();
-        }
-
-        private void Minimize_Click(object sender, RoutedEventArgs e) => this.WindowState = WindowState.Minimized;
-
-        private void Maximize_Click(object sender, RoutedEventArgs e)
-        {
-            this.WindowState = this.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
-        }
-
-        private void Close_Click(object sender, RoutedEventArgs e) => this.Close();
 
         private void Exit_Click(object sender, RoutedEventArgs e) => this.Close();
 
         private void Switch7_Click(object sender, RoutedEventArgs e)
         {
-            /*var dialog = new SelectKeyPopup();
-            dialog.Owner = this;
-            dialog.ShowDialog();*/
             var dialog = new SelectActionPopup();
+            dialog.Owner = this;
+            dialog.ShowDialog();
+        }
+
+        private void Switch8_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new SelectKeyPopup();
             dialog.Owner = this;
             dialog.ShowDialog();
         }
