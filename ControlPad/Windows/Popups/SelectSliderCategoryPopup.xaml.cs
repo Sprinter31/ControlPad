@@ -1,14 +1,13 @@
 ﻿using System.Windows;
-using System.Windows.Media.Imaging;
 using Wpf.Ui.Controls;
 
-namespace ControlPad.Windows
+namespace ControlPad
 {
-    public partial class SelectCategoryPopup : FluentWindow
+    public partial class SelectSliderCategoryPopup : FluentWindow
     {
         public SliderCategory SelectedCategory { get; set; }
         private CustomSlider categorySlider;
-        public SelectCategoryPopup(CustomSlider categorySlider)
+        public SelectSliderCategoryPopup(CustomSlider categorySlider)
         {
             InitializeComponent();
             this.categorySlider = categorySlider;          
