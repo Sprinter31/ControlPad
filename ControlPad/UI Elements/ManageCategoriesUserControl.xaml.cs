@@ -17,10 +17,9 @@ using System.Windows.Shapes;
 
 namespace ControlPad
 {
-    public partial class ManageSliderCategoriesUserControl : UserControl
+    public partial class ManageCategoriesUserControl : UserControl
     {
-        MainWindow mainWindow;
-        public ManageSliderCategoriesUserControl(MainWindow mainWindow)
+        public ManageCategoriesUserControl()
         {
             InitializeComponent();
             DataHandler.CategoriesTemp = new ObservableCollection<Category>(
@@ -30,17 +29,15 @@ namespace ControlPad
                     Processes = new ObservableCollection<string>(c.Processes)
                 }));
             lb_Categories.ItemsSource = DataHandler.CategoriesTemp;
-            this.mainWindow = mainWindow;
         }
 
         private void btn_CreateCat_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new CreateCategoryPopup();
-            dialog.Owner = mainWindow;
-
+            bool? result = dialog.ShowDialog();
             string name = "";
 
-            if (dialog.ShowDialog() == true)
+            if (result == true)
             {
                 name = dialog.CategoryName;
             }

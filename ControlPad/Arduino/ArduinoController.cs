@@ -9,12 +9,12 @@ namespace ControlPad
 {   
     public class ArduinoController
     {
-        private HomeUserControl MUC;
+        private MainUserControl MUC;
         private SerialPort _serialPort;
         private EventHandler eventHandler;
         private Dictionary<Control, int> values = new Dictionary<Control, int>();
 
-        public ArduinoController(HomeUserControl mainUserControl)
+        public ArduinoController(MainUserControl mainUserControl)
         {
             MUC = mainUserControl;
             eventHandler = new EventHandler(MUC);

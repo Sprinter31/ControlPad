@@ -13,9 +13,9 @@ using System.Reflection.Metadata;
 
 namespace ControlPad
 {
-    public partial class EditButtonCategoryWindow : FluentWindow
+    public partial class SelectActionPopup : FluentWindow
     {
-        public EditButtonCategoryWindow()
+        public SelectActionPopup()
         {
             InitializeComponent();
             ComboBox_Type.DisplayMemberPath = "Description";
