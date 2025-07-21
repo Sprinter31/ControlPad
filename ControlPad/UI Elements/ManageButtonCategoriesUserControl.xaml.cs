@@ -17,9 +17,28 @@ namespace ControlPad
 {
     public partial class ManageButtonCategoriesUserControl : UserControl
     {
-        public ManageButtonCategoriesUserControl()
+        MainWindow mainWindow;
+        public ManageButtonCategoriesUserControl(MainWindow mainWindow)
         {
             InitializeComponent();
+            this.mainWindow = mainWindow;
+        }
+
+        private void btn_CreateCat_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btn_EditCat_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new EditButtonCategoryWindow();
+            dialog.Owner = mainWindow;
+            dialog.ShowDialog();
+        }
+
+        private void btn_DeleteCat_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

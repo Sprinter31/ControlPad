@@ -17,12 +17,14 @@ namespace ControlPad
         private NotifyIcon notifyIcon;     
         private HomeUserControl _homeUserControl;
         private ManageSliderCategoriesUserControl _manageSliderCategoriesUserControl;
+        private ManageButtonCategoriesUserControl _manageButtonCategoriesUserControl;
 
         public MainWindow()
         {
             InitializeComponent();
-            _homeUserControl = new HomeUserControl();
-            _manageSliderCategoriesUserControl = new ManageSliderCategoriesUserControl();
+            _homeUserControl = new HomeUserControl(this);
+            _manageSliderCategoriesUserControl = new ManageSliderCategoriesUserControl(this);
+            _manageButtonCategoriesUserControl = new ManageButtonCategoriesUserControl(this);
             DataContext = this;                    
             CreateNotifyIcon();
 

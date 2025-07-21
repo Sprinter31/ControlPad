@@ -19,7 +19,8 @@ namespace ControlPad
 {
     public partial class ManageSliderCategoriesUserControl : UserControl
     {
-        public ManageSliderCategoriesUserControl()
+        MainWindow mainWindow;
+        public ManageSliderCategoriesUserControl(MainWindow mainWindow)
         {
             InitializeComponent();
             DataHandler.CategoriesTemp = new ObservableCollection<Category>(
@@ -29,15 +30,17 @@ namespace ControlPad
                     Processes = new ObservableCollection<string>(c.Processes)
                 }));
             lb_Categories.ItemsSource = DataHandler.CategoriesTemp;
+            this.mainWindow = mainWindow;
         }
 
         private void btn_CreateCat_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new CreateCategoryPopup();
-            bool? result = dialog.ShowDialog();
+            dialog.Owner = mainWindow;
+
             string name = "";
 
-            if (result == true)
+            if (dialog.ShowDialog() == true)
             {
                 name = dialog.CategoryName;
             }
