@@ -17,9 +17,9 @@ using System.Windows.Shapes;
 
 namespace ControlPad
 {
-    public partial class ManageCategoriesUserControl : UserControl
+    public partial class ManageSliderCategoriesUserControl : UserControl
     {
-        public ManageCategoriesUserControl()
+        public ManageSliderCategoriesUserControl()
         {
             InitializeComponent();
             DataHandler.CategoriesTemp = new ObservableCollection<Category>(

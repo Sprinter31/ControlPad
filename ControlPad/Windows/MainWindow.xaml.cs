@@ -15,18 +15,18 @@ namespace ControlPad
     public partial class MainWindow : FluentWindow
     {
         private NotifyIcon notifyIcon;     
-        private MainUserControl _mainUserControl;
-        private ManageCategoriesUserControl _manageCategoriesUserControl;
+        private HomeUserControl _homeUserControl;
+        private ManageSliderCategoriesUserControl _manageSliderCategoriesUserControl;
 
         public MainWindow()
         {
             InitializeComponent();
-            _mainUserControl = new MainUserControl();
-            _manageCategoriesUserControl = new ManageCategoriesUserControl();
+            _homeUserControl = new HomeUserControl();
+            _manageSliderCategoriesUserControl = new ManageSliderCategoriesUserControl();
             DataContext = this;                    
             CreateNotifyIcon();
 
-            MainContentFrame.Navigate(_mainUserControl);
+            MainContentFrame.Navigate(_homeUserControl);
             SetActive(NVI_Home);
         }
 
@@ -85,22 +85,22 @@ namespace ControlPad
 
         private void cb_EditMode_Checked(object sender, RoutedEventArgs e)
         {
-            _mainUserControl.SliderCell1.Visibility = Visibility.Visible;
-            _mainUserControl.SliderCell2.Visibility = Visibility.Visible;
-            _mainUserControl.SliderCell3.Visibility = Visibility.Visible;
-            _mainUserControl.SliderCell4.Visibility = Visibility.Visible;
-            _mainUserControl.SliderCell5.Visibility = Visibility.Visible;
-            _mainUserControl.SliderCell6.Visibility = Visibility.Visible;
+            _homeUserControl.SliderCell1.Visibility = Visibility.Visible;
+            _homeUserControl.SliderCell2.Visibility = Visibility.Visible;
+            _homeUserControl.SliderCell3.Visibility = Visibility.Visible;
+            _homeUserControl.SliderCell4.Visibility = Visibility.Visible;
+            _homeUserControl.SliderCell5.Visibility = Visibility.Visible;
+            _homeUserControl.SliderCell6.Visibility = Visibility.Visible;
         }
 
         private void cb_EditMode_Unchecked(object sender, RoutedEventArgs e)
         {
-            _mainUserControl.SliderCell1.Visibility = Visibility.Hidden;
-            _mainUserControl.SliderCell2.Visibility = Visibility.Hidden;
-            _mainUserControl.SliderCell3.Visibility = Visibility.Hidden;
-            _mainUserControl.SliderCell4.Visibility = Visibility.Hidden;
-            _mainUserControl.SliderCell5.Visibility = Visibility.Hidden;
-            _mainUserControl.SliderCell6.Visibility = Visibility.Hidden;
+            _homeUserControl.SliderCell1.Visibility = Visibility.Hidden;
+            _homeUserControl.SliderCell2.Visibility = Visibility.Hidden;
+            _homeUserControl.SliderCell3.Visibility = Visibility.Hidden;
+            _homeUserControl.SliderCell4.Visibility = Visibility.Hidden;
+            _homeUserControl.SliderCell5.Visibility = Visibility.Hidden;
+            _homeUserControl.SliderCell6.Visibility = Visibility.Hidden;
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e) => this.Close();
@@ -109,36 +109,44 @@ namespace ControlPad
         {
             if(!NVI_Home.IsActive)
             {
-                MainContentFrame.Navigate(_mainUserControl);
+                MainContentFrame.Navigate(_homeUserControl);
                 SetActive(NVI_Home);
             }            
         }
-
         private void NVI_Slider_Categories_Click(object sender, RoutedEventArgs e)
         {
-            if(!NVI_Slider_Categories.IsActive)
+            if (!NVI_Slider_Categories.IsActive)
             {
-                MainContentFrame.Navigate(_manageCategoriesUserControl);
-                SetActive(NVI_Slider_Categories);                
+                MainContentFrame.Navigate(_manageSliderCategoriesUserControl);
+                SetActive(NVI_Slider_Categories);
             }
         }
-
+        private void NVI_Button_Categories_Click(object sender, RoutedEventArgs e)
+        {
+            if (!NVI_Button_Categories.IsActive)
+            {
+                MainContentFrame.Navigate(_homeUserControl);
+                SetActive(NVI_Button_Categories);
+            }
+        }
         private void NVI_Settings_Click(object sender, RoutedEventArgs e)
         {
             if (!NVI_Settings.IsActive)
             {
-                MainContentFrame.Navigate(_mainUserControl);
+                MainContentFrame.Navigate(_homeUserControl);
                 SetActive(NVI_Settings);
             }
-        }
+        }        
 
         private void SetActive(NavigationViewItem item)
         {
             NVI_Home.IsActive = false;
             NVI_Slider_Categories.IsActive = false;
+            NVI_Button_Categories.IsActive = false;
             NVI_Settings.IsActive = false;
             if (NVI_Home.Icon is SymbolIcon symbolIconHome) symbolIconHome.Filled = false;
-            if (NVI_Slider_Categories.Icon is SymbolIcon symbolIconCategories) symbolIconCategories.Filled = false;
+            if (NVI_Slider_Categories.Icon is SymbolIcon symbolIconSliderCategories) symbolIconSliderCategories.Filled = false;
+            if (NVI_Button_Categories.Icon is SymbolIcon symbolIconButtonCategories) symbolIconButtonCategories.Filled = false;
             if (NVI_Settings.Icon is SymbolIcon symbolIconSettings) symbolIconSettings.Filled = false;
 
             if (item.Icon is SymbolIcon symbolIcon) symbolIcon.Filled = true;
