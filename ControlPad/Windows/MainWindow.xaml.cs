@@ -14,6 +14,7 @@ namespace ControlPad
 {
     public partial class MainWindow : FluentWindow
     {
+        private ArduinoController arduinoController;
         private NotifyIcon notifyIcon;     
         private HomeUserControl _homeUserControl;
         private ManageSliderCategoriesUserControl _manageSliderCategoriesUserControl;
@@ -25,6 +26,7 @@ namespace ControlPad
             _homeUserControl = new HomeUserControl(this);
             _manageSliderCategoriesUserControl = new ManageSliderCategoriesUserControl(this);
             _manageButtonCategoriesUserControl = new ManageButtonCategoriesUserControl(this);
+            arduinoController = new ArduinoController(_homeUserControl);
             DataContext = this;                    
             CreateNotifyIcon();
 
