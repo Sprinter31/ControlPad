@@ -53,7 +53,7 @@
             </ui:NavigationView.MenuItems>
 
             <ui:NavigationView.FooterMenuItems>
-                <ui:NavigationViewItem Content="Edit" x:Name="NVI_EditMode" Icon="{ui:SymbolIcon CheckboxUnchecked24}"/>
+                <ui:NavigationViewItem Content="Edit" x:Name="NVI_EditMode" Icon="{ui:SymbolIcon CheckboxUnchecked24}" Click="NVI_EditMode_Click"/>
                 <ui:NavigationViewItem Content="Settings" x:Name="NVI_Settings" Icon="{ui:SymbolIcon Settings24}" Click="NVI_Settings_Click"/>
                 <ui:NavigationViewItem Content="Exit" x:Name="NVI_Exit" Icon="{ui:SymbolIcon ArrowExit20}" Click="Exit_Click"/>
             </ui:NavigationView.FooterMenuItems>
