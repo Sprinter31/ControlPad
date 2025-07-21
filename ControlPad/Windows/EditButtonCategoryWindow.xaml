@@ -1,4 +1,4 @@
-﻿<ui:FluentWindow x:Class="ControlPad.SelectActionPopup"
+﻿<ui:FluentWindow x:Class="ControlPad.EditButtonCategoryWindow"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,10 +6,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPad"
         mc:Ignorable="d"
-        Title="SelectActionPopup" Height="600" Width="450" Background="Black">
+        Title="EditButtonCategoryWindow" Height="600" Width="450" Background="Black">
     <DockPanel>
         <ui:TitleBar
-             DockPanel.Dock="Top" x:Name="TitleBarSelectActionPopup"
+             DockPanel.Dock="Top" x:Name="TitleBarEditButtonCategoryWindow"
              Title="Select an action"
              Icon="{ui:ImageIcon 'pack://application:,,,/Resources/logo.ico'}"/>
 

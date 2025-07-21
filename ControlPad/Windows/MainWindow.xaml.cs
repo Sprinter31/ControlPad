@@ -15,18 +15,20 @@ namespace ControlPad
     public partial class MainWindow : FluentWindow
     {
         private NotifyIcon notifyIcon;     
-        private MainUserControl _mainUserControl;
-        private ManageCategoriesUserControl _manageCategoriesUserControl;
+        private HomeUserControl _homeUserControl;
+        private ManageSliderCategoriesUserControl _manageSliderCategoriesUserControl;
+        private ManageButtonCategoriesUserControl _manageButtonCategoriesUserControl;
 
         public MainWindow()
         {
             InitializeComponent();
-            _mainUserControl = new MainUserControl();
-            _manageCategoriesUserControl = new ManageCategoriesUserControl();
+            _homeUserControl = new HomeUserControl(this);
+            _manageSliderCategoriesUserControl = new ManageSliderCategoriesUserControl(this);
+            _manageButtonCategoriesUserControl = new ManageButtonCategoriesUserControl(this);
             DataContext = this;                    
             CreateNotifyIcon();
 
-            MainContentFrame.Navigate(_mainUserControl);
+            MainContentFrame.Navigate(_homeUserControl);
             SetActive(NVI_Home);
         }
 
@@ -89,28 +91,34 @@ namespace ControlPad
         {
             if(!NVI_Home.IsActive)
             {
-                MainContentFrame.Navigate(_mainUserControl);
+                MainContentFrame.Navigate(_homeUserControl);
                 SetActive(NVI_Home);
             }            
         }
-
         private void NVI_Slider_Categories_Click(object sender, RoutedEventArgs e)
         {
-            if(!NVI_Slider_Categories.IsActive)
+            if (!NVI_Slider_Categories.IsActive)
             {
-                MainContentFrame.Navigate(_manageCategoriesUserControl);
-                SetActive(NVI_Slider_Categories);                
+                MainContentFrame.Navigate(_manageSliderCategoriesUserControl);
+                SetActive(NVI_Slider_Categories);
             }
         }
-
+        private void NVI_Button_Categories_Click(object sender, RoutedEventArgs e)
+        {
+            if (!NVI_Button_Categories.IsActive)
+            {
+                MainContentFrame.Navigate(_manageButtonCategoriesUserControl);
+                SetActive(NVI_Button_Categories);
+            }
+        }
         private void NVI_Settings_Click(object sender, RoutedEventArgs e)
         {
             if (!NVI_Settings.IsActive)
             {
-                MainContentFrame.Navigate(_mainUserControl);
+                MainContentFrame.Navigate(_homeUserControl);
                 SetActive(NVI_Settings);
             }
-        }
+        }        
 
         private void NVI_EditMode_Click(object sender, RoutedEventArgs e)
         {
@@ -143,6 +151,7 @@ namespace ControlPad
         {
             NVI_Home.IsActive = false;
             NVI_Slider_Categories.IsActive = false;
+            NVI_Button_Categories.IsActive = false;
             NVI_Settings.IsActive = false;
 
             if (NVI_EditMode.Icon is SymbolIcon symbolIconEditMode)
@@ -150,7 +159,8 @@ namespace ControlPad
                 symbolIconEditMode.Symbol = SymbolRegular.CheckboxUnchecked24;
             }
             if (NVI_Home.Icon is SymbolIcon symbolIconHome) symbolIconHome.Filled = false;
-            if (NVI_Slider_Categories.Icon is SymbolIcon symbolIconCategories) symbolIconCategories.Filled = false;
+            if (NVI_Slider_Categories.Icon is SymbolIcon symbolIconSliderCategories) symbolIconSliderCategories.Filled = false;
+            if (NVI_Button_Categories.Icon is SymbolIcon symbolIconButtonCategories) symbolIconButtonCategories.Filled = false;
             if (NVI_Settings.Icon is SymbolIcon symbolIconSettings) symbolIconSettings.Filled = false;
 
             if (item.Icon is SymbolIcon symbolIcon) symbolIcon.Filled = true;

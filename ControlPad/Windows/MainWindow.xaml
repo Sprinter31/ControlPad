@@ -30,6 +30,7 @@
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem x:Name="NVI_Home" Content="Home" Icon="{ui:SymbolIcon Home24}" Click="NVI_Home_Click"/>
                 <ui:NavigationViewItem x:Name="NVI_Slider_Categories" Content="Slider" Icon="{ui:SymbolIcon Library24}" Click="NVI_Slider_Categories_Click"/>
+                <ui:NavigationViewItem x:Name="NVI_Button_Categories" Content="Button" Icon="{ui:SymbolIcon Library24}" Click="NVI_Button_Categories_Click"/>
             </ui:NavigationView.MenuItems>
 
             <ui:NavigationView.FooterMenuItems>
