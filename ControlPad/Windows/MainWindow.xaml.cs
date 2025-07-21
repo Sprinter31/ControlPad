@@ -15,7 +15,7 @@ namespace ControlPad
     {
         private bool closeFromX = false;
         private NotifyIcon notifyIcon;
-        private ArduinoController arCo;
+        private ArduinoController arduinoController;
 
         public MainWindow()
         {
@@ -27,8 +27,8 @@ namespace ControlPad
             DataHandler.SetSliderTextBlocks();
 
             DataContext = this;
-            arCo = new ArduinoController(this);
-
+            arduinoController = new ArduinoController(this);
+            
             CreateNotifyIcon();
         }
 
@@ -168,6 +168,9 @@ namespace ControlPad
 
         private void Switch7_Click(object sender, RoutedEventArgs e)
         {
+            /*var dialog = new SelectKeyPopup();
+            dialog.Owner = this;
+            dialog.ShowDialog();*/
             var dialog = new SelectActionPopup();
             dialog.Owner = this;
             dialog.ShowDialog();
