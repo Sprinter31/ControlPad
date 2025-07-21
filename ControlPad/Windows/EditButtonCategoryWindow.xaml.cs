@@ -149,7 +149,10 @@ namespace ControlPad
                         }
                         break;
                     }
-                case EActionType.KeyPress: break;
+                case EActionType.KeyPress:
+                    {
+                        break;
+                    }
                 default: break;
             }
         }
