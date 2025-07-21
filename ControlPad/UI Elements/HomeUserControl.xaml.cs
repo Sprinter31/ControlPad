@@ -26,8 +26,8 @@ namespace ControlPad
 
             DataHandler.CategorySliders = new CustomSlider[] { (CustomSlider)Slider1, Slider2, Slider3, Slider4, Slider5, Slider6 };
             DataHandler.SliderCategories = new ObservableCollection<SliderCategory>(DataHandler.LoadDataFromFile<SliderCategory>(DataHandler.CategoryPath));
-            DataHandler.SetSliderTextBlocks();
             DataHandler.LoadCategorySliders(DataHandler.CategorySlidersPath);
+            DataHandler.SetSliderTextBlocks();
 
             this.mainWindow = mainWindow;
         }
@@ -67,13 +67,6 @@ namespace ControlPad
                     DataHandler.SetSliderTextBlocks();
                 }
             }
-        }
-
-        private void Switch7_Click(object sender, RoutedEventArgs e)
-        {
-            /*var dialog = new SelectKeyPopup();
-            dialog.Owner = this;
-            dialog.ShowDialog();*/
         }
     }
 }

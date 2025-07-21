@@ -178,7 +178,7 @@
 
             <!-- Button Column -->
             <StackPanel Grid.Row="1" Grid.Column="6">
-                <Button x:Name="Switch7" Width="60" Height="60" Margin="10" Content="Pause" Click="Switch7_Click"/>
+                <Button x:Name="Switch7" Width="60" Height="60" Margin="10" Content="Pause"/>
                 <Button x:Name="Switch8" Width="60" Height="60" Margin="10" Content="Next"/>
                 <Button x:Name="Switch9" Width="60" Height="60" Margin="10" Content="Discord"/>
                 <Button x:Name="Switch10" Width="60" Height="60" Margin="10" Content="Browser"/>

@@ -30,20 +30,19 @@ namespace ControlPad
 
         private void btn_CreateCat_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new CreateSliderCategoryPopup();
-            dialog.Owner = mainWindow;
-
             string name = "";
+            var dialog = new CreateSliderCategoryPopup() { Owner = mainWindow };
 
             if (dialog.ShowDialog() == true)
             {
                 name = dialog.CategoryName;
             }
 
-            if (string.IsNullOrEmpty(name)) return;
-
-            DataHandler.SliderCategories.Add(new SliderCategory(name, DataHandler.GetNextCategoryId()));
-            DataHandler.SaveDataToFile(DataHandler.CategoryPath, DataHandler.SliderCategories.ToList());
+            if (!string.IsNullOrEmpty(name))
+            {
+                DataHandler.SliderCategories.Add(new SliderCategory(name, DataHandler.GetNextCategoryId()));
+                DataHandler.SaveDataToFile(DataHandler.CategoryPath, DataHandler.SliderCategories.ToList());
+            }
         }
 
         private void btn_EditCat_Click(object sender, RoutedEventArgs e)
