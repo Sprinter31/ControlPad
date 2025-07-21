@@ -114,12 +114,12 @@ namespace ControlPad
             }            
         }
 
-        private void NVI_Categories_Click(object sender, RoutedEventArgs e)
+        private void NVI_Slider_Categories_Click(object sender, RoutedEventArgs e)
         {
-            if(!NVI_Categories.IsActive)
+            if(!NVI_Slider_Categories.IsActive)
             {
                 MainContentFrame.Navigate(_manageCategoriesUserControl);
-                SetActive(NVI_Categories);                
+                SetActive(NVI_Slider_Categories);                
             }
         }
 
@@ -135,10 +135,10 @@ namespace ControlPad
         private void SetActive(NavigationViewItem item)
         {
             NVI_Home.IsActive = false;
-            NVI_Categories.IsActive = false;
+            NVI_Slider_Categories.IsActive = false;
             NVI_Settings.IsActive = false;
             if (NVI_Home.Icon is SymbolIcon symbolIconHome) symbolIconHome.Filled = false;
-            if (NVI_Categories.Icon is SymbolIcon symbolIconCategories) symbolIconCategories.Filled = false;
+            if (NVI_Slider_Categories.Icon is SymbolIcon symbolIconCategories) symbolIconCategories.Filled = false;
             if (NVI_Settings.Icon is SymbolIcon symbolIconSettings) symbolIconSettings.Filled = false;
 
             if (item.Icon is SymbolIcon symbolIcon) symbolIcon.Filled = true;
