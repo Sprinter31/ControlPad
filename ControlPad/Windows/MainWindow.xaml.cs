@@ -31,7 +31,7 @@ namespace ControlPad
             CreateNotifyIcon();
 
             MainContentFrame.Navigate(_homeUserControl);
-            SetActive(NVI_Home);
+            SetActive(NVI_Home);           
         }
 
         private void mainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
