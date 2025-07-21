@@ -17,34 +17,37 @@ using System.Windows.Shapes;
 
 namespace ControlPad
 {
-    public partial class ManageCategoriesUserControl : UserControl
+    public partial class ManageSliderCategoriesUserControl : UserControl
     {
-        public ManageCategoriesUserControl()
+        MainWindow mainWindow;
+        public ManageSliderCategoriesUserControl(MainWindow mainWindow)
         {
             InitializeComponent();
-            DataHandler.CategoriesTemp = new ObservableCollection<Category>(
-                DataHandler.Categories
-                .Select(c => new Category(c.Name, c.Id)
+            DataHandler.SliderCategoriesTemp = new ObservableCollection<SliderCategory>(
+                DataHandler.SliderCategories
+                .Select(c => new SliderCategory(c.Name, c.Id)
                 {
                     Processes = new ObservableCollection<string>(c.Processes)
                 }));
-            lb_Categories.ItemsSource = DataHandler.CategoriesTemp;
+            lb_Categories.ItemsSource = DataHandler.SliderCategories;
+            this.mainWindow = mainWindow;
         }
 
         private void btn_CreateCat_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new CreateCategoryPopup();
-            bool? result = dialog.ShowDialog();
+            dialog.Owner = mainWindow;
+
             string name = "";
 
-            if (result == true)
+            if (dialog.ShowDialog() == true)
             {
                 name = dialog.CategoryName;
             }
 
             if (string.IsNullOrEmpty(name)) return;
 
-            DataHandler.CategoriesTemp.Add(new Category(name, DataHandler.GetNextCategoryId()));
+            DataHandler.SliderCategoriesTemp.Add(new SliderCategory(name, DataHandler.GetNextCategoryId()));
         }
 
         private void btn_EditCat_Click(object sender, RoutedEventArgs e)
@@ -59,9 +62,9 @@ namespace ControlPad
 
         private void btn_Apply_Click(object sender, RoutedEventArgs e)
         {
-            DataHandler.Categories = DataHandler.CategoriesTemp;
-            DataHandler.CategoriesTemp = new ObservableCollection<Category>();
-            DataHandler.SaveDataToFile(DataHandler.CategoryPath, DataHandler.Categories.ToList());
+            DataHandler.SliderCategories = DataHandler.SliderCategoriesTemp;
+            DataHandler.SliderCategoriesTemp = new ObservableCollection<SliderCategory>();
+            DataHandler.SaveDataToFile(DataHandler.CategoryPath, DataHandler.SliderCategories.ToList());
             DataHandler.RemoveCategoriesFromSlidersIfTheyGotDeleted();
         }
 
@@ -75,7 +78,7 @@ namespace ControlPad
             int index = lb_Categories.SelectedIndex;
             if (index == -1) return;
 
-            DataHandler.CategoriesTemp.RemoveAt(index);
+            DataHandler.SliderCategoriesTemp.RemoveAt(index);
         }
 
         public void RefreshListBox() => lb_Categories.Items.Refresh();

@@ -17,20 +17,19 @@ using System.Windows.Shapes;
 
 namespace ControlPad
 {
-    /// <summary>
-    /// Interaction logic for HomeUserControl.xaml
-    /// </summary>
     public partial class HomeUserControl : UserControl
     {
-        public HomeUserControl()
+        MainWindow mainWindow;
+        public HomeUserControl(MainWindow mainWindow)
         {
             InitializeComponent();
 
             DataHandler.CategorySliders = new CustomSlider[] { (CustomSlider)Slider1, Slider2, Slider3, Slider4, Slider5, Slider6 };
-
-            DataHandler.Categories = new ObservableCollection<Category>(DataHandler.LoadDataFromFile<Category>(DataHandler.CategoryPath));
+            DataHandler.SliderCategories = new ObservableCollection<SliderCategory>(DataHandler.LoadDataFromFile<SliderCategory>(DataHandler.CategoryPath));
             DataHandler.SetSliderTextBlocks();
             DataHandler.LoadCategorySliders(DataHandler.CategorySlidersPath);
+
+            this.mainWindow = mainWindow;
         }
         public void UpdateUISlider(Slider slider, int value) => slider.Value = value;
 
@@ -59,9 +58,9 @@ namespace ControlPad
             if (sender is SliderBorder border)
             {
                 var dialog = new SelectCategoryPopup(border.CustomSlider);
-                bool? result = dialog.ShowDialog();
+                dialog.Owner = mainWindow;
 
-                if (result == true)
+                if (dialog.ShowDialog() == true)
                 {
                     border.CustomSlider.Category = dialog.SelectedCategory;
                     DataHandler.SaveCategorySliders(DataHandler.CategorySlidersPath);
@@ -75,8 +74,6 @@ namespace ControlPad
             /*var dialog = new SelectKeyPopup();
             dialog.Owner = this;
             dialog.ShowDialog();*/
-            var dialog = new SelectActionPopup();
-            dialog.ShowDialog();
         }
     }
 }

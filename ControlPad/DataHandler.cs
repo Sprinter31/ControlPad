@@ -14,8 +14,10 @@ namespace ControlPad
     {
         public static string CategoryPath { get; } = @"Resources\Categories.json";
         public static string CategorySlidersPath { get; } = @"Resources\CustomSliders.txt";
-        public static ObservableCollection<Category> Categories { get; set; } = new ObservableCollection<Category>();
-        public static ObservableCollection<Category> CategoriesTemp { get; set; } = new ObservableCollection<Category>();
+        public static ObservableCollection<SliderCategory> SliderCategories { get; set; } = new ObservableCollection<SliderCategory>();
+        public static ObservableCollection<SliderCategory> SliderCategoriesTemp { get; set; } = new ObservableCollection<SliderCategory>();
+        public static ObservableCollection<ButtonCategory> ButtonCategories { get; set; } = new ObservableCollection<ButtonCategory>();
+        public static ObservableCollection<ButtonCategory> ButtonCategoriesTemp { get; set; } = new ObservableCollection<ButtonCategory>();
         public static CustomSlider[] CategorySliders { get; set; } = new CustomSlider[6];
 
         public static void SaveDataToFile<T>(string path, List<T> data)
@@ -60,7 +62,7 @@ namespace ControlPad
                 for (int i = 0; i < lines.Length; i++)
                 {
                     if (int.TryParse(lines[i].Split(':')[1].Trim(), out int categoryId))
-                        CategorySliders[i].Category = Categories.First(c => c.Id == categoryId);
+                        CategorySliders[i].Category = SliderCategories.First(c => c.Id == categoryId);
                 }
             }
         }
@@ -68,15 +70,15 @@ namespace ControlPad
         public static void RemoveCategoriesFromSlidersIfTheyGotDeleted()
         {
             foreach (CustomSlider categorySlider in DataHandler.CategorySliders)
-                if (categorySlider.Category != null && !DataHandler.Categories.Any(c => c.Id == categorySlider.Category.Id))
+                if (categorySlider.Category != null && !DataHandler.SliderCategories.Any(c => c.Id == categorySlider.Category.Id))
                     categorySlider.Category = null;
             DataHandler.SaveCategorySliders(DataHandler.CategorySlidersPath);
         }
 
         public static int GetNextCategoryId() // gets the lowest not yet existing id
         {
-            var used = new HashSet<int>(DataHandler.Categories.Select(c => c.Id));
-            var usedTemp = new HashSet<int>(DataHandler.CategoriesTemp.Select(c => c.Id));
+            var used = new HashSet<int>(DataHandler.SliderCategories.Select(c => c.Id));
+            var usedTemp = new HashSet<int>(DataHandler.SliderCategories.Select(c => c.Id));
 
             for (int i = 0; ; i++)
                 if (!used.Contains(i) && !usedTemp.Contains(i))

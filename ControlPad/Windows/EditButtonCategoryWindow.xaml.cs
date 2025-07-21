@@ -13,19 +13,36 @@ using System.Reflection.Metadata;
 
 namespace ControlPad
 {
-    public partial class SelectActionPopup : FluentWindow
+    public partial class EditButtonCategoryWindow : FluentWindow
     {
-        public SelectActionPopup()
+        private int indexOfCategory;
+        public EditButtonCategoryWindow(int indexOfCategory)
         {
             InitializeComponent();
+            this.indexOfCategory = indexOfCategory;
             ComboBox_Type.DisplayMemberPath = "Description";
             ComboBox_Type.ItemsSource = DataHandler.ActionTypes;
         }
 
-        private void AddAction_Click(object sender, RoutedEventArgs e)
+        private void btn_AddAction_Click(object sender, RoutedEventArgs e)
         {
             if (ComboBox_Type.SelectedItem == null || string.IsNullOrEmpty(ComboBox_Type.SelectedItem.ToString())) return;
-            ActionsContainer.Children.Add(CreateAction((ActionType)ComboBox_Type.SelectedItem));
+
+            var buttonAction = CreateAction((ActionType)ComboBox_Type.SelectedItem);
+            ActionsContainer.Children.Add(buttonAction);
+            DataHandler.ButtonCategoriesTemp[indexOfCategory].ButtonActions.Add(buttonAction);
+        }
+
+        private void btn_Remove_Click(object sender, EventArgs e)
+        {
+            var btn = (System.Windows.Controls.Button)sender;
+
+            if (btn.Parent is Grid grid && grid.Parent is ButtonAction wrapper)
+            {
+                RemoveHandlers(wrapper);
+                ActionsContainer.Children.Remove(wrapper);
+                DataHandler.ButtonCategoriesTemp[indexOfCategory].ButtonActions.Remove(wrapper);
+            }
         }
 
         private ButtonAction CreateAction(ActionType actionType)
@@ -114,17 +131,6 @@ namespace ControlPad
                 case EActionType.KeyPress: break;
                 default: break;
             }
-        }        
-
-        private void btn_Remove_Click(object sender, EventArgs e)
-        {
-            var btn = (System.Windows.Controls.Button)sender;
-
-            if (btn.Parent is Grid grid && grid.Parent is ButtonAction wrapper)
-            {
-                RemoveHandlers(wrapper);
-                ActionsContainer.Children.Remove(wrapper);
-            }
-        }
+        }          
     }
 }

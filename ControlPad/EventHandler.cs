@@ -7,11 +7,11 @@ namespace ControlPad
         private AudioController audioController;
         private Dictionary<Control, int> values = new Dictionary<Control, int>();       
 
-        private MainUserControl MainUserControl;
+        private HomeUserControl HomeUserControl;
 
-        public EventHandler(MainUserControl mainUserControl)
+        public EventHandler(HomeUserControl homeUserControl)
         {
-            MainUserControl = mainUserControl;
+            HomeUserControl = homeUserControl;
             audioController = new AudioController();
         }
         public void Update(Dictionary<Control, int> values)
@@ -19,7 +19,7 @@ namespace ControlPad
             foreach (var kvp in values)
             {
                 Control key = kvp.Key;
-                var name = MainUserControl.Dispatcher.Invoke(() => key.Name);
+                var name = HomeUserControl.Dispatcher.Invoke(() => key.Name);
 
                 int newValue = kvp.Value;
                 this.values.TryGetValue(key, out int oldValue);
@@ -38,7 +38,7 @@ namespace ControlPad
 
         private void UpdateSlider(Control slider, int value)
         {
-            MainUserControl.Dispatcher.Invoke(() => MainUserControl.UpdateUISlider((Slider)slider, value));
+            HomeUserControl.Dispatcher.Invoke(() => HomeUserControl.UpdateUISlider((Slider)slider, value));
 
             CustomSlider categorySlider = (CustomSlider)slider;
             if (categorySlider.Category != null)

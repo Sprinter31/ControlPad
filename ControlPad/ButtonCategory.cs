@@ -9,14 +9,14 @@ using System.Xml.Linq;
 
 namespace ControlPad
 {
-    public class Category
+    public class ButtonCategory
     {
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public ObservableCollection<string> Processes { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<ButtonAction> ButtonActions { get; set; } = new ObservableCollection<ButtonAction>();
 
-        public Category(string name, int id)
+        public ButtonCategory(string name, int id)
         {
             Name = name;
             Id = id;
