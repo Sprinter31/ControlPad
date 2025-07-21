@@ -17,11 +17,20 @@
         >
     <DockPanel>
         <ui:TitleBar
-    DockPanel.Dock="Top"
-    x:Name="titleBarMainWindow"
-    Title="Control Pad"
-    Icon="{ui:ImageIcon 'pack://application:,,,/Resources/logo.ico'}" />
-
+            DockPanel.Dock="Top"
+            x:Name="titleBarMainWindow"
+            Title="Control Pad"
+            ShowMaximize="False"
+            CanMaximize="False"
+            Icon="{ui:ImageIcon 'pack://application:,,,/Resources/logo.ico'}" />
+        
+        <ui:InfoBar
+            DockPanel.Dock="Top"
+            Title="Board not connected"
+            IsOpen="True"
+            Message="Please connect your board to use this app."
+        />
+        
         <ui:NavigationView
             x:Name="MainNavigationView"
             PaneDisplayMode="LeftFluent"
