@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPad"
         mc:Ignorable="d"
-        Title="SelectActionPopup" Height="600" Width="450">
+        Title="SelectActionPopup" Height="600" Width="450" Background="Black">
     <DockPanel>
         <ui:TitleBar
              DockPanel.Dock="Top" x:Name="TitleBarSelectActionPopup"

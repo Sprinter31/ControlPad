@@ -9,20 +9,20 @@ namespace ControlPad
 {   
     public class ArduinoController
     {
-        private MainWindow mw;
+        private MainUserControl MUC;
         private SerialPort _serialPort;
         private EventHandler eventHandler;
         private Dictionary<Control, int> values = new Dictionary<Control, int>();
 
-        public ArduinoController(MainWindow mainWindow)
+        public ArduinoController(MainUserControl mainUserControl)
         {
-            mw = mainWindow;
-            eventHandler = new EventHandler(mw);
+            MUC = mainUserControl;
+            eventHandler = new EventHandler(MUC);
 
             values = new Dictionary<Control, int>
             {
-                { mw.Slider1, 0 },
-                { mw.Slider2, 0 },
+                { MUC.Slider1, 0 },
+                { MUC.Slider2, 0 },
                 /*{ mw.Slider3, 0 },
                 { mw.Slider4, 0 },
                 { mw.Slider5, 0 },
@@ -61,7 +61,7 @@ namespace ControlPad
                 string[] inputs = line.Split(',');
 
                 UpdateValues(inputs);
-                mw.Dispatcher.Invoke(() => eventHandler.Update(values));
+                MUC.Dispatcher.Invoke(() => eventHandler.Update(values));
             }
             catch (IOException ex)
             {
@@ -75,8 +75,8 @@ namespace ControlPad
 
         private void UpdateValues(string[] inputs)
         {
-            values[mw.Slider1] = int.Parse(inputs[0]);
-            values[mw.Slider2] = int.Parse(inputs[1]);
+            values[MUC.Slider1] = int.Parse(inputs[0]);
+            values[MUC.Slider2] = int.Parse(inputs[1]);
             /*values[mw.Slider3] = int.Parse(inputs[2]);
             values[mw.Slider4] = int.Parse(inputs[3]);
             values[mw.Slider5] = int.Parse(inputs[4]);
