@@ -19,6 +19,12 @@ namespace ControlPad
         public EditButtonCategoryWindow(int indexOfCategory)
         {
             InitializeComponent();
+            foreach (var buttonAction in DataHandler.ButtonCategories[indexOfCategory].ButtonActions)
+            {
+                if (buttonAction.Parent is StackPanel oldParent)
+                    oldParent.Children.Remove(buttonAction);
+                ActionsContainer.Children.Add(buttonAction);
+            }
             this.indexOfCategory = indexOfCategory;
             ComboBox_Type.DisplayMemberPath = "Description";
             ComboBox_Type.ItemsSource = DataHandler.ActionTypes;
