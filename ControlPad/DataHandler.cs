@@ -6,21 +6,23 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Windows.Documents;
 
 namespace ControlPad
 {
     public static class DataHandler
     {
-        public static string CategoryPath { get; } = @"Resources\Categories.json";
+        public static string SliderCategoriesPath { get; } = @"Resources\SliderCategories.json";
+        public static string ButtonCategoriesPath { get; } = @"Resources\ButtonCategories.json";
         public static string CategorySlidersPath { get; } = @"Resources\CustomSliders.txt";
-        public static ObservableCollection<Category> Categories { get; set; } = new ObservableCollection<Category>();
-        public static ObservableCollection<Category> CategoriesTemp { get; set; } = new ObservableCollection<Category>();
+        public static ObservableCollection<SliderCategory> SliderCategories { get; set; } = new ObservableCollection<SliderCategory>();        
+        public static ObservableCollection<ButtonCategory> ButtonCategories { get; set; } = new ObservableCollection<ButtonCategory>();
         public static CustomSlider[] CategorySliders { get; set; } = new CustomSlider[6];
 
         public static void SaveDataToFile<T>(string path, List<T> data)
         {
-            string json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
+            string json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true, NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals });
             File.WriteAllText(path, json);
         }
 
@@ -37,7 +39,7 @@ namespace ControlPad
                 string json = File.ReadAllText(path);
                 list = JsonSerializer.Deserialize<List<T>>(json) ?? new List<T>();
             }
-            
+
             return list;
         }
 
@@ -60,27 +62,18 @@ namespace ControlPad
                 for (int i = 0; i < lines.Length; i++)
                 {
                     if (int.TryParse(lines[i].Split(':')[1].Trim(), out int categoryId))
-                        CategorySliders[i].Category = Categories.First(c => c.Id == categoryId);
+                        CategorySliders[i].Category = SliderCategories.First(c => c.Id == categoryId);
                 }
-            }            
+            }
         }
 
-        public static void RemoveCategoriesFromSlidersIfTheyGotDeleted()
+        public static int GetNextCategoryId<T>(this IEnumerable<T> items, Func<T, int> idSelector) // gets the lowest not yet existing id
         {
-            foreach (CustomSlider categorySlider in DataHandler.CategorySliders)
-                if (categorySlider.Category != null && !DataHandler.Categories.Any(c => c.Id == categorySlider.Category.Id))
-                    categorySlider.Category = null;
-            DataHandler.SaveCategorySliders(DataHandler.CategorySlidersPath);
-        }
-
-        public static int GetNextCategoryId() // gets the lowest not yet existing id
-        {
-            var used = new HashSet<int>(DataHandler.Categories.Select(c => c.Id));
-            var usedTemp = new HashSet<int>(DataHandler.CategoriesTemp.Select(c => c.Id));
-
-            for (int i = 0; ; i++)
-                if (!used.Contains(i) && !usedTemp.Contains(i))
-                    return i;
+            var used = new HashSet<int>(items.Select(idSelector));
+            int candidate = 0;
+            while (used.Contains(candidate))
+                candidate++;
+            return candidate;
         }
 
         public static void SetSliderTextBlocks()
@@ -91,5 +84,15 @@ namespace ControlPad
                 else
                     categorySlider.TextBlock.Text = "";
         }
+
+        public static readonly List<ActionType> ActionTypes = new()
+        {
+            new ActionType(EActionType.MuteProcess,   "Mute Process"),
+            new ActionType(EActionType.MuteMainAudio, "Mute Main Audio Stream"),
+            new ActionType(EActionType.MuteMic,       "Mute Microphone"),
+            new ActionType(EActionType.OpenProcess,   "Open Process"),
+            new ActionType(EActionType.OpenWebsite,   "Open Website"),
+            new ActionType(EActionType.KeyPress,      "Key Press"),
+        };
     }
 }

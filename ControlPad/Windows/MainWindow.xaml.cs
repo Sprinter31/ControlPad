@@ -1,4 +1,6 @@
-﻿using ControlPad.Windows;
+﻿using ControlPad;
+using System.Collections.ObjectModel;
+using System.Configuration;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -6,61 +8,37 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Collections.ObjectModel;
+using Wpf.Ui.Controls;
 
 namespace ControlPad
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : FluentWindow
     {
-        private bool closeFromX = false;
-        private NotifyIcon notifyIcon;
-        private ArduinoController arCo;
+        private ArduinoController arduinoController;
+        private NotifyIcon notifyIcon;     
+        private HomeUserControl _homeUserControl;
+        private ManageSliderCategoriesUserControl _manageSliderCategoriesUserControl;
+        private ManageButtonCategoriesUserControl _manageButtonCategoriesUserControl;
 
         public MainWindow()
         {
             InitializeComponent();
-
-            DataHandler.CategorySliders = new CustomSlider[] { Slider1, Slider2, Slider3, Slider4, Slider5, Slider6 };            
-            DataHandler.Categories = new ObservableCollection<Category>(DataHandler.LoadDataFromFile<Category>(DataHandler.CategoryPath));
-            DataHandler.LoadCategorySliders(DataHandler.CategorySlidersPath);
-            DataHandler.SetSliderTextBlocks();
-
-            DataContext = this;
-            arCo = new ArduinoController(this);
-
+            _homeUserControl = new HomeUserControl(this);
+            _manageSliderCategoriesUserControl = new ManageSliderCategoriesUserControl(this);
+            _manageButtonCategoriesUserControl = new ManageButtonCategoriesUserControl(this);
+            arduinoController = new ArduinoController(_homeUserControl);
+            DataContext = this;                    
             CreateNotifyIcon();
-        }
 
-        protected override void OnSourceInitialized(EventArgs e)
-        {
-            base.OnSourceInitialized(e);
-            var hwnd = new WindowInteropHelper(this).Handle;
-            HwndSource source = HwndSource.FromHwnd(hwnd);
-            source.AddHook(WndProc);    
-        }
-
-        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
-        {
-            const int WM_SYSCOMMAND = 0x0112;
-            const int SC_CLOSE = 0xF060;
-
-            if (msg == WM_SYSCOMMAND && wParam.ToInt32() == SC_CLOSE)
-            {
-                closeFromX = true;
-            }
-
-            return IntPtr.Zero;
+            MainContentFrame.Navigate(_homeUserControl);
+            SetActive(NVI_Home);           
         }
 
         private void mainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (closeFromX)
-            {
-                e.Cancel = true;
-                this.Hide();
-                notifyIcon.ShowBalloonTip(5000, "Notice", "Control Pad minimized to system tray", ToolTipIcon.Info);
-                closeFromX = false;
-            }
+            e.Cancel = true;
+            this.Hide();
+            notifyIcon.ShowBalloonTip(5000, "Notice", "Control Pad minimized to system tray", ToolTipIcon.Info);
         }
 
         private void mainWindow_Closed(object sender, EventArgs e)
@@ -68,13 +46,6 @@ namespace ControlPad
             notifyIcon.Visible = false;
             notifyIcon.Dispose();
             notifyIcon = null;
-        }      
-
-        private void ManageSliderCategories_Click(object sender, RoutedEventArgs e)
-        {
-            var dialog = new ManageCategoriesWindow();
-            dialog.Owner = this;
-            dialog.ShowDialog();
         }
 
         private void CreateNotifyIcon()
@@ -109,44 +80,88 @@ namespace ControlPad
             };
         }
 
-        private void cb_EditMode_Checked(object sender, RoutedEventArgs e)
-        {
-            SliderCell1.Visibility = Visibility.Visible;
-            SliderCell2.Visibility = Visibility.Visible;
-            SliderCell3.Visibility = Visibility.Visible;
-            SliderCell4.Visibility = Visibility.Visible;
-            SliderCell5.Visibility = Visibility.Visible;
-            SliderCell6.Visibility = Visibility.Visible;
-        }
+        private void Exit_Click(object sender, RoutedEventArgs e) => this.Close();
 
-        private void cb_EditMode_Unchecked(object sender, RoutedEventArgs e)
+        private void NVI_Home_Click(object sender, RoutedEventArgs e)
         {
-            SliderCell1.Visibility = Visibility.Hidden;
-            SliderCell2.Visibility = Visibility.Hidden;
-            SliderCell3.Visibility = Visibility.Hidden;
-            SliderCell4.Visibility = Visibility.Hidden;
-            SliderCell5.Visibility = Visibility.Hidden;
-            SliderCell6.Visibility = Visibility.Hidden;
-        }
-
-        public void UpdateUISlider(Slider slider, int value) => slider.Value = value;
-        private void Exit_Click(object sender, EventArgs e) => this.Close();
-
-        private void SliderCell_Click(object sender, MouseButtonEventArgs e)
-        {
-            if (sender is SliderBorder border)
+            if(!NVI_Home.IsActive)
             {
-                var dialog = new SelectCategoryPopup(border.CustomSlider);
-                dialog.Owner = this;
-                bool? result = dialog.ShowDialog();
+                MainContentFrame.Navigate(_homeUserControl);
+                SetActive(NVI_Home);
+            }            
+        }
 
-                if (result == true)
+
+        private void NVI_EditMode_Click(object sender, RoutedEventArgs e)
+        {
+            if (NVI_Home.IsActive && NVI_EditMode.Icon is SymbolIcon symbolIconEditMode)
+            {
+                if (symbolIconEditMode.Symbol == SymbolRegular.CheckboxChecked24)
                 {
-                    border.CustomSlider.Category = dialog.SelectedCategory;
-                    DataHandler.SaveCategorySliders(DataHandler.CategorySlidersPath);
-                    DataHandler.SetSliderTextBlocks();
+                    symbolIconEditMode.Symbol = SymbolRegular.CheckboxUnchecked24;
+                    _homeUserControl.SliderCell1.Visibility = Visibility.Hidden;
+                    _homeUserControl.SliderCell2.Visibility = Visibility.Hidden;
+                    _homeUserControl.SliderCell3.Visibility = Visibility.Hidden;
+                    _homeUserControl.SliderCell4.Visibility = Visibility.Hidden;
+                    _homeUserControl.SliderCell5.Visibility = Visibility.Hidden;
+                    _homeUserControl.SliderCell6.Visibility = Visibility.Hidden;
+                }
+                else
+                {
+                    symbolIconEditMode.Symbol = SymbolRegular.CheckboxChecked24;
+                    _homeUserControl.SliderCell1.Visibility = Visibility.Visible;
+                    _homeUserControl.SliderCell2.Visibility = Visibility.Visible;
+                    _homeUserControl.SliderCell3.Visibility = Visibility.Visible;
+                    _homeUserControl.SliderCell4.Visibility = Visibility.Visible;
+                    _homeUserControl.SliderCell5.Visibility = Visibility.Visible;
+                    _homeUserControl.SliderCell6.Visibility = Visibility.Visible;
                 }
             }
+        }
+
+        private void NVI_Slider_Categories_Click(object sender, RoutedEventArgs e)
+        {
+            if (!NVI_Slider_Categories.IsActive)
+            {
+                MainContentFrame.Navigate(_manageSliderCategoriesUserControl);
+                SetActive(NVI_Slider_Categories);
+            }
+        }
+        private void NVI_Button_Categories_Click(object sender, RoutedEventArgs e)
+        {
+            if (!NVI_Button_Categories.IsActive)
+            {
+                MainContentFrame.Navigate(_manageButtonCategoriesUserControl);
+                SetActive(NVI_Button_Categories);
+            }
+        }
+        private void NVI_Settings_Click(object sender, RoutedEventArgs e)
+        {
+            if (!NVI_Settings.IsActive)
+            {
+                MainContentFrame.Navigate(_homeUserControl);
+                SetActive(NVI_Settings);
+            }
+        }
+
+        private void SetActive(NavigationViewItem item)
+        {
+            NVI_Home.IsActive = false;
+            NVI_Slider_Categories.IsActive = false;
+            NVI_Button_Categories.IsActive = false;
+            NVI_Settings.IsActive = false;
+
+            if (NVI_EditMode.Icon is SymbolIcon symbolIconEditMode)
+            {
+                symbolIconEditMode.Symbol = SymbolRegular.CheckboxUnchecked24;
+            }
+            if (NVI_Home.Icon is SymbolIcon symbolIconHome) symbolIconHome.Filled = false;
+            if (NVI_Slider_Categories.Icon is SymbolIcon symbolIconCategories) symbolIconCategories.Filled = false;
+            if (NVI_Button_Categories.Icon is SymbolIcon symbolIconButtonCategories) symbolIconButtonCategories.Filled = false;
+            if (NVI_Settings.Icon is SymbolIcon symbolIconSettings) symbolIconSettings.Filled = false;
+
+            if (item.Icon is SymbolIcon symbolIcon) symbolIcon.Filled = true;
+            item.IsActive = true;
         }
     }   
 }

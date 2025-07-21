@@ -1,11 +1,12 @@
 ﻿using System.Windows;
+using Wpf.Ui.Controls;
 
-namespace ControlPad.Windows
+namespace ControlPad
 {
-    public partial class CreateCategoryPopup : Window
+    public partial class CreateSliderCategoryPopup : FluentWindow
     {
         public string CategoryName { get; set; } = string.Empty;
-        public CreateCategoryPopup()
+        public CreateSliderCategoryPopup()
         {
             InitializeComponent();
         }

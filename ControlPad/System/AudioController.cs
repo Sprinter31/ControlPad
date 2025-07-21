@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
+using System.Collections.ObjectModel;
 
 namespace ControlPad
 {
@@ -64,28 +64,20 @@ namespace ControlPad
 
         }
 
-        public float GetProcessVolume(string processName)
+        public List<MMDevice> GetMics()
         {
-            using var device = _enum.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
-            var sessions = device?.AudioSessionManager.Sessions;
-
-            for (int i = 0; i < sessions?.Count; i++)
+            var mics = new List<MMDevice>();
+            var enumerator = new MMDeviceEnumerator();
+            var devices = enumerator.EnumerateAudioEndPoints(
+                DataFlow.Capture,
+                DeviceState.Active
+            );
+           
+            foreach (var device in devices)
             {
-                var session = sessions[i];
-                if (session.DisplayName == processName)
-                    return session.SimpleAudioVolume.Volume;
+                mics.Add(device);
             }
-            return 0;
-        }
-
-        public float GetSystemVolume()
-        {
-            return 0;
-        }
-
-        public float GetMicVolume()
-        {
-            return 0;
+            return mics;
         }
     }
 }

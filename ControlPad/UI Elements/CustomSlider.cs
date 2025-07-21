@@ -13,7 +13,7 @@ namespace ControlPad
         public static readonly DependencyProperty CategoryProperty =
             DependencyProperty.Register(
                 nameof(Category),
-                typeof(Category),
+                typeof(SliderCategory),
                 typeof(CustomSlider),
                 new PropertyMetadata(null));
 
@@ -24,9 +24,9 @@ namespace ControlPad
                 typeof(CustomSlider),
                 new PropertyMetadata(null));
 
-        public Category? Category
+        public SliderCategory? Category
         {
-            get => (Category?)GetValue(CategoryProperty);
+            get => (SliderCategory?)GetValue(CategoryProperty);
             set => SetValue(CategoryProperty, value);
         }
 

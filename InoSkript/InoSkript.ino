@@ -8,7 +8,7 @@ void setup() {
   pinMode(switch1Pin, INPUT_PULLUP);
   pinMode(switch2Pin, INPUT_PULLUP);
   
-  Serial.begin(9600);
+  Serial.begin(115200);
 }
 
 void loop() {

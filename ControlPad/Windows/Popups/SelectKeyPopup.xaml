@@ -1,0 +1,47 @@
+﻿<ui:FluentWindow x:Class="ControlPad.SelectKeyPopup"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ControlPad"
+        mc:Ignorable="d"
+        Title="SelectKeyPopup" Height="500" Width="300" Background="Black">
+    
+    <DockPanel>
+        <ui:TitleBar DockPanel.Dock="Top" x:Name="TitleBarSelectKeyPopup"
+        Title="Please Select a key"
+        Icon="{ui:ImageIcon 'pack://application:,,,/Resources/logo.ico'}"/>
+
+        <Grid>
+            <TreeView AllowDrop="True">
+                <TreeViewItem Header="Function">
+                    <TreeViewItem Header="F1" />
+                    <TreeViewItem Header="F2" />
+                    <TreeViewItem Header="F3" />
+                    <TreeViewItem Header="F4" />
+                    <TreeViewItem Header="F5" />
+                    <TreeViewItem Header="F6" />
+                    <TreeViewItem Header="F7" />
+                    <TreeViewItem Header="F8" />
+                    <TreeViewItem Header="F9" />
+                    <TreeViewItem Header="F10" />
+                    <TreeViewItem Header="F11" />
+                    <TreeViewItem Header="F12" />
+                    <TreeViewItem Header="F13" />
+                    <TreeViewItem Header="F14" />
+                    <TreeViewItem Header="F15" />
+                    <TreeViewItem Header="F16" />
+                    <TreeViewItem Header="F17" />
+                    <TreeViewItem Header="F18" />
+                    <TreeViewItem Header="F19" />
+                    <TreeViewItem Header="F20" />
+                    <TreeViewItem Header="F21" />
+                    <TreeViewItem Header="F22" />
+                    <TreeViewItem Header="F23" />
+                    <TreeViewItem Header="F24" />
+                </TreeViewItem>
+            </TreeView>
+        </Grid>
+    </DockPanel>
+</ui:FluentWindow>

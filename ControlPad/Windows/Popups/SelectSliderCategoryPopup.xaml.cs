@@ -1,23 +1,22 @@
 ﻿using System.Windows;
-using System.Windows.Media.Imaging;
+using Wpf.Ui.Controls;
 
-namespace ControlPad.Windows
+namespace ControlPad
 {
-    public partial class SelectCategoryPopup : Window
+    public partial class SelectSliderCategoryPopup : FluentWindow
     {
-        public Category SelectedCategory { get; set; }
+        public SliderCategory SelectedCategory { get; set; }
         private CustomSlider categorySlider;
-        public SelectCategoryPopup(CustomSlider categorySlider)
+        public SelectSliderCategoryPopup(CustomSlider categorySlider)
         {
             InitializeComponent();
-            this.categorySlider = categorySlider;
-            ButtonImage.Source = new BitmapImage(new Uri(@"\Resources\x.png", UriKind.Relative));
+            this.categorySlider = categorySlider;          
             SetDropDown();            
         }       
 
         private void btn_Apply_Click(object sender, RoutedEventArgs e)
         {
-            if(cb_Categories.SelectedItem is Category selectedCategory)
+            if(cb_Categories.SelectedItem is SliderCategory selectedCategory)
             {
                 SelectedCategory = selectedCategory;
                 DialogResult = true;
@@ -37,7 +36,7 @@ namespace ControlPad.Windows
 
             var currentCatId = categorySlider?.Category?.Id;
 
-            var availableCategories = DataHandler.Categories.Where(c => !usedIds.Contains(c.Id) || c.Id == currentCatId).ToList();
+            var availableCategories = DataHandler.SliderCategories.Where(c => !usedIds.Contains(c.Id) || c.Id == currentCatId).ToList();
 
             cb_Categories.ItemsSource = availableCategories;
 
