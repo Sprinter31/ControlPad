@@ -1,4 +1,4 @@
-﻿using ControlPad.Windows;
+﻿using ControlPad;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -58,7 +58,7 @@ namespace ControlPad
         {
             if (sender is SliderBorder border)
             {
-                var dialog = new SelectCategoryPopup(border.CustomSlider);
+                var dialog = new SelectSliderCategoryPopup(border.CustomSlider);
                 dialog.Owner = mainWindow;
 
                 if (dialog.ShowDialog() == true)

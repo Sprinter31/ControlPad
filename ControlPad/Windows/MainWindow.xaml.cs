@@ -1,4 +1,4 @@
-﻿using ControlPad.Windows;
+﻿using ControlPad;
 using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Drawing;
