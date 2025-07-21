@@ -30,10 +30,8 @@ namespace ControlPad
                     case EActionType.MuteProcess:
                     case EActionType.OpenProcess:
                     case EActionType.OpenWebsite:
-                        ButtonActionControl.TextBlock.Text = $"{buttonAction.ActionType.Description}: {(string)buttonAction.ActionProperty}";
-                        break;
                     case EActionType.MuteMic:
-                        ButtonActionControl.TextBlock.Text = $"{buttonAction.ActionType.Description}: {((MMDevice)buttonAction.ActionProperty).DeviceFriendlyName}";
+                        ButtonActionControl.TextBlock.Text = $"{buttonAction.ActionType.Description}: {buttonAction.ActionPropertyDisplay}";
                         break;
                     case EActionType.KeyPress: break;
                 }
@@ -100,6 +98,7 @@ namespace ControlPad
                         if (processDialog.ShowDialog() == true)
                         {
                             control.ButtonAction.ActionProperty = processDialog.SelectedProcessName;
+                            control.ButtonAction.ActionPropertyDisplay = processDialog.SelectedProcessName;
                             control.TextBlock.Text = $"{control.ButtonAction.ActionType.Description}: {processDialog.SelectedProcessName}";
                         }
                         break;
@@ -112,7 +111,8 @@ namespace ControlPad
 
                         if (micDialog.ShowDialog() == true)
                         {
-                            control.ButtonAction.ActionProperty = micDialog.SelectedMic;
+                            control.ButtonAction.ActionProperty = micDialog.SelectedMic?.DeviceFriendlyName;
+                            control.ButtonAction.ActionPropertyDisplay = micDialog.SelectedMic?.DeviceFriendlyName;
                             control.TextBlock.Text = $"{control.ButtonAction.ActionType.Description}: {micDialog.SelectedMic?.DeviceFriendlyName}";
                         }
                         break;
@@ -131,6 +131,7 @@ namespace ControlPad
                         if (fileDialog.ShowDialog() == true)
                         {
                             control.ButtonAction.ActionProperty = fileDialog.FileName;
+                            control.ButtonAction.ActionPropertyDisplay = fileDialog.SafeFileName;
                             control.TextBlock.Text = $"{control.ButtonAction.ActionType.Description}: {fileDialog.SafeFileName}";
                         }
                         break;
@@ -143,6 +144,7 @@ namespace ControlPad
                         if (websiteDialog.ShowDialog() == true)
                         {
                             control.ButtonAction.ActionProperty = websiteDialog.URL;
+                            control.ButtonAction.ActionPropertyDisplay = websiteDialog.DisplayURL;
                             control.TextBlock.Text = $"{control.ButtonAction.ActionType.Description}: {websiteDialog.DisplayURL}";
                         }
                         break;

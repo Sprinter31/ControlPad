@@ -8,8 +8,9 @@ namespace ControlPad
 {
     public class ButtonAction
     {
-        public ActionType ActionType;
-        public object? ActionProperty;
+        public ActionType ActionType { get; set; }
+        public object? ActionProperty { get; set; }
+        public string? ActionPropertyDisplay { get; set; }
 
         public ButtonAction(ActionType actionType)
         {

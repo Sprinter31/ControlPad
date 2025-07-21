@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NAudio.CoreAudioApi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -47,6 +48,7 @@ namespace ControlPad
             var dialog = new EditButtonCategoryWindow(lb_Categories.SelectedIndex);
             dialog.Owner = mainWindow;
             dialog.ShowDialog();
+            DataHandler.SaveDataToFile(DataHandler.ButtonCategoriesPath, DataHandler.ButtonCategories.ToList());
         }
 
         private void DeleteAtSelected()
