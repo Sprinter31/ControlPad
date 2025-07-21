@@ -54,12 +54,7 @@ namespace ControlPad
 
             var dialog = new EditSliderCategoryWindow(index);
             dialog.ShowDialog();
-        }
-
-        private void btn_Apply_Click(object sender, RoutedEventArgs e)
-        {
             DataHandler.SaveDataToFile(DataHandler.CategoryPath, DataHandler.SliderCategories.ToList());
-            DataHandler.RemoveCategoriesFromSlidersIfTheyGotDeleted();
         }
 
         private void lb_Categories_KeyDown(object sender, KeyEventArgs e)
@@ -71,15 +66,12 @@ namespace ControlPad
         {
             int index = lb_Categories.SelectedIndex;
             if (index == -1) return;
+           
+            var sliderToRemoveCategoryFrom = DataHandler.CategorySliders.FirstOrDefault(c => c.Category?.Id == DataHandler.SliderCategories[index].Id);
+            if (sliderToRemoveCategoryFrom != null)
+                sliderToRemoveCategoryFrom.Category = null;
 
-            
-            DataHandler.CategorySliders.FirstOrDefault(c => c.Category?.Id == DataHandler.SliderCategories[index].Id);
             DataHandler.SliderCategories.RemoveAt(index);
-
-            foreach (CustomSlider categorySlider in DataHandler.CategorySliders)
-                if (categorySlider.Category != null && !DataHandler.SliderCategories.Any(c => c.Id == categorySlider.Category.Id))
-                    categorySlider.Category = null;
-
             DataHandler.SaveCategorySliders(DataHandler.CategorySlidersPath);
         }
 
