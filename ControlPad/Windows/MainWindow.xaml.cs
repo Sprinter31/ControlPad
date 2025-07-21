@@ -14,14 +14,15 @@ namespace ControlPad
 {
     public partial class MainWindow : FluentWindow
     {
-        private bool closeFromX = false;
         private NotifyIcon notifyIcon;     
         private MainUserControl _mainUserControl;
+        private ManageCategoriesUserControl _manageCategoriesUserControl;
 
         public MainWindow()
         {
             InitializeComponent();
             _mainUserControl = new MainUserControl();
+            _manageCategoriesUserControl = new ManageCategoriesUserControl();
             DataContext = this;                    
             CreateNotifyIcon();
 
@@ -29,36 +30,11 @@ namespace ControlPad
             SetActive(NVI_Home);
         }
 
-        protected override void OnSourceInitialized(EventArgs e)
-        {
-            base.OnSourceInitialized(e);
-            var hwnd = new WindowInteropHelper(this).Handle;
-            HwndSource source = HwndSource.FromHwnd(hwnd);
-            source.AddHook(WndProc);    
-        }
-
-        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
-        {
-            const int WM_SYSCOMMAND = 0x0112;
-            const int SC_CLOSE = 0xF060;
-
-            if (msg == WM_SYSCOMMAND && wParam.ToInt32() == SC_CLOSE)
-            {
-                closeFromX = true;
-            }
-
-            return IntPtr.Zero;
-        }
-
         private void mainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (closeFromX)
-            {
-                e.Cancel = true;
-                this.Hide();
-                notifyIcon.ShowBalloonTip(5000, "Notice", "Control Pad minimized to system tray", ToolTipIcon.Info);
-                closeFromX = false;
-            }
+            e.Cancel = true;
+            this.Hide();
+            notifyIcon.ShowBalloonTip(5000, "Notice", "Control Pad minimized to system tray", ToolTipIcon.Info);
         }
 
         private void mainWindow_Closed(object sender, EventArgs e)
@@ -142,7 +118,7 @@ namespace ControlPad
         {
             if(!NVI_Categories.IsActive)
             {
-                MainContentFrame.Navigate(_mainUserControl);
+                MainContentFrame.Navigate(_manageCategoriesUserControl);
                 SetActive(NVI_Categories);                
             }
         }

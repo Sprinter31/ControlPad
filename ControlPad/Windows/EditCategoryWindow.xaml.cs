@@ -6,13 +6,11 @@ namespace ControlPad.Windows
     public partial class EditCategoryWindow : FluentWindow
     {
         private int indexOfCategory;
-        ManageCategoriesWindow MCW;
 
-        public EditCategoryWindow(ManageCategoriesWindow MCW, int indexOfCategory)
+        public EditCategoryWindow(int indexOfCategory)
         {
             InitializeComponent();
             this.indexOfCategory = indexOfCategory;
-            this.MCW = MCW;
 
             tb_CategoryName.Text = DataHandler.CategoriesTemp[indexOfCategory].Name;
             lb_Processes.ItemsSource = DataHandler.CategoriesTemp[indexOfCategory].Processes;
@@ -41,7 +39,6 @@ namespace ControlPad.Windows
         private void btn_Close_Click(object sender, RoutedEventArgs e)
         {
             DataHandler.CategoriesTemp[indexOfCategory].Name = tb_CategoryName.Text.Trim();
-            MCW.RefreshListBox();
             this.Close();
         }
     }
