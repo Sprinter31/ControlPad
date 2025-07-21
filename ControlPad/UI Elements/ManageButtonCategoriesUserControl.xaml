@@ -27,11 +27,6 @@ BasedOn="{StaticResource {x:Type ListBox}}">
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="12*"/>
-        </Grid.RowDefinitions>
-
         <Border BorderThickness="1" Grid.Row="1" Margin="30,30,30,30"
  BorderBrush="{ui:ThemeResource ControlStrokeColorDefaultBrush}"
  CornerRadius="4">

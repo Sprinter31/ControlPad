@@ -10,10 +10,6 @@
         WindowStartupLocation="CenterOwner"
         Title="EditCategoryWindow" Height="420" Width="438">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="8*"/>
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
