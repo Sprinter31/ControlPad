@@ -85,26 +85,6 @@ namespace ControlPad
             };
         }
 
-        private void cb_EditMode_Checked(object sender, RoutedEventArgs e)
-        {
-            _homeUserControl.SliderCell1.Visibility = Visibility.Visible;
-            _homeUserControl.SliderCell2.Visibility = Visibility.Visible;
-            _homeUserControl.SliderCell3.Visibility = Visibility.Visible;
-            _homeUserControl.SliderCell4.Visibility = Visibility.Visible;
-            _homeUserControl.SliderCell5.Visibility = Visibility.Visible;
-            _homeUserControl.SliderCell6.Visibility = Visibility.Visible;
-        }
-
-        private void cb_EditMode_Unchecked(object sender, RoutedEventArgs e)
-        {
-            _homeUserControl.SliderCell1.Visibility = Visibility.Hidden;
-            _homeUserControl.SliderCell2.Visibility = Visibility.Hidden;
-            _homeUserControl.SliderCell3.Visibility = Visibility.Hidden;
-            _homeUserControl.SliderCell4.Visibility = Visibility.Hidden;
-            _homeUserControl.SliderCell5.Visibility = Visibility.Hidden;
-            _homeUserControl.SliderCell6.Visibility = Visibility.Hidden;
-        }
-
         private void Exit_Click(object sender, RoutedEventArgs e) => this.Close();
 
         private void NVI_Home_Click(object sender, RoutedEventArgs e)
@@ -115,6 +95,35 @@ namespace ControlPad
                 SetActive(NVI_Home);
             }            
         }
+
+
+        private void NVI_EditMode_Click(object sender, RoutedEventArgs e)
+        {
+            if (NVI_Home.IsActive && NVI_EditMode.Icon is SymbolIcon symbolIconEditMode)
+            {
+                if (symbolIconEditMode.Symbol == SymbolRegular.CheckboxChecked24)
+                {
+                    symbolIconEditMode.Symbol = SymbolRegular.CheckboxUnchecked24;
+                    _homeUserControl.SliderCell1.Visibility = Visibility.Hidden;
+                    _homeUserControl.SliderCell2.Visibility = Visibility.Hidden;
+                    _homeUserControl.SliderCell3.Visibility = Visibility.Hidden;
+                    _homeUserControl.SliderCell4.Visibility = Visibility.Hidden;
+                    _homeUserControl.SliderCell5.Visibility = Visibility.Hidden;
+                    _homeUserControl.SliderCell6.Visibility = Visibility.Hidden;
+                }
+                else
+                {
+                    symbolIconEditMode.Symbol = SymbolRegular.CheckboxChecked24;
+                    _homeUserControl.SliderCell1.Visibility = Visibility.Visible;
+                    _homeUserControl.SliderCell2.Visibility = Visibility.Visible;
+                    _homeUserControl.SliderCell3.Visibility = Visibility.Visible;
+                    _homeUserControl.SliderCell4.Visibility = Visibility.Visible;
+                    _homeUserControl.SliderCell5.Visibility = Visibility.Visible;
+                    _homeUserControl.SliderCell6.Visibility = Visibility.Visible;
+                }
+            }
+        }
+
         private void NVI_Slider_Categories_Click(object sender, RoutedEventArgs e)
         {
             if (!NVI_Slider_Categories.IsActive)
@@ -138,7 +147,7 @@ namespace ControlPad
                 MainContentFrame.Navigate(_homeUserControl);
                 SetActive(NVI_Settings);
             }
-        }        
+        }
 
         private void SetActive(NavigationViewItem item)
         {
@@ -146,8 +155,13 @@ namespace ControlPad
             NVI_Slider_Categories.IsActive = false;
             NVI_Button_Categories.IsActive = false;
             NVI_Settings.IsActive = false;
+
+            if (NVI_EditMode.Icon is SymbolIcon symbolIconEditMode)
+            {
+                symbolIconEditMode.Symbol = SymbolRegular.CheckboxUnchecked24;
+            }
             if (NVI_Home.Icon is SymbolIcon symbolIconHome) symbolIconHome.Filled = false;
-            if (NVI_Slider_Categories.Icon is SymbolIcon symbolIconSliderCategories) symbolIconSliderCategories.Filled = false;
+            if (NVI_Slider_Categories.Icon is SymbolIcon symbolIconCategories) symbolIconCategories.Filled = false;
             if (NVI_Button_Categories.Icon is SymbolIcon symbolIconButtonCategories) symbolIconButtonCategories.Filled = false;
             if (NVI_Settings.Icon is SymbolIcon symbolIconSettings) symbolIconSettings.Filled = false;
 

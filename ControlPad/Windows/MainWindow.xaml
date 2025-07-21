@@ -15,7 +15,6 @@
         ExtendsContentIntoTitleBar="True"
         ResizeMode="NoResize"
         >
-
     <DockPanel>
         <ui:TitleBar
     DockPanel.Dock="Top"
@@ -23,28 +22,9 @@
     Title="Control Pad"
     Icon="{ui:ImageIcon 'pack://application:,,,/Resources/logo.ico'}" />
 
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_File">
-                <MenuItem x:Name="btn_ManageSliderCategories" Header="_Manage Slider Categories" Click="ManageSliderCategories_Click"/>
-                <MenuItem Header="Preferences"/>
-                <MenuItem Header="E_xit" Click="Exit_Click"/>
-            </MenuItem>
-            <MenuItem Header="_Edit">
-                <MenuItem x:Name="cb_EditMode" IsCheckable="True" Header="Edit Mode" Checked="cb_EditMode_Checked" Unchecked="cb_EditMode_Unchecked"/>
-                <MenuItem Header="_Paste"/>
-            </MenuItem>
-            <MenuItem Header="_Help">
-                <MenuItem Header="_About"/>
-            </MenuItem>
-        </Menu>
-
-        <ui:NavigationView x:Name="MainNavigationView"
-            MinHeight="300"
-            Margin="0"
-            
-            OpenPaneLength="60"
+        <ui:NavigationView
+            x:Name="MainNavigationView"
             PaneDisplayMode="LeftFluent"
-            IsPaneToggleVisible="False"
             IsBackButtonVisible="Collapsed">
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem x:Name="NVI_Home" Content="Home" Icon="{ui:SymbolIcon Home24}" Click="NVI_Home_Click"/>
