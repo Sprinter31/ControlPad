@@ -50,7 +50,7 @@ namespace ControlPad
 
             if (index == -1) return;
 
-            var dialog = new EditSliderCategoryWindow(index);
+            var dialog = new EditSliderCategoryWindow(index) { Owner = mainWindow };
             dialog.ShowDialog();
             DataHandler.SetSliderTextBlocks();
             DataHandler.SaveDataToFile(DataHandler.SliderCategoriesPath, DataHandler.SliderCategories.ToList());

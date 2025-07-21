@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using Wpf.Ui.Controls;
 using Microsoft.Win32;
 using System.Reflection.Metadata;
+using System.Collections.ObjectModel;
+using NAudio.CoreAudioApi;
 
 namespace ControlPad
 {
@@ -21,9 +23,20 @@ namespace ControlPad
             InitializeComponent();
             foreach (var buttonAction in DataHandler.ButtonCategories[indexOfCategory].ButtonActions)
             {
-                if (buttonAction.Parent is StackPanel oldParent)
-                    oldParent.Children.Remove(buttonAction);
-                ActionsContainer.Children.Add(buttonAction);
+                var ButtonActionControl = CreateAction(buttonAction);
+                ActionsContainer.Children.Add(ButtonActionControl);
+                switch(buttonAction.ActionType.Type)
+                {
+                    case EActionType.MuteProcess:
+                    case EActionType.OpenProcess:
+                    case EActionType.OpenWebsite:
+                        ButtonActionControl.TextBlock.Text = $"{buttonAction.ActionType.Description}: {(string)buttonAction.ActionProperty}";
+                        break;
+                    case EActionType.MuteMic:
+                        ButtonActionControl.TextBlock.Text = $"{buttonAction.ActionType.Description}: {((MMDevice)buttonAction.ActionProperty).DeviceFriendlyName}";
+                        break;
+                    case EActionType.KeyPress: break;
+                }
             }
             this.indexOfCategory = indexOfCategory;
             ComboBox_Type.DisplayMemberPath = "Description";
@@ -34,8 +47,8 @@ namespace ControlPad
         {
             if (ComboBox_Type.SelectedItem == null || string.IsNullOrEmpty(ComboBox_Type.SelectedItem.ToString())) return;
 
-            var buttonAction = CreateAction((ActionType)ComboBox_Type.SelectedItem);
-            ActionsContainer.Children.Add(buttonAction);
+            ButtonAction buttonAction = new ButtonAction((ActionType)ComboBox_Type.SelectedItem);
+            ActionsContainer.Children.Add(CreateAction(buttonAction));
             DataHandler.ButtonCategories[indexOfCategory].ButtonActions.Add(buttonAction);
         }
 
@@ -43,51 +56,51 @@ namespace ControlPad
         {
             var btn = (System.Windows.Controls.Button)sender;
 
-            if (btn.Parent is Grid grid && grid.Parent is ButtonAction wrapper)
+            if (btn.Parent is Grid grid && grid.Parent is ButtonActionUserControl wrapper)
             {
                 RemoveHandlers(wrapper);
                 ActionsContainer.Children.Remove(wrapper);
-                DataHandler.ButtonCategories[indexOfCategory].ButtonActions.Remove(wrapper);
+                DataHandler.ButtonCategories[indexOfCategory].ButtonActions.Remove(wrapper.ButtonAction);
             }
         }
 
-        private ButtonAction CreateAction(ActionType actionType)
+        private ButtonActionUserControl CreateAction(ButtonAction buttonAction)
         {
-            var buttonAction = new ButtonAction(actionType);
-            if(actionType.Type == EActionType.MuteMainAudio) buttonAction.btn_Settings.IsEnabled = false;
-            buttonAction.TextBlock.Text = actionType.Description;
-            AddHandlers(buttonAction);
-            return buttonAction;
+            var buttonActionControl = new ButtonActionUserControl(buttonAction);
+            if(buttonAction.ActionType.Type == EActionType.MuteMainAudio) buttonActionControl.btn_Settings.IsEnabled = false;
+            buttonActionControl.TextBlock.Text = buttonAction.ActionType.Description;
+            AddHandlers(buttonActionControl);
+            return buttonActionControl;
         }
 
-        private void AddHandlers(ButtonAction action)
+        private void AddHandlers(ButtonActionUserControl control)
         {
-            action.btn_Settings.Click += new RoutedEventHandler(btn_settings_Click);
-            action.btn_Remove.Click += new RoutedEventHandler(btn_Remove_Click);
+            control.btn_Settings.Click += new RoutedEventHandler(btn_settings_Click);
+            control.btn_Remove.Click += new RoutedEventHandler(btn_Remove_Click);
         }
             
-        private void RemoveHandlers(ButtonAction action)
+        private void RemoveHandlers(ButtonActionUserControl control)
         {
-            action.btn_Settings.Click -= btn_settings_Click;
-            action.btn_Remove.Click -= btn_Remove_Click;
+            control.btn_Settings.Click -= btn_settings_Click;
+            control.btn_Remove.Click -= btn_Remove_Click;
         }
 
         private void btn_settings_Click(object sender, EventArgs e)
         {
             var btn = (System.Windows.Controls.Button)sender;
-            var buttonAction = (ButtonAction)((Grid)btn.Parent).Parent;
+            var control = (ButtonActionUserControl)((Grid)btn.Parent).Parent;
 
-            switch (buttonAction.ActionType.Type)
+            switch (control.ButtonAction.ActionType.Type)
             {
                 case EActionType.MuteProcess:
                     {
                         var processDialog = new SelectProcessPopup { Owner = this };
-                        processDialog.cb_Processes.Text = buttonAction.ActionProperty as string ?? processDialog.cb_Processes.Text;
+                        processDialog.cb_Processes.Text = control.ButtonAction.ActionProperty as string ?? processDialog.cb_Processes.Text;
 
                         if (processDialog.ShowDialog() == true)
                         {
-                            buttonAction.ActionProperty = processDialog.SelectedProcessName;
-                            buttonAction.TextBlock.Text = $"{buttonAction.ActionType.Description}: {processDialog.SelectedProcessName}";
+                            control.ButtonAction.ActionProperty = processDialog.SelectedProcessName;
+                            control.TextBlock.Text = $"{control.ButtonAction.ActionType.Description}: {processDialog.SelectedProcessName}";
                         }
                         break;
                     }
@@ -95,12 +108,12 @@ namespace ControlPad
                 case EActionType.MuteMic:
                     {
                         var micDialog = new SelectMicPopup { Owner = this };
-                        micDialog.cb_Mics.Text = buttonAction.ActionProperty as string ?? micDialog.cb_Mics.Text;
+                        micDialog.cb_Mics.Text = control.ButtonAction.ActionProperty as string ?? micDialog.cb_Mics.Text;
 
                         if (micDialog.ShowDialog() == true)
                         {
-                            buttonAction.ActionProperty = micDialog.SelectedMic;
-                            buttonAction.TextBlock.Text = $"{buttonAction.ActionType.Description}: {micDialog.SelectedMic?.DeviceFriendlyName}";
+                            control.ButtonAction.ActionProperty = micDialog.SelectedMic;
+                            control.TextBlock.Text = $"{control.ButtonAction.ActionType.Description}: {micDialog.SelectedMic?.DeviceFriendlyName}";
                         }
                         break;
                     }                   
@@ -117,26 +130,52 @@ namespace ControlPad
 
                         if (fileDialog.ShowDialog() == true)
                         {
-                            buttonAction.ActionProperty = fileDialog.FileName;
-                            buttonAction.TextBlock.Text = $"{buttonAction.ActionType.Description}: {fileDialog.SafeFileName}";
+                            control.ButtonAction.ActionProperty = fileDialog.FileName;
+                            control.TextBlock.Text = $"{control.ButtonAction.ActionType.Description}: {fileDialog.SafeFileName}";
                         }
                         break;
                     }                   
                 case EActionType.OpenWebsite: 
                     {
                         var websiteDialog = new EnterWebsitePopup { Owner = this };
-                        websiteDialog.tb_WebsiteURL.Text = buttonAction.ActionProperty as string ?? websiteDialog.tb_WebsiteURL.Text;
+                        websiteDialog.tb_WebsiteURL.Text = control.ButtonAction.ActionProperty as string ?? websiteDialog.tb_WebsiteURL.Text;
 
                         if (websiteDialog.ShowDialog() == true)
                         {
-                            buttonAction.ActionProperty = websiteDialog.URL;
-                            buttonAction.TextBlock.Text = $"{buttonAction.ActionType.Description}: {websiteDialog.DisplayURL}";
+                            control.ButtonAction.ActionProperty = websiteDialog.URL;
+                            control.TextBlock.Text = $"{control.ButtonAction.ActionType.Description}: {websiteDialog.DisplayURL}";
                         }
                         break;
                     }
                 case EActionType.KeyPress: break;
                 default: break;
             }
-        }          
+        }
+
+        private void FluentWindow_Closed(object sender, EventArgs e)
+        {
+            var buttonActions = new List<ButtonAction>();
+            var toRemove = new List<ButtonActionUserControl>();
+
+            foreach (ButtonActionUserControl control in ActionsContainer.Children)
+            {
+                if (control.ButtonAction.ActionProperty == null && control.ButtonAction.ActionType.Type != EActionType.MuteMainAudio)
+                {
+                    toRemove.Add(control);
+                }
+                else
+                {
+                    buttonActions.Add(control.ButtonAction);
+                }
+            }
+
+            foreach (var control in toRemove)
+            {
+                RemoveHandlers(control);
+                ActionsContainer.Children.Remove(control);
+            }
+
+            DataHandler.ButtonCategories[indexOfCategory].ButtonActions = buttonActions;
+        }
     }
 }
