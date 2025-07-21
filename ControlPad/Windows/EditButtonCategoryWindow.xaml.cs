@@ -30,7 +30,7 @@ namespace ControlPad
 
             var buttonAction = CreateAction((ActionType)ComboBox_Type.SelectedItem);
             ActionsContainer.Children.Add(buttonAction);
-            DataHandler.ButtonCategoriesTemp[indexOfCategory].ButtonActions.Add(buttonAction);
+            DataHandler.ButtonCategories[indexOfCategory].ButtonActions.Add(buttonAction);
         }
 
         private void btn_Remove_Click(object sender, EventArgs e)
@@ -41,7 +41,7 @@ namespace ControlPad
             {
                 RemoveHandlers(wrapper);
                 ActionsContainer.Children.Remove(wrapper);
-                DataHandler.ButtonCategoriesTemp[indexOfCategory].ButtonActions.Remove(wrapper);
+                DataHandler.ButtonCategories[indexOfCategory].ButtonActions.Remove(wrapper);
             }
         }
 

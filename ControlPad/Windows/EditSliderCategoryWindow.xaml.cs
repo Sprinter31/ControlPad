@@ -1,19 +1,19 @@
 ﻿using System.Windows;
 using Wpf.Ui.Controls;
 
-namespace ControlPad.Windows
+namespace ControlPad
 {
-    public partial class EditCategoryWindow : FluentWindow
+    public partial class EditSliderCategoryWindow : FluentWindow
     {
         private int indexOfCategory;
 
-        public EditCategoryWindow(int indexOfCategory)
+        public EditSliderCategoryWindow(int indexOfCategory)
         {
             InitializeComponent();
             this.indexOfCategory = indexOfCategory;
 
-            tb_CategoryName.Text = DataHandler.SliderCategoriesTemp[indexOfCategory].Name;
-            lb_Processes.ItemsSource = DataHandler.SliderCategoriesTemp[indexOfCategory].Processes;
+            tb_CategoryName.Text = DataHandler.SliderCategories[indexOfCategory].Name;
+            lb_Processes.ItemsSource = DataHandler.SliderCategories[indexOfCategory].Processes;
         }
 
         private void btn_AddProcess_Click(object sender, RoutedEventArgs e)
@@ -22,7 +22,7 @@ namespace ControlPad.Windows
 
             if (dialog.ShowDialog() == true)
             {
-                DataHandler.SliderCategoriesTemp[indexOfCategory].Processes.Add(dialog.SelectedProcessName);
+                DataHandler.SliderCategories[indexOfCategory].Processes.Add(dialog.SelectedProcessName);
             }               
         }
 
@@ -30,12 +30,12 @@ namespace ControlPad.Windows
         {
             int index = lb_Processes.SelectedIndex;
             if (index == -1) return;
-            DataHandler.SliderCategoriesTemp[indexOfCategory].Processes.RemoveAt(index);
+            DataHandler.SliderCategories[indexOfCategory].Processes.RemoveAt(index);
         }
 
         private void btn_Close_Click(object sender, RoutedEventArgs e)
         {
-            DataHandler.SliderCategoriesTemp[indexOfCategory].Name = tb_CategoryName.Text.Trim();
+            DataHandler.SliderCategories[indexOfCategory].Name = tb_CategoryName.Text.Trim();
             this.Close();
         }
     }

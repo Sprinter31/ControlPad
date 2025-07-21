@@ -14,10 +14,8 @@ namespace ControlPad
     {
         public static string CategoryPath { get; } = @"Resources\Categories.json";
         public static string CategorySlidersPath { get; } = @"Resources\CustomSliders.txt";
-        public static ObservableCollection<SliderCategory> SliderCategories { get; set; } = new ObservableCollection<SliderCategory>();
-        public static ObservableCollection<SliderCategory> SliderCategoriesTemp { get; set; } = new ObservableCollection<SliderCategory>();
+        public static ObservableCollection<SliderCategory> SliderCategories { get; set; } = new ObservableCollection<SliderCategory>();        
         public static ObservableCollection<ButtonCategory> ButtonCategories { get; set; } = new ObservableCollection<ButtonCategory>();
-        public static ObservableCollection<ButtonCategory> ButtonCategoriesTemp { get; set; } = new ObservableCollection<ButtonCategory>();
         public static CustomSlider[] CategorySliders { get; set; } = new CustomSlider[6];
 
         public static void SaveDataToFile<T>(string path, List<T> data)

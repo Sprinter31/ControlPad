@@ -23,19 +23,14 @@ namespace ControlPad
         public ManageSliderCategoriesUserControl(MainWindow mainWindow)
         {
             InitializeComponent();
-            DataHandler.SliderCategoriesTemp = new ObservableCollection<SliderCategory>(
-                DataHandler.SliderCategories
-                .Select(c => new SliderCategory(c.Name, c.Id)
-                {
-                    Processes = new ObservableCollection<string>(c.Processes)
-                }));
+            
             lb_Categories.ItemsSource = DataHandler.SliderCategories;
             this.mainWindow = mainWindow;
         }
 
         private void btn_CreateCat_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new CreateCategoryPopup();
+            var dialog = new CreateSliderCategoryPopup();
             dialog.Owner = mainWindow;
 
             string name = "";
@@ -47,7 +42,8 @@ namespace ControlPad
 
             if (string.IsNullOrEmpty(name)) return;
 
-            DataHandler.SliderCategoriesTemp.Add(new SliderCategory(name, DataHandler.GetNextCategoryId()));
+            DataHandler.SliderCategories.Add(new SliderCategory(name, DataHandler.GetNextCategoryId()));
+            DataHandler.SaveDataToFile(DataHandler.CategoryPath, DataHandler.SliderCategories.ToList());
         }
 
         private void btn_EditCat_Click(object sender, RoutedEventArgs e)
@@ -56,14 +52,12 @@ namespace ControlPad
 
             if (index == -1) return;
 
-            var dialog = new EditCategoryWindow(index);
+            var dialog = new EditSliderCategoryWindow(index);
             dialog.ShowDialog();
         }
 
         private void btn_Apply_Click(object sender, RoutedEventArgs e)
         {
-            DataHandler.SliderCategories = DataHandler.SliderCategoriesTemp;
-            DataHandler.SliderCategoriesTemp = new ObservableCollection<SliderCategory>();
             DataHandler.SaveDataToFile(DataHandler.CategoryPath, DataHandler.SliderCategories.ToList());
             DataHandler.RemoveCategoriesFromSlidersIfTheyGotDeleted();
         }
@@ -78,14 +72,18 @@ namespace ControlPad
             int index = lb_Categories.SelectedIndex;
             if (index == -1) return;
 
-            DataHandler.SliderCategoriesTemp.RemoveAt(index);
+            
+            DataHandler.CategorySliders.FirstOrDefault(c => c.Category?.Id == DataHandler.SliderCategories[index].Id);
+            DataHandler.SliderCategories.RemoveAt(index);
+
+            foreach (CustomSlider categorySlider in DataHandler.CategorySliders)
+                if (categorySlider.Category != null && !DataHandler.SliderCategories.Any(c => c.Id == categorySlider.Category.Id))
+                    categorySlider.Category = null;
+
+            DataHandler.SaveCategorySliders(DataHandler.CategorySlidersPath);
         }
 
         public void RefreshListBox() => lb_Categories.Items.Refresh();
         private void btn_DeleteCat_Click(object sender, RoutedEventArgs e) => DeleteAtSelected();
-        private void btn_Cancel_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

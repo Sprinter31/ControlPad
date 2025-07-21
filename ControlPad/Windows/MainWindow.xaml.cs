@@ -44,13 +44,6 @@ namespace ControlPad
             notifyIcon.Visible = false;
             notifyIcon.Dispose();
             notifyIcon = null;
-        }      
-
-        private void ManageSliderCategories_Click(object sender, RoutedEventArgs e)
-        {
-            var dialog = new ManageCategoriesWindow();
-            dialog.Owner = this;
-            dialog.ShowDialog();
         }
 
         private void CreateNotifyIcon()
