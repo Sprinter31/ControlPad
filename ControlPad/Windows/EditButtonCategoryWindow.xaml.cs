@@ -151,6 +151,12 @@ namespace ControlPad
                     }
                 case EActionType.KeyPress:
                     {
+                        var keyDialog = new EnterWebsitePopup { Owner = this };
+
+                        if (keyDialog.ShowDialog() == true)
+                        {
+                            
+                        }
                         break;
                     }
                 default: break;
