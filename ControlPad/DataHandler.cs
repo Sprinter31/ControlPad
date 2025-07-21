@@ -6,13 +6,15 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Windows.Documents;
 
 namespace ControlPad
 {
     public static class DataHandler
     {
-        public static string CategoryPath { get; } = @"Resources\Categories.json";
+        public static string SliderCategoriesPath { get; } = @"Resources\SliderCategories.json";
+        public static string ButtonCategoriesPath { get; } = @"Resources\ButtonCategories.json";
         public static string CategorySlidersPath { get; } = @"Resources\CustomSliders.txt";
         public static ObservableCollection<SliderCategory> SliderCategories { get; set; } = new ObservableCollection<SliderCategory>();        
         public static ObservableCollection<ButtonCategory> ButtonCategories { get; set; } = new ObservableCollection<ButtonCategory>();
@@ -20,7 +22,7 @@ namespace ControlPad
 
         public static void SaveDataToFile<T>(string path, List<T> data)
         {
-            string json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
+            string json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true, NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals });
             File.WriteAllText(path, json);
         }
 
@@ -65,14 +67,13 @@ namespace ControlPad
             }
         }
 
-        public static int GetNextCategoryId() // gets the lowest not yet existing id
+        public static int GetNextCategoryId<T>(this IEnumerable<T> items, Func<T, int> idSelector) // gets the lowest not yet existing id
         {
-            var used = new HashSet<int>(DataHandler.SliderCategories.Select(c => c.Id));
-            var usedTemp = new HashSet<int>(DataHandler.SliderCategories.Select(c => c.Id));
-
-            for (int i = 0; ; i++)
-                if (!used.Contains(i) && !usedTemp.Contains(i))
-                    return i;
+            var used = new HashSet<int>(items.Select(idSelector));
+            int candidate = 0;
+            while (used.Contains(candidate))
+                candidate++;
+            return candidate;
         }
 
         public static void SetSliderTextBlocks()

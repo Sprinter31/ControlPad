@@ -14,7 +14,7 @@ namespace ControlPad
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public ObservableCollection<ButtonAction> ButtonActions { get; set; } = new ObservableCollection<ButtonAction>();
+        public List<ButtonAction> ButtonActions { get; set; } = new List<ButtonAction>();
 
         public ButtonCategory(string name, int id)
         {

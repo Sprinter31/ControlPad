@@ -23,9 +23,8 @@ namespace ControlPad
         public ManageSliderCategoriesUserControl(MainWindow mainWindow)
         {
             InitializeComponent();
-            
-            lb_Categories.ItemsSource = DataHandler.SliderCategories;
             this.mainWindow = mainWindow;
+            lb_Categories.ItemsSource = DataHandler.SliderCategories;           
         }
 
         private void btn_CreateCat_Click(object sender, RoutedEventArgs e)
@@ -40,8 +39,8 @@ namespace ControlPad
 
             if (!string.IsNullOrEmpty(name))
             {
-                DataHandler.SliderCategories.Add(new SliderCategory(name, DataHandler.GetNextCategoryId()));
-                DataHandler.SaveDataToFile(DataHandler.CategoryPath, DataHandler.SliderCategories.ToList());
+                DataHandler.SliderCategories.Add(new SliderCategory(name, DataHandler.SliderCategories.GetNextCategoryId(c => c.Id)));
+                DataHandler.SaveDataToFile(DataHandler.SliderCategoriesPath, DataHandler.SliderCategories.ToList());
             }
         }
 
@@ -51,15 +50,13 @@ namespace ControlPad
 
             if (index == -1) return;
 
-            var dialog = new EditSliderCategoryWindow(index);
+            var dialog = new EditSliderCategoryWindow(index) { Owner = mainWindow };
             dialog.ShowDialog();
-            DataHandler.SaveDataToFile(DataHandler.CategoryPath, DataHandler.SliderCategories.ToList());
+            DataHandler.SetSliderTextBlocks();
+            DataHandler.SaveDataToFile(DataHandler.SliderCategoriesPath, DataHandler.SliderCategories.ToList());
         }
 
-        private void lb_Categories_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Delete) DeleteAtSelected();
-        }
+        
 
         private void DeleteAtSelected()
         {
@@ -68,13 +65,20 @@ namespace ControlPad
            
             var sliderToRemoveCategoryFrom = DataHandler.CategorySliders.FirstOrDefault(c => c.Category?.Id == DataHandler.SliderCategories[index].Id);
             if (sliderToRemoveCategoryFrom != null)
+            {
                 sliderToRemoveCategoryFrom.Category = null;
+                DataHandler.SetSliderTextBlocks();
+            }
 
             DataHandler.SliderCategories.RemoveAt(index);
+            DataHandler.SaveDataToFile(DataHandler.SliderCategoriesPath, DataHandler.SliderCategories.ToList());
             DataHandler.SaveCategorySliders(DataHandler.CategorySlidersPath);
         }
 
-        public void RefreshListBox() => lb_Categories.Items.Refresh();
         private void btn_DeleteCat_Click(object sender, RoutedEventArgs e) => DeleteAtSelected();
+        private void lb_Categories_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete) DeleteAtSelected();
+        }
     }
 }

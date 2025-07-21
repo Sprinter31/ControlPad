@@ -15,14 +15,13 @@ using System.Windows.Shapes;
 
 namespace ControlPad
 {
-    public partial class ButtonAction : UserControl
-    {
-        public ActionType ActionType;
-        public object? ActionProperty;
-        public ButtonAction(ActionType actionType)
+    public partial class ButtonActionUserControl : UserControl
+    {   
+        public ButtonAction ButtonAction;
+        public ButtonActionUserControl(ButtonAction buttonAction)
         {
             InitializeComponent();
-            ActionType = actionType;
+            ButtonAction = buttonAction;
         }
     }
 }

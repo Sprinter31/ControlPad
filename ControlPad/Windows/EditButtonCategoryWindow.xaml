@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPad"
         mc:Ignorable="d"
-        Title="EditButtonCategoryWindow" Height="600" Width="450" Background="Black">
+        Title="EditButtonCategoryWindow" Height="600" Width="450" Background="Black" Closed="FluentWindow_Closed">
     <DockPanel>
         <ui:TitleBar
              DockPanel.Dock="Top" x:Name="TitleBarEditButtonCategoryWindow"

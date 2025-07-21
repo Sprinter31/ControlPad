@@ -15,70 +15,6 @@
 
         <Grid>
             <TreeView AllowDrop="True">
-                <TreeViewItem Header="Alphanumeric">
-                    <TreeViewItem Header="Letters (A-Z)">
-                        <TreeViewItem Header="A" />
-                        <TreeViewItem Header="B" />
-                        <TreeViewItem Header="C" />
-                        <TreeViewItem Header="D" />
-                        <TreeViewItem Header="E" />
-                        <TreeViewItem Header="F" />
-                        <TreeViewItem Header="G" />
-                        <TreeViewItem Header="H" />
-                        <TreeViewItem Header="I" />
-                        <TreeViewItem Header="J" />
-                        <TreeViewItem Header="K" />
-                        <TreeViewItem Header="L" />
-                        <TreeViewItem Header="M" />
-                        <TreeViewItem Header="N" />
-                        <TreeViewItem Header="O" />
-                        <TreeViewItem Header="P" />
-                        <TreeViewItem Header="Q" />
-                        <TreeViewItem Header="R" />
-                        <TreeViewItem Header="S" />
-                        <TreeViewItem Header="T" />
-                        <TreeViewItem Header="U" />
-                        <TreeViewItem Header="V" />
-                        <TreeViewItem Header="W" />
-                        <TreeViewItem Header="X" />
-                        <TreeViewItem Header="Y" />
-                        <TreeViewItem Header="Z" />
-                    </TreeViewItem>
-                    <TreeViewItem Header="Numbers (0-9)">
-                        <TreeViewItem Header="0" />
-                        <TreeViewItem Header="1" />
-                        <TreeViewItem Header="2" />
-                        <TreeViewItem Header="3" />
-                        <TreeViewItem Header="4" />
-                        <TreeViewItem Header="5" />
-                        <TreeViewItem Header="6" />
-                        <TreeViewItem Header="7" />
-                        <TreeViewItem Header="8" />
-                        <TreeViewItem Header="9" />
-                    </TreeViewItem>
-                </TreeViewItem>
-                <TreeViewItem Header="Edit">
-                    <TreeViewItem Header="Cut (Ctrl+X)" />
-                    <TreeViewItem Header="Copy (Ctrl+C)" />
-                    <TreeViewItem Header="Paste (Ctrl+V)" />
-                    <TreeViewItem Header="Undo (Ctrl+Z)" />
-                    <TreeViewItem Header="Redo (Ctrl+Y)" />
-                    <TreeViewItem Header="Delete" />
-                    <TreeViewItem Header="Backspace" />
-                </TreeViewItem>
-                <TreeViewItem Header="Symbols">
-                    <TreeViewItem Header="Exclamation (!)" />
-                    <TreeViewItem Header="At (@)" />
-                    <TreeViewItem Header="Hash (#)" />
-                    <TreeViewItem Header="Dollar ($)" />
-                    <TreeViewItem Header="Percent (%)" />
-                    <TreeViewItem Header="Ampersand ()" />
-                    <TreeViewItem Header="Asterisk (*)" />
-                </TreeViewItem>
-                <TreeViewItem Header="Input Mode">
-                    <TreeViewItem Header="Insert" />
-                    <TreeViewItem Header="Overwrite" />
-                </TreeViewItem>
                 <TreeViewItem Header="Function">
                     <TreeViewItem Header="F1" />
                     <TreeViewItem Header="F2" />
@@ -104,51 +40,6 @@
                     <TreeViewItem Header="F22" />
                     <TreeViewItem Header="F23" />
                     <TreeViewItem Header="F24" />
-                </TreeViewItem>
-                <TreeViewItem Header="Commands">
-                    <TreeViewItem Header="Enter" />
-                    <TreeViewItem Header="Escape (Esc)" />
-                    <TreeViewItem Header="Tab" />
-                </TreeViewItem>
-                <TreeViewItem Header="Navigation">
-                    <TreeViewItem Header="Home" />
-                    <TreeViewItem Header="End" />
-                    <TreeViewItem Header="Page Up" />
-                    <TreeViewItem Header="Page Down" />
-                </TreeViewItem>
-                <TreeViewItem Header="Arrows">
-                    <TreeViewItem Header="Arrow Up" />
-                    <TreeViewItem Header="Arrow Down" />
-                    <TreeViewItem Header="Arrow Left" />
-                    <TreeViewItem Header="Arrow Right" />
-                </TreeViewItem>
-                <TreeViewItem Header="Numpad (Numeric Keypad)">
-                    <TreeViewItem Header="Numpad 0–9">
-                        <TreeViewItem Header="0" />
-                        <TreeViewItem Header="1" />
-                        <TreeViewItem Header="2" />
-                        <TreeViewItem Header="3" />
-                        <TreeViewItem Header="4" />
-                        <TreeViewItem Header="5" />
-                        <TreeViewItem Header="6" />
-                        <TreeViewItem Header="7" />
-                        <TreeViewItem Header="8" />
-                        <TreeViewItem Header="9" />
-                    </TreeViewItem>
-                    <TreeViewItem Header="Numpad +" />
-                    <TreeViewItem Header="Numpad -" />
-                    <TreeViewItem Header="Numpad *" />
-                    <TreeViewItem Header="Numpad /" />
-                    <TreeViewItem Header="Numpad Enter" />
-                    <TreeViewItem Header="Numpad ." />
-                </TreeViewItem>
-                <TreeViewItem Header="Modifier">
-                    <TreeViewItem Header="Shift" />
-                    <TreeViewItem Header="Control (Ctrl)" />
-                    <TreeViewItem Header="Alt" />
-                    <TreeViewItem Header="AltGr" />
-                    <TreeViewItem Header="Windows (Win)" />
-                    <TreeViewItem Header="Command (Mac)" />
                 </TreeViewItem>
             </TreeView>
         </Grid>
