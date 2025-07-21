@@ -127,7 +127,7 @@ namespace ControlPad
         {
             if (!NVI_Button_Categories.IsActive)
             {
-                MainContentFrame.Navigate(_homeUserControl);
+                MainContentFrame.Navigate(_manageButtonCategoriesUserControl);
                 SetActive(NVI_Button_Categories);
             }
         }
