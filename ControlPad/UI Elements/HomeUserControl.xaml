@@ -124,7 +124,8 @@
             <Setter Property="Panel.ZIndex"     Value="1"/>
         </Style>
 
-        <Style TargetType="{x:Type local:CustomButton}" BasedOn="{StaticResource {x:Type ui:Button}}"/>
+        <Style TargetType="{x:Type local:CustomButton}" BasedOn="{StaticResource {x:Type ToggleButton}}"/>
+        
     </UserControl.Resources>
     <!-- ===== Layout ===== -->
     <Grid>

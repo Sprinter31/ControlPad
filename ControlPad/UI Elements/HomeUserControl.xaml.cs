@@ -34,6 +34,7 @@ namespace ControlPad
             this.mainWindow = mainWindow;
         }
         public void UpdateUISlider(Slider slider, int value) => slider.Value = value;
+        public void UpdateUIButtons(CustomButton button, bool isChecked) => button.IsChecked = isChecked;        
 
         private void cb_EditMode_Checked(object sender, RoutedEventArgs e)
         {

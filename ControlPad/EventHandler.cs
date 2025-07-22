@@ -31,7 +31,7 @@ namespace ControlPad
             {
                 if(oldButtonValues != null)
                 {
-                    UpdateButton(currentButtonValues[i].Button, currentButtonValues[i].Value);
+                    UpdateButton(currentButtonValues[i].Button, currentButtonValues[i].Value, oldButtonValues[i].Value);
                 }                
             }
             oldButtonValues = currentButtonValues.Select(t => (t.Button, t.Value)).ToList();
@@ -46,9 +46,12 @@ namespace ControlPad
                     Task.Run(() => AudioController.SetProcessVolume(processName, SliderToFloat(value)));          
         }
 
-        private void UpdateButton(CustomButton button, int value)
+        private void UpdateButton(CustomButton button, int currentValue, int oldValue)
         {
-            
+            if(currentValue != oldValue)
+            {
+                HomeUserControl.Dispatcher.Invoke(() => HomeUserControl.UpdateUIButtons(button, currentValue == 1));
+            }           
         }
 
         private float SliderToFloat(int value)

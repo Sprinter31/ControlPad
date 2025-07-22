@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace ControlPad
 {
-    public class CustomButton : Wpf.Ui.Controls.Button
+    public class CustomButton : System.Windows.Controls.Primitives.ToggleButton
     {
         public static readonly DependencyProperty CategoryProperty =
             DependencyProperty.Register(
@@ -21,6 +22,12 @@ namespace ControlPad
         {
             get => (ButtonCategory?)GetValue(CategoryProperty);
             set => SetValue(CategoryProperty, value);
+        }
+        static CustomButton()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(
+                typeof(CustomButton),
+                new FrameworkPropertyMetadata(typeof(CustomButton)));
         }
     }
 }
