@@ -30,7 +30,6 @@ namespace ControlPad
 
         public static List<T> LoadDataFromFile<T>(string path)
         {
-
             var list = new List<T>();
             if (!File.Exists(path))
             {
@@ -48,7 +47,7 @@ namespace ControlPad
         public static void SaveCategoryControls(string path)
         {
             var sliderLines = SliderValues.Select((item, i) => $"Slider{i + 1}.Category.Id is: {item.slider.Category?.Id}");
-            var buttonLines = ButtonValues.Select((item, i) => $"Button{i + 1}.Category.Id is: {item.button.Category?.Id}");
+            var buttonLines = ButtonValues.Select((item, i) => $"Switch{i + 1}.Category.Id is: {item.button.Category?.Id}");
             File.WriteAllLines(path, sliderLines.Concat(buttonLines));
         }
 

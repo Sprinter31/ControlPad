@@ -58,7 +58,7 @@ namespace ControlPad
             for (int i = 0; i < DataHandler.SliderValues.Count; i++)
                 DataHandler.SliderValues[i] = (DataHandler.SliderValues[i].slider, int.Parse(inputs[i]));
             for (int i = 0; i < DataHandler.ButtonValues.Count; i++)
-                DataHandler.ButtonValues[i] = (DataHandler.ButtonValues[i].button, int.Parse(inputs[i + 6]));
+                DataHandler.ButtonValues[i] = (DataHandler.ButtonValues[i].button, int.Parse(inputs[i + DataHandler.SliderValues.Count]));
         }
 
         private void OnSerialPortDisconnected(string ex)

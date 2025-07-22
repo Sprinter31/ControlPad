@@ -36,26 +36,6 @@ namespace ControlPad
         public void UpdateUISlider(Slider slider, int value) => slider.Value = value;
         public void UpdateUIButtons(CustomButton button, bool isChecked) => button.IsChecked = isChecked;        
 
-        private void cb_EditMode_Checked(object sender, RoutedEventArgs e)
-        {
-            SliderCell1.Visibility = Visibility.Visible;
-            SliderCell2.Visibility = Visibility.Visible;
-            SliderCell3.Visibility = Visibility.Visible;
-            SliderCell4.Visibility = Visibility.Visible;
-            SliderCell5.Visibility = Visibility.Visible;
-            SliderCell6.Visibility = Visibility.Visible;
-        }
-
-        private void cb_EditMode_Unchecked(object sender, RoutedEventArgs e)
-        {
-            SliderCell1.Visibility = Visibility.Hidden;
-            SliderCell2.Visibility = Visibility.Hidden;
-            SliderCell3.Visibility = Visibility.Hidden;
-            SliderCell4.Visibility = Visibility.Hidden;
-            SliderCell5.Visibility = Visibility.Hidden;
-            SliderCell6.Visibility = Visibility.Hidden;
-        }
-
         private void SliderCell_Click(object sender, MouseButtonEventArgs e)
         {
             if (sender is SliderBorder border)
@@ -68,6 +48,21 @@ namespace ControlPad
                     border.CustomSlider.Category = dialog.SelectedCategory;
                     DataHandler.SaveCategoryControls(DataHandler.CategoryControlsPath);
                     DataHandler.SetSliderTextBlocks();
+                }
+            }
+        }
+
+        private void ButtonCell_Click(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is ButtonBorder border)
+            {
+                var dialog = new SelectButtonCategoryPopup(border.CustomButton);
+                dialog.Owner = mainWindow;
+
+                if (dialog.ShowDialog() == true)
+                {
+                    border.CustomButton.Category = dialog.SelectedCategory;
+                    DataHandler.SaveCategoryControls(DataHandler.CategoryControlsPath);
                 }
             }
         }
