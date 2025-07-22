@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Windows.Documents;
+using System.Windows.Shapes;
 
 namespace ControlPad
 {
@@ -15,10 +16,11 @@ namespace ControlPad
     {
         public static string SliderCategoriesPath { get; } = @"Resources\SliderCategories.json";
         public static string ButtonCategoriesPath { get; } = @"Resources\ButtonCategories.json";
-        public static string CategorySlidersPath { get; } = @"Resources\CustomSliders.txt";
+        public static string CategoryControlsPath { get; } = @"Resources\CategoryControls.txt";
         public static ObservableCollection<SliderCategory> SliderCategories { get; set; } = new ObservableCollection<SliderCategory>();        
         public static ObservableCollection<ButtonCategory> ButtonCategories { get; set; } = new ObservableCollection<ButtonCategory>();
-        public static CustomSlider[] CategorySliders { get; set; } = new CustomSlider[6];
+        public static List<(CustomSlider slider, int value)> SliderValues { get; set; } = new();
+        public static List<(CustomButton button, int value)> ButtonValues { get; set; } = new();
 
         public static void SaveDataToFile<T>(string path, List<T> data)
         {
@@ -43,13 +45,14 @@ namespace ControlPad
             return list;
         }
 
-        public static void SaveCategorySliders(string path)
+        public static void SaveCategoryControls(string path)
         {
-            var lines = CategorySliders.Select((slider, i) => $"Slider{i + 1}.Category.Id is: {slider.Category?.Id}");
-            File.WriteAllLines(path, lines);
+            var sliderLines = SliderValues.Select((item, i) => $"Slider{i + 1}.Category.Id is: {item.slider.Category?.Id}");
+            var buttonLines = ButtonValues.Select((item, i) => $"Button{i + 1}.Category.Id is: {item.button.Category?.Id}");
+            File.WriteAllLines(path, sliderLines.Concat(buttonLines));
         }
 
-        public static void LoadCategorySliders(string path)
+        public static void LoadCategoryControls(string path)
         {
             if (!File.Exists(path))
             {
@@ -59,10 +62,17 @@ namespace ControlPad
             {
                 string[] lines = File.ReadAllLines(path);
 
-                for (int i = 0; i < lines.Length; i++)
+                for (int i = 0; i < SliderValues.Count; i++)
                 {
-                    if (int.TryParse(lines[i].Split(':')[1].Trim(), out int categoryId))
-                        CategorySliders[i].Category = SliderCategories.First(c => c.Id == categoryId);
+                    if (int.TryParse(lines[i].Split(':')[1].Trim(), out int sliderCategoryId))
+                        SliderValues[i].slider.Category = SliderCategories.First(c => c.Id == sliderCategoryId);
+
+                }
+                for (int i = 0; i < ButtonValues.Count; i++)
+                {
+                    if (int.TryParse(lines[i].Split(':')[1].Trim(), out int buttonCategoryId))
+                        ButtonValues[i].button.Category = ButtonCategories.First(c => c.Id == buttonCategoryId);
+
                 }
             }
         }
@@ -78,11 +88,11 @@ namespace ControlPad
 
         public static void SetSliderTextBlocks()
         {
-            foreach (CustomSlider categorySlider in DataHandler.CategorySliders)
-                if (categorySlider.Category != null)
-                    categorySlider.TextBlock.Text = categorySlider.Category.Name;
+            foreach ((CustomSlider slider, int) categorySlider in DataHandler.SliderValues)
+                if (categorySlider.slider.Category != null)
+                    categorySlider.slider.TextBlock.Text = categorySlider.slider.Category.Name;
                 else
-                    categorySlider.TextBlock.Text = "";
+                    categorySlider.slider.TextBlock.Text = "";
         }
 
         public static readonly List<ActionType> ActionTypes = new()

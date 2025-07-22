@@ -4,51 +4,53 @@ namespace ControlPad
 {
     public class EventHandler
     {
-        private AudioController audioController;
-        private Dictionary<Control, int> values = new Dictionary<Control, int>();       
-
+        private AudioController AudioController; 
         private HomeUserControl HomeUserControl;
+        private List<(CustomSlider Slider, int Value)>? oldSliderValues;
+        private List<(CustomButton Button, int Value)>? oldButtonValues;
 
         public EventHandler(HomeUserControl homeUserControl)
         {
             HomeUserControl = homeUserControl;
-            audioController = new AudioController();
+            AudioController = new AudioController();
         }
-        public void Update(Dictionary<Control, int> values)
+
+        public void Update(List<(CustomSlider Slider, int Value)> currentSliderValues,
+                           List<(CustomButton Button, int Value)> currentButtonValues)
         {
-            foreach (var kvp in values)
+            for (int i = 0; i < currentSliderValues.Count; i++)
             {
-                Control key = kvp.Key;
-                var name = HomeUserControl.Dispatcher.Invoke(() => key.Name);
-
-                int newValue = kvp.Value;
-                this.values.TryGetValue(key, out int oldValue);
-
-                if (name.StartsWith("Slider", StringComparison.OrdinalIgnoreCase) && Math.Abs(oldValue - newValue) > 1)
+                if (oldSliderValues != null && Math.Abs(oldSliderValues[i].Value - currentSliderValues[i].Value) > 1)
                 {
-                    UpdateSlider(key, newValue);                   
-                }
-                else if (name.StartsWith("Switch", StringComparison.OrdinalIgnoreCase))
-                {
-                    UpdateButton(key, newValue);
-                }
-                this.values[key] = newValue;
+                    UpdateSlider(currentSliderValues[i].Slider, currentSliderValues[i].Value);
+                }                
             }
+            oldSliderValues = currentSliderValues.Select(t => (t.Slider, t.Value)).ToList();
+
+            for (int i = 0; i < currentButtonValues.Count; i++)
+            {
+                if(oldButtonValues != null)
+                {
+                    UpdateButton(currentButtonValues[i].Button, currentButtonValues[i].Value);
+                }                
+            }
+            oldButtonValues = currentButtonValues.Select(t => (t.Button, t.Value)).ToList();
         }
 
-        private void UpdateSlider(Control slider, int value)
+        private void UpdateSlider(CustomSlider slider, int value)
         {
-            HomeUserControl.Dispatcher.Invoke(() => HomeUserControl.UpdateUISlider((Slider)slider, value));
+            HomeUserControl.Dispatcher.Invoke(() => HomeUserControl.UpdateUISlider(slider, value));
 
-            CustomSlider categorySlider = (CustomSlider)slider;
-            if (categorySlider.Category != null)
-                foreach(string processName in categorySlider.Category.Processes)
-                    Task.Run(() => audioController.SetProcessVolume(processName, SliderToFloat(value)));          
+            if (slider.Category != null)
+                foreach(string processName in slider.Category.Processes)
+                    Task.Run(() => AudioController.SetProcessVolume(processName, SliderToFloat(value)));          
         }
-        private void UpdateButton(Control element, int value)
+
+        private void UpdateButton(CustomButton button, int value)
         {
-            // Code to update button state based on value
+            
         }
+
         private float SliderToFloat(int value)
         {
             value -= 1;

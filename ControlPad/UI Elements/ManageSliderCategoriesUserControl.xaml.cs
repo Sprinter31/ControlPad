@@ -63,16 +63,16 @@ namespace ControlPad
             int index = lb_Categories.SelectedIndex;
             if (index == -1) return;
            
-            var sliderToRemoveCategoryFrom = DataHandler.CategorySliders.FirstOrDefault(c => c.Category?.Id == DataHandler.SliderCategories[index].Id);
-            if (sliderToRemoveCategoryFrom != null)
+            var sliderToRemoveCategoryFrom = DataHandler.SliderValues.FirstOrDefault(c => c.slider.Category?.Id == DataHandler.SliderCategories[index].Id);
+            if (sliderToRemoveCategoryFrom.slider != null)
             {
-                sliderToRemoveCategoryFrom.Category = null;
+                sliderToRemoveCategoryFrom.slider.Category = null;
                 DataHandler.SetSliderTextBlocks();
             }
 
             DataHandler.SliderCategories.RemoveAt(index);
             DataHandler.SaveDataToFile(DataHandler.SliderCategoriesPath, DataHandler.SliderCategories.ToList());
-            DataHandler.SaveCategorySliders(DataHandler.CategorySlidersPath);
+            DataHandler.SaveCategoryControls(DataHandler.CategoryControlsPath);
         }
 
         private void btn_DeleteCat_Click(object sender, RoutedEventArgs e) => DeleteAtSelected();
