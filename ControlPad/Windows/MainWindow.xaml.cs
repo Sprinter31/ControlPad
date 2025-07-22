@@ -105,6 +105,12 @@ namespace ControlPad
                     _homeUserControl.SliderCell4.Visibility = Visibility.Hidden;
                     _homeUserControl.SliderCell5.Visibility = Visibility.Hidden;
                     _homeUserControl.SliderCell6.Visibility = Visibility.Hidden;
+                    _homeUserControl.ButtonCell1.Visibility = Visibility.Hidden;
+                    _homeUserControl.ButtonCell2.Visibility = Visibility.Hidden;
+                    _homeUserControl.ButtonCell3.Visibility = Visibility.Hidden;
+                    _homeUserControl.ButtonCell4.Visibility = Visibility.Hidden;
+                    _homeUserControl.ButtonCell5.Visibility = Visibility.Hidden;
+                    _homeUserControl.ButtonCell6.Visibility = Visibility.Hidden;
                 }
                 else
                 {
@@ -115,6 +121,12 @@ namespace ControlPad
                     _homeUserControl.SliderCell4.Visibility = Visibility.Visible;
                     _homeUserControl.SliderCell5.Visibility = Visibility.Visible;
                     _homeUserControl.SliderCell6.Visibility = Visibility.Visible;
+                    _homeUserControl.ButtonCell1.Visibility = Visibility.Visible;
+                    _homeUserControl.ButtonCell2.Visibility = Visibility.Visible;
+                    _homeUserControl.ButtonCell3.Visibility = Visibility.Visible;
+                    _homeUserControl.ButtonCell4.Visibility = Visibility.Visible;
+                    _homeUserControl.ButtonCell5.Visibility = Visibility.Visible;
+                    _homeUserControl.ButtonCell6.Visibility = Visibility.Visible;
                 }
             }
         }

@@ -163,6 +163,12 @@
             <local:SliderBorder x:Name="SliderCell4" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="3" MouseLeftButtonDown="SliderCell_Click" CustomSlider="{Binding ElementName=Slider4}"/>
             <local:SliderBorder x:Name="SliderCell5" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="4" MouseLeftButtonDown="SliderCell_Click" CustomSlider="{Binding ElementName=Slider5}"/>
             <local:SliderBorder x:Name="SliderCell6" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="5" MouseLeftButtonDown="SliderCell_Click" CustomSlider="{Binding ElementName=Slider6}"/>
+            <local:ButtonBorder x:Name="ButtonCell1" Style="{StaticResource Border}" Grid.Row="2" Grid.Column="0" MouseLeftButtonDown="ButtonCell_Click" CustomButton="{Binding ElementName=Switch1}"/>
+            <local:ButtonBorder x:Name="ButtonCell2" Style="{StaticResource Border}" Grid.Row="2" Grid.Column="1" MouseLeftButtonDown="ButtonCell_Click" CustomButton="{Binding ElementName=Switch2}"/>
+            <local:ButtonBorder x:Name="ButtonCell3" Style="{StaticResource Border}" Grid.Row="2" Grid.Column="2" MouseLeftButtonDown="ButtonCell_Click" CustomButton="{Binding ElementName=Switch3}"/>
+            <local:ButtonBorder x:Name="ButtonCell4" Style="{StaticResource Border}" Grid.Row="2" Grid.Column="3" MouseLeftButtonDown="ButtonCell_Click" CustomButton="{Binding ElementName=Switch4}"/>
+            <local:ButtonBorder x:Name="ButtonCell5" Style="{StaticResource Border}" Grid.Row="2" Grid.Column="4" MouseLeftButtonDown="ButtonCell_Click" CustomButton="{Binding ElementName=Switch5}"/>
+            <local:ButtonBorder x:Name="ButtonCell6" Style="{StaticResource Border}" Grid.Row="2" Grid.Column="5" MouseLeftButtonDown="ButtonCell_Click" CustomButton="{Binding ElementName=Switch6}"/>
 
             <!-- Slider -->
             <local:CustomSlider x:Name="Slider1" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" TextBlock="{Binding ElementName=TextBlock1}"/>

@@ -10,7 +10,7 @@ namespace ControlPad
         public SelectButtonCategoryPopup(CustomButton categoryButton)
         {
             InitializeComponent();
-            this.categoryButton = categoryButton;          
+            this.categoryButton = categoryButton;
             SetDropDown();            
         }       
 
@@ -32,11 +32,11 @@ namespace ControlPad
 
         private void SetDropDown()
         {
-            var usedIds = DataHandler.SliderValues.Select(s => s.slider.Category?.Id).ToHashSet();
+            var usedIds = DataHandler.ButtonValues.Select(s => s.button.Category?.Id).ToHashSet();
 
             var currentCatId = categoryButton?.Category?.Id;
 
-            var availableCategories = DataHandler.SliderCategories.Where(c => !usedIds.Contains(c.Id) || c.Id == currentCatId).ToList();
+            var availableCategories = DataHandler.ButtonCategories.Where(c => !usedIds.Contains(c.Id) || c.Id == currentCatId).ToList();
 
             cb_Categories.ItemsSource = availableCategories;
 
