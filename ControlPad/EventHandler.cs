@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Diagnostics;
+using System.Windows.Controls;
 
 namespace ControlPad
 {
@@ -48,10 +49,93 @@ namespace ControlPad
 
         private void UpdateButton(CustomButton button, int currentValue, int oldValue)
         {
-            if(currentValue != oldValue)
+            if(button.Category?.Name == "1")
+            { }
+            bool IsPressed = currentValue == 1;
+            bool IsPressedOld = oldValue == 1;
+
+            if (currentValue != oldValue)
             {
-                HomeUserControl.Dispatcher.Invoke(() => HomeUserControl.UpdateUIButtons(button, currentValue == 1));
-            }           
+                HomeUserControl.Dispatcher.Invoke(() => HomeUserControl.UpdateUIButton(button, IsPressed));
+
+                if (button.Category != null)
+                {
+                    foreach (ButtonAction buttonAction in button.Category.ButtonActions)
+                    {
+                        if (buttonAction.ActionProperty == null && buttonAction.ActionType.Type != EActionType.MuteMainAudio)
+                            continue;
+
+                        switch (buttonAction.ActionType.Type)
+                        {
+                            case EActionType.MuteProcess:
+                                {
+                                    if (IsPressed && !IsPressedOld)
+                                    {
+                                        HomeUserControl.Dispatcher.Invoke(() => HomeUserControl.ChangeContentToMuteOrUnmute(button));
+                                        AudioController.MuteProcess((string)buttonAction.ActionProperty, !AudioController.IsProcessMute((string)buttonAction.ActionProperty));
+                                    }
+                                    break;
+                                }
+                            case EActionType.MuteMainAudio:
+                                {
+                                    if (IsPressed && !IsPressedOld)
+                                    {
+                                        HomeUserControl.Dispatcher.Invoke(() => HomeUserControl.ChangeContentToMuteOrUnmute(button));
+                                        AudioController.MuteSystem(!AudioController.IsSystemMute());
+                                    }
+                                    break;
+                                }
+                            case EActionType.MuteMic:
+                                {
+                                    if (IsPressed && !IsPressedOld)
+                                    {
+                                        HomeUserControl.Dispatcher.Invoke(() => HomeUserControl.ChangeContentToMuteOrUnmute(button));
+                                        AudioController.MuteMic((string)buttonAction.ActionProperty, !AudioController.IsMicMute((string)buttonAction.ActionProperty));
+                                    }
+                                    break;
+                                }
+                            case EActionType.OpenProcess:
+                                {
+                                    if (IsPressed && !IsPressedOld)
+                                    {
+                                        try
+                                        {
+                                            Process.Start((string)buttonAction.ActionProperty);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Debug.WriteLine(ex);
+                                        }
+                                    }
+                                    break;
+                                }
+                            case EActionType.OpenWebsite:
+                                {
+                                    if (IsPressed && !IsPressedOld)
+                                    {
+                                        try
+                                        {
+                                            Process.Start(new ProcessStartInfo
+                                            {
+                                                FileName = (string)buttonAction.ActionProperty,
+                                                UseShellExecute = true
+                                            });
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Debug.WriteLine(ex);
+                                        }
+                                    }
+                                    break;
+                                }
+                            case EActionType.KeyPress:
+                                {
+                                    break;
+                                }
+                        }
+                    }
+                }                  
+            }
         }
 
         private float SliderToFloat(int value)

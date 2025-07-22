@@ -34,7 +34,14 @@ namespace ControlPad
             this.mainWindow = mainWindow;
         }
         public void UpdateUISlider(Slider slider, int value) => slider.Value = value;
-        public void UpdateUIButtons(CustomButton button, bool isChecked) => button.IsChecked = isChecked;        
+        public void UpdateUIButton(CustomButton button, bool isChecked) => button.IsChecked = isChecked;       
+        public void ChangeContentToMuteOrUnmute(CustomButton button)
+        {
+            if ((string)button.Content == "Mute")
+                button.Content = "Unmute";
+            else
+                button.Content = "Mute";
+        }
 
         private void SliderCell_Click(object sender, MouseButtonEventArgs e)
         {
