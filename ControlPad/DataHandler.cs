@@ -69,7 +69,7 @@ namespace ControlPad
                 }
                 for (int i = 0; i < ButtonValues.Count; i++)
                 {
-                    if (int.TryParse(lines[i].Split(':')[1].Trim(), out int buttonCategoryId))
+                    if (int.TryParse(lines[i + SliderValues.Count].Split(':')[1].Trim(), out int buttonCategoryId))
                         ButtonValues[i].button.Category = ButtonCategories.First(c => c.Id == buttonCategoryId);
 
                 }
