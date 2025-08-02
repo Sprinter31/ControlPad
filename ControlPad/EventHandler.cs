@@ -23,7 +23,7 @@ namespace ControlPad
             {
                 if (oldSliderValues != null && Math.Abs(oldSliderValues[i].Value - currentSliderValues[i].Value) > 1)
                 {
-                    UpdateSlider(currentSliderValues[i].Slider, currentSliderValues[i].Value);
+                    UpdateSliderAndExecuteActions(currentSliderValues[i].Slider, currentSliderValues[i].Value);
                 }                
             }
             oldSliderValues = currentSliderValues.Select(t => (t.Slider, t.Value)).ToList();
@@ -32,13 +32,13 @@ namespace ControlPad
             {
                 if(oldButtonValues != null)
                 {
-                    UpdateButton(currentButtonValues[i].Button, currentButtonValues[i].Value, oldButtonValues[i].Value);
+                    UpdateButtonAndExecuteActions(currentButtonValues[i].Button, currentButtonValues[i].Value, oldButtonValues[i].Value);
                 }                
             }
             oldButtonValues = currentButtonValues.Select(t => (t.Button, t.Value)).ToList();
         }
 
-        private void UpdateSlider(CustomSlider slider, int value)
+        private void UpdateSliderAndExecuteActions(CustomSlider slider, int value)
         {
             HomeUserControl.Dispatcher.Invoke(() => HomeUserControl.UpdateUISlider(slider, value));
 
@@ -47,10 +47,8 @@ namespace ControlPad
                     Task.Run(() => AudioController.SetProcessVolume(processName, SliderToFloat(value)));          
         }
 
-        private void UpdateButton(CustomButton button, int currentValue, int oldValue)
+        private void UpdateButtonAndExecuteActions(CustomButton button, int currentValue, int oldValue)
         {
-            if(button.Category?.Name == "1")
-            { }
             bool IsPressed = currentValue == 1;
             bool IsPressedOld = oldValue == 1;
 
@@ -70,9 +68,8 @@ namespace ControlPad
                             case EActionType.MuteProcess:
                                 {
                                     if (IsPressed && !IsPressedOld)
-                                    {
-                                        HomeUserControl.Dispatcher.Invoke(() => HomeUserControl.ChangeContentToMuteOrUnmute(button));
-                                        AudioController.MuteProcess((string)buttonAction.ActionProperty, !AudioController.IsProcessMute((string)buttonAction.ActionProperty));
+                                    {                                        
+                                        AudioController.MuteProcess(buttonAction.ActionProperty, !AudioController.IsProcessMute(buttonAction.ActionProperty));
                                     }
                                     break;
                                 }
@@ -80,7 +77,6 @@ namespace ControlPad
                                 {
                                     if (IsPressed && !IsPressedOld)
                                     {
-                                        HomeUserControl.Dispatcher.Invoke(() => HomeUserControl.ChangeContentToMuteOrUnmute(button));
                                         AudioController.MuteSystem(!AudioController.IsSystemMute());
                                     }
                                     break;
@@ -89,8 +85,7 @@ namespace ControlPad
                                 {
                                     if (IsPressed && !IsPressedOld)
                                     {
-                                        HomeUserControl.Dispatcher.Invoke(() => HomeUserControl.ChangeContentToMuteOrUnmute(button));
-                                        AudioController.MuteMic((string)buttonAction.ActionProperty, !AudioController.IsMicMute((string)buttonAction.ActionProperty));
+                                        AudioController.MuteMic(buttonAction.ActionProperty, !AudioController.IsMicMute(buttonAction.ActionProperty));
                                     }
                                     break;
                                 }
@@ -100,7 +95,7 @@ namespace ControlPad
                                     {
                                         try
                                         {
-                                            Process.Start((string)buttonAction.ActionProperty);
+                                            Process.Start(buttonAction.ActionProperty);
                                         }
                                         catch (Exception ex)
                                         {
@@ -117,7 +112,7 @@ namespace ControlPad
                                         {
                                             Process.Start(new ProcessStartInfo
                                             {
-                                                FileName = (string)buttonAction.ActionProperty,
+                                                FileName = buttonAction.ActionProperty,
                                                 UseShellExecute = true
                                             });
                                         }

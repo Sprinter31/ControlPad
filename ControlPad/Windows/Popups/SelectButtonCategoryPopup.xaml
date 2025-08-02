@@ -7,6 +7,7 @@
         xmlns:local="clr-namespace:ControlPad"
         mc:Ignorable="d"
                  
+        Icon="pack://application:,,,/Resources/logo.ico"         
         Background="Black"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"

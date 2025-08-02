@@ -6,6 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPad"
         mc:Ignorable="d"
+        Icon="pack://application:,,,/Resources/logo.ico"
         Title="Control Pad"
         Width="651"
         Height="600"

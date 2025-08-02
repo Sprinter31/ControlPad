@@ -65,13 +65,11 @@ namespace ControlPad
                 {
                     if (int.TryParse(lines[i].Split(':')[1].Trim(), out int sliderCategoryId))
                         SliderValues[i].slider.Category = SliderCategories.First(c => c.Id == sliderCategoryId);
-
                 }
                 for (int i = 0; i < ButtonValues.Count; i++)
                 {
                     if (int.TryParse(lines[i + SliderValues.Count].Split(':')[1].Trim(), out int buttonCategoryId))
                         ButtonValues[i].button.Category = ButtonCategories.First(c => c.Id == buttonCategoryId);
-
                 }
             }
         }
@@ -92,6 +90,15 @@ namespace ControlPad
                     categorySlider.slider.TextBlock.Text = categorySlider.slider.Category.Name;
                 else
                     categorySlider.slider.TextBlock.Text = "";
+        }
+
+        public static void SetButtonTextBlocks()
+        {
+            foreach ((CustomButton button, int) categoryButton in DataHandler.ButtonValues)
+                if (categoryButton.button.Category != null)
+                    categoryButton.button.TextBlock.Text = categoryButton.button.Category?.Name ?? "";
+                else
+                    categoryButton.button.TextBlock.Text = "";
         }
 
         public static readonly List<ActionType> ActionTypes = new()

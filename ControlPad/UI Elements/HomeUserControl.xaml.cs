@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,19 +30,27 @@ namespace ControlPad
             DataHandler.SliderCategories = new ObservableCollection<SliderCategory>(DataHandler.LoadDataFromFile<SliderCategory>(DataHandler.SliderCategoriesPath));
             DataHandler.ButtonCategories = new ObservableCollection<ButtonCategory>(DataHandler.LoadDataFromFile<ButtonCategory>(DataHandler.ButtonCategoriesPath));
             DataHandler.LoadCategoryControls(DataHandler.CategoryControlsPath);
+
+            Switch1.TextBlock = Switch1_TextBlock;
+            Switch2.TextBlock = Switch2_TextBlock;
+            Switch3.TextBlock = Switch3_TextBlock;
+            Switch4.TextBlock = Switch4_TextBlock;
+            Switch5.TextBlock = Switch5_TextBlock;
+            Switch6.TextBlock = Switch6_TextBlock;
+            Switch7.TextBlock = Switch7_TextBlock;
+            Switch8.TextBlock = Switch8_TextBlock;
+            Switch9.TextBlock = Switch9_TextBlock;
+            Switch10.TextBlock = Switch10_TextBlock;
+            Switch11.TextBlock = Switch11_TextBlock;
+
             DataHandler.SetSliderTextBlocks();
+            DataHandler.SetButtonTextBlocks();
 
             this.mainWindow = mainWindow;
         }
         public void UpdateUISlider(Slider slider, int value) => slider.Value = value;
-        public void UpdateUIButton(CustomButton button, bool isChecked) => button.IsChecked = isChecked;       
-        public void ChangeContentToMuteOrUnmute(CustomButton button)
-        {
-            if ((string)button.Content == "Mute")
-                button.Content = "Unmute";
-            else
-                button.Content = "Mute";
-        }
+        public void UpdateUIButton(CustomButton button, bool isChecked) => button.IsChecked = isChecked;
+        public void ChangeText(CustomButton button) => button.TextBlock.Text = button.Category?.Name;
 
         private void SliderCell_Click(object sender, MouseButtonEventArgs e)
         {
@@ -70,6 +79,7 @@ namespace ControlPad
                 {
                     border.CustomButton.Category = dialog.SelectedCategory;
                     DataHandler.SaveCategoryControls(DataHandler.CategoryControlsPath);
+                    DataHandler.SetButtonTextBlocks();
                 }
             }
         }

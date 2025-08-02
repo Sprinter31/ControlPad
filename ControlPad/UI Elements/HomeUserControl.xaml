@@ -125,7 +125,6 @@
         </Style>
 
         <Style TargetType="{x:Type local:CustomButton}" BasedOn="{StaticResource {x:Type ToggleButton}}"/>
-        
     </UserControl.Resources>
     <!-- ===== Layout ===== -->
     <Grid>
@@ -179,20 +178,64 @@
             <local:CustomSlider x:Name="Slider6" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="5" HorizontalAlignment="Center" TextBlock="{Binding ElementName=TextBlock6}"/>
 
             <!-- Mute Buttons -->
-            <local:CustomButton x:Name="Switch1" Width="60" Height="60" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" Content="Mute"/>
-            <local:CustomButton x:Name="Switch2" Width="60" Height="60" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" Content="Mute"/>
-            <local:CustomButton x:Name="Switch3" Width="60" Height="60" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" Content="Mute"/>
-            <local:CustomButton x:Name="Switch4" Width="60" Height="60" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="3" Content="Mute"/>
-            <local:CustomButton x:Name="Switch5" Width="60" Height="60" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="4" Content="Mute"/>
-            <local:CustomButton x:Name="Switch6" Width="60" Height="60" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="5" Content="Mute"/>
+            <local:CustomButton x:Name="Switch1" Width="60" Height="60" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" Padding="2" TextBlock="{Binding ElementName=Switch1_TextBlock}">
+                <Viewbox Stretch="Uniform">
+                    <TextBlock x:Name="Switch1_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
+                </Viewbox>
+            </local:CustomButton>
+            <local:CustomButton x:Name="Switch2" Width="60" Height="60" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" Padding="2" TextBlock="{Binding ElementName=Switch2_TextBlock}">
+                <Viewbox Stretch="Uniform">
+                    <TextBlock x:Name="Switch2_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
+                </Viewbox>
+            </local:CustomButton>
+            <local:CustomButton x:Name="Switch3" Width="60" Height="60" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" Padding="2" TextBlock="{Binding ElementName=Switch3_TextBlock}">
+                <Viewbox Stretch="Uniform">
+                    <TextBlock x:Name="Switch3_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
+                </Viewbox>
+            </local:CustomButton>
+            <local:CustomButton x:Name="Switch4" Width="60" Height="60" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="3" Padding="2" TextBlock="{Binding ElementName=Switch4_TextBlock}">
+                <Viewbox Stretch="Uniform">
+                    <TextBlock x:Name="Switch4_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
+                </Viewbox>
+            </local:CustomButton>
+            <local:CustomButton x:Name="Switch5" Width="60" Height="60" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="4" Padding="2" TextBlock="{Binding ElementName=Switch5_TextBlock}">
+                <Viewbox Stretch="Uniform">
+                    <TextBlock x:Name="Switch5_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
+                </Viewbox>
+            </local:CustomButton>
+            <local:CustomButton x:Name="Switch6" Width="60" Height="60" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="5" Padding="2" TextBlock="{Binding ElementName=Switch6_TextBlock}">
+                <Viewbox Stretch="Uniform">
+                    <TextBlock x:Name="Switch6_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
+                </Viewbox>
+            </local:CustomButton>
 
             <!-- Button Column -->
             <StackPanel Grid.Row="1" Grid.Column="6">
-                <local:CustomButton x:Name="Switch7" Width="60" Height="60" Margin="10" Content="Pause"/>
-                <local:CustomButton x:Name="Switch8" Width="60" Height="60" Margin="10" Content="Next"/>
-                <local:CustomButton x:Name="Switch9" Width="60" Height="60" Margin="10" Content="Discord"/>
-                <local:CustomButton x:Name="Switch10" Width="60" Height="60" Margin="10" Content="Browser"/>
-                <local:CustomButton x:Name="Switch11" Width="60" Height="60" Margin="10" Content="E"/>
+                <local:CustomButton x:Name="Switch7" Width="60" Height="60" Margin="10" Padding="2" TextBlock="{Binding ElementName=Switch7_TextBlock}">
+                    <Viewbox Stretch="Uniform">
+                        <TextBlock x:Name="Switch7_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
+                    </Viewbox>
+                </local:CustomButton>
+                <local:CustomButton x:Name="Switch8" Width="60" Height="60" Margin="10" Padding="2" TextBlock="{Binding ElementName=Switch8_TextBlock}">
+                    <Viewbox Stretch="Uniform">
+                        <TextBlock x:Name="Switch8_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
+                    </Viewbox>
+                </local:CustomButton>
+                <local:CustomButton x:Name="Switch9" Width="60" Height="60" Margin="10" Padding="2" TextBlock="{Binding ElementName=Switch9_TextBlock}">
+                    <Viewbox Stretch="Uniform">
+                        <TextBlock x:Name="Switch9_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
+                    </Viewbox>
+                </local:CustomButton>
+                <local:CustomButton x:Name="Switch10" Width="60" Height="60" Margin="10" Padding="2" TextBlock="{Binding ElementName=Switch10_TextBlock}">
+                    <Viewbox Stretch="Uniform">
+                        <TextBlock x:Name="Switch10_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
+                    </Viewbox>
+                </local:CustomButton>
+                <local:CustomButton x:Name="Switch11" Width="60" Height="60" Margin="10" Padding="2" TextBlock="{Binding ElementName=Switch11_TextBlock}">
+                    <Viewbox Stretch="Uniform">
+                        <TextBlock x:Name="Switch11_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
+                    </Viewbox>
+                </local:CustomButton>
             </StackPanel>
         </Grid>
     </Grid>

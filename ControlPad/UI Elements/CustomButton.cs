@@ -23,6 +23,20 @@ namespace ControlPad
             get => (ButtonCategory?)GetValue(CategoryProperty);
             set => SetValue(CategoryProperty, value);
         }
+
+        public static readonly DependencyProperty TextBlockProperty =
+            DependencyProperty.Register(
+                nameof(TextBlock),
+                typeof(TextBlock),
+                typeof(CustomButton),
+                new PropertyMetadata(null));
+
+        public TextBlock TextBlock
+        {
+            get => (TextBlock)GetValue(TextBlockProperty);
+            set => SetValue(TextBlockProperty, value);
+        }
+
         static CustomButton()
         {
             DefaultStyleKeyProperty.OverrideMetadata(

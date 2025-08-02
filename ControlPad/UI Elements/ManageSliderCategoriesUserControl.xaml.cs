@@ -52,6 +52,7 @@ namespace ControlPad
 
             var dialog = new EditSliderCategoryWindow(index) { Owner = mainWindow };
             dialog.ShowDialog();
+            lb_Categories.Items.Refresh();
             DataHandler.SetSliderTextBlocks();
             DataHandler.SaveDataToFile(DataHandler.SliderCategoriesPath, DataHandler.SliderCategories.ToList());
         }
