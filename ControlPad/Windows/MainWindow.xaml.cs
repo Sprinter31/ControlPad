@@ -14,11 +14,11 @@ namespace ControlPad
 {
     public partial class MainWindow : FluentWindow
     {
-        private ArduinoController arduinoController;
         private NotifyIcon notifyIcon;     
-        private HomeUserControl _homeUserControl;
+        public HomeUserControl _homeUserControl;
         private ManageSliderCategoriesUserControl _manageSliderCategoriesUserControl;
         private ManageButtonCategoriesUserControl _manageButtonCategoriesUserControl;
+        public ProgressRing progressRing = new() { IsIndeterminate = true };
 
         public MainWindow()
         {
@@ -26,7 +26,7 @@ namespace ControlPad
             _homeUserControl = new HomeUserControl(this);
             _manageSliderCategoriesUserControl = new ManageSliderCategoriesUserControl(this);
             _manageButtonCategoriesUserControl = new ManageButtonCategoriesUserControl(this);
-            arduinoController = new ArduinoController(_homeUserControl);
+            ArduinoController.Initialize(this, new EventHandler(_homeUserControl));
             DataContext = this;                    
             CreateNotifyIcon();
 

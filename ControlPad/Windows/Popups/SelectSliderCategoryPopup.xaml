@@ -22,6 +22,7 @@
 
         <Button x:Name="btn_Cancel" Content="Cancel" Margin="0,0,-9,3" HorizontalAlignment="Right" Width="64" Height="33" VerticalAlignment="Bottom" Click="btn_Cancel_Click"/>
         <Button x:Name="btn_Apply" Content="Apply" Margin="0,0,60,3" HorizontalAlignment="Right" Width="64" Height="33" VerticalAlignment="Bottom" Click="btn_Apply_Click"/>
+        <CheckBox Content="Auto assign a category to mute" Margin="10,49,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </ui:FluentWindow>
