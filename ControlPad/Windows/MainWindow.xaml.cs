@@ -131,7 +131,7 @@ namespace ControlPad
 
             if (NVI_EditMode.Icon is SymbolIcon symbolIconEditMode)
             {
-                symbolIconEditMode.Symbol = SymbolRegular.CheckboxUnchecked24;
+                EditModeUnchecked(symbolIconEditMode);
             }
             if (NVI_Home.Icon is SymbolIcon symbolIconHome) symbolIconHome.Filled = false;
             if (NVI_Slider_Categories.Icon is SymbolIcon symbolIconCategories) symbolIconCategories.Filled = false;
@@ -148,37 +148,47 @@ namespace ControlPad
             {
                 if (symbolIconEditMode.Symbol == SymbolRegular.CheckboxChecked24)
                 {
-                    symbolIconEditMode.Symbol = SymbolRegular.CheckboxUnchecked24;
-                    _homeUserControl.SliderCell1.Visibility = Visibility.Hidden;
-                    _homeUserControl.SliderCell2.Visibility = Visibility.Hidden;
-                    _homeUserControl.SliderCell3.Visibility = Visibility.Hidden;
-                    _homeUserControl.SliderCell4.Visibility = Visibility.Hidden;
-                    _homeUserControl.SliderCell5.Visibility = Visibility.Hidden;
-                    _homeUserControl.SliderCell6.Visibility = Visibility.Hidden;
-                    _homeUserControl.ButtonCell1.Visibility = Visibility.Hidden;
-                    _homeUserControl.ButtonCell2.Visibility = Visibility.Hidden;
-                    _homeUserControl.ButtonCell3.Visibility = Visibility.Hidden;
-                    _homeUserControl.ButtonCell4.Visibility = Visibility.Hidden;
-                    _homeUserControl.ButtonCell5.Visibility = Visibility.Hidden;
-                    _homeUserControl.ButtonCell6.Visibility = Visibility.Hidden;
+                    EditModeUnchecked(symbolIconEditMode);
                 }
                 else
                 {
-                    symbolIconEditMode.Symbol = SymbolRegular.CheckboxChecked24;
-                    _homeUserControl.SliderCell1.Visibility = Visibility.Visible;
-                    _homeUserControl.SliderCell2.Visibility = Visibility.Visible;
-                    _homeUserControl.SliderCell3.Visibility = Visibility.Visible;
-                    _homeUserControl.SliderCell4.Visibility = Visibility.Visible;
-                    _homeUserControl.SliderCell5.Visibility = Visibility.Visible;
-                    _homeUserControl.SliderCell6.Visibility = Visibility.Visible;
-                    _homeUserControl.ButtonCell1.Visibility = Visibility.Visible;
-                    _homeUserControl.ButtonCell2.Visibility = Visibility.Visible;
-                    _homeUserControl.ButtonCell3.Visibility = Visibility.Visible;
-                    _homeUserControl.ButtonCell4.Visibility = Visibility.Visible;
-                    _homeUserControl.ButtonCell5.Visibility = Visibility.Visible;
-                    _homeUserControl.ButtonCell6.Visibility = Visibility.Visible;
+                    EditModeChecked(symbolIconEditMode);                    
                 }
             }
+        }
+
+        private void EditModeChecked(SymbolIcon symbolIcon)
+        {
+            symbolIcon.Symbol = SymbolRegular.CheckboxChecked24;
+            _homeUserControl.SliderCell1.Visibility = Visibility.Visible;
+            _homeUserControl.SliderCell2.Visibility = Visibility.Visible;
+            _homeUserControl.SliderCell3.Visibility = Visibility.Visible;
+            _homeUserControl.SliderCell4.Visibility = Visibility.Visible;
+            _homeUserControl.SliderCell5.Visibility = Visibility.Visible;
+            _homeUserControl.SliderCell6.Visibility = Visibility.Visible;
+            _homeUserControl.ButtonCell1.Visibility = Visibility.Visible;
+            _homeUserControl.ButtonCell2.Visibility = Visibility.Visible;
+            _homeUserControl.ButtonCell3.Visibility = Visibility.Visible;
+            _homeUserControl.ButtonCell4.Visibility = Visibility.Visible;
+            _homeUserControl.ButtonCell5.Visibility = Visibility.Visible;
+            _homeUserControl.ButtonCell6.Visibility = Visibility.Visible;
+        }
+
+        private void EditModeUnchecked(SymbolIcon symbolIcon)
+        {
+            symbolIcon.Symbol = SymbolRegular.CheckboxUnchecked24;
+            _homeUserControl.SliderCell1.Visibility = Visibility.Hidden;
+            _homeUserControl.SliderCell2.Visibility = Visibility.Hidden;
+            _homeUserControl.SliderCell3.Visibility = Visibility.Hidden;
+            _homeUserControl.SliderCell4.Visibility = Visibility.Hidden;
+            _homeUserControl.SliderCell5.Visibility = Visibility.Hidden;
+            _homeUserControl.SliderCell6.Visibility = Visibility.Hidden;
+            _homeUserControl.ButtonCell1.Visibility = Visibility.Hidden;
+            _homeUserControl.ButtonCell2.Visibility = Visibility.Hidden;
+            _homeUserControl.ButtonCell3.Visibility = Visibility.Hidden;
+            _homeUserControl.ButtonCell4.Visibility = Visibility.Hidden;
+            _homeUserControl.ButtonCell5.Visibility = Visibility.Hidden;
+            _homeUserControl.ButtonCell6.Visibility = Visibility.Hidden;            
         }
     }   
 }
