@@ -18,6 +18,7 @@ namespace ControlPad
         private static ManagementEventWatcher? _removeWatcher;
         private static MainWindow _mainWindow;
         private static EventHandler _eventHandler;
+        public static bool IsConnected = false;
 
         public static void Initialize(MainWindow mainWindow, EventHandler eventHandler)
         {
@@ -41,6 +42,8 @@ namespace ControlPad
                     {
                         _mainWindow.BoardDisconnectedInfoBar.IsOpen = true;
                         _mainWindow.MainContentFrame.Navigate(_mainWindow.progressRing);
+                        _mainWindow.NVI_EditMode.Visibility = Visibility.Collapsed;
+                        IsConnected = false;
                     });
                 }
             };
@@ -65,6 +68,8 @@ namespace ControlPad
                     {
                         _mainWindow.BoardDisconnectedInfoBar.IsOpen = false;
                         _mainWindow.MainContentFrame.Navigate(_mainWindow._homeUserControl);
+                        _mainWindow.NVI_EditMode.Visibility = Visibility.Visible;
+                        IsConnected = true;
                     });
                 }
                 catch (UnauthorizedAccessException ex)
@@ -82,6 +87,8 @@ namespace ControlPad
                 {
                     _mainWindow.BoardDisconnectedInfoBar.IsOpen = true;
                     _mainWindow.MainContentFrame.Navigate(_mainWindow.progressRing);
+                    _mainWindow.NVI_EditMode.Visibility = Visibility.Collapsed;
+                    IsConnected = false;
                 });
             }
         }
