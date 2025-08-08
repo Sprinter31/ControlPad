@@ -17,6 +17,7 @@ namespace ControlPad
         public static string SliderCategoriesPath { get; } = @"Resources\SliderCategories.json";
         public static string ButtonCategoriesPath { get; } = @"Resources\ButtonCategories.json";
         public static string CategoryControlsPath { get; } = @"Resources\CategoryControls.txt";
+        public static string SettingsPath { get; } = @"Resources\Settings.json";
         public static ObservableCollection<SliderCategory> SliderCategories { get; set; } = new ObservableCollection<SliderCategory>();        
         public static ObservableCollection<ButtonCategory> ButtonCategories { get; set; } = new ObservableCollection<ButtonCategory>();
         public static List<(CustomSlider slider, int value)> SliderValues { get; set; } = new();

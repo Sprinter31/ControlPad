@@ -8,13 +8,14 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media.Imaging;
 using Wpf.Ui.Controls;
+using Wpf.Ui.Tray;
 
 namespace ControlPad
 {
     public partial class MainWindow : FluentWindow
     {
-        private NotifyIcon notifyIcon;     
         public HomeUserControl _homeUserControl;
         private ManageSliderCategoriesUserControl _manageSliderCategoriesUserControl;
         private ManageButtonCategoriesUserControl _manageButtonCategoriesUserControl;
@@ -27,60 +28,36 @@ namespace ControlPad
             _manageSliderCategoriesUserControl = new ManageSliderCategoriesUserControl(this);
             _manageButtonCategoriesUserControl = new ManageButtonCategoriesUserControl(this);
             ArduinoController.Initialize(this, new EventHandler(_homeUserControl));
-            DataContext = this;                    
-            CreateNotifyIcon();
+            DataContext = this;            
 
             MainContentFrame.Navigate(_homeUserControl);
             SetActive(NVI_Home);
         }
 
         private void mainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            e.Cancel = true;
-            this.Hide();
-            notifyIcon.ShowBalloonTip(5000, "Notice", "Control Pad minimized to system tray", ToolTipIcon.Info);
-        }
-
-        private void mainWindow_Closed(object sender, EventArgs e)
-        {
-            notifyIcon.Visible = false;
-            notifyIcon.Dispose();
-            notifyIcon = null;
-        }
-
-        private void CreateNotifyIcon()
-        {
-            notifyIcon = new NotifyIcon();
-            notifyIcon.Icon = new Icon(@"Resources\logo.ico");
-            notifyIcon.Visible = true;
-            notifyIcon.Text = "Control Pad";
-
-            var contextMenu = new ContextMenuStrip();
-            contextMenu.Items.Add("Open", null, (s, e) => {
-                this.Show();
-                this.WindowState = WindowState.Normal;
-                this.Activate();
-            });
-
-            contextMenu.Items.Add("Exit", null, (s, e) => {
-                notifyIcon.Visible = false;
-                System.Windows.Application.Current.Shutdown();
-            });
-
-            notifyIcon.ContextMenuStrip = contextMenu;
-
-            notifyIcon.DoubleClick += (s, e) =>
+        {          
+            if (Settings.MinimizeToSystemTray)
             {
-                this.Dispatcher.Invoke(() =>
+                e.Cancel = true;
+                this.Hide();
+                if (!Settings.TrayIconMessageShown)
                 {
-                    this.Show();
-                    this.WindowState = WindowState.Normal;
-                    this.Activate();
-                });
-            };
+                    
+                    Settings.TrayIconMessageShown = true;
+                }
+            }
+        }
+        private void mainWindow_Closed(object sender, EventArgs e) => NotifyIcon.Dispose();
+        
+        private void MI_Open_Click(object sender, EventArgs e)        
+        {
+            WindowState = WindowState.Normal;
+            this.Show();
         }
 
-        private void Exit_Click(object sender, RoutedEventArgs e) => this.Close();
+        private void MI_Exit_Click(object sender, EventArgs e) => System.Windows.Application.Current.Shutdown();
+
+        private void Exit_Click(object sender, RoutedEventArgs e) => System.Windows.Application.Current.Shutdown();
 
         private void NVI_Home_Click(object sender, RoutedEventArgs e)
         {
@@ -129,10 +106,7 @@ namespace ControlPad
             NVI_Button_Categories.IsActive = false;
             NVI_Settings.IsActive = false;
 
-            if (NVI_EditMode.Icon is SymbolIcon symbolIconEditMode)
-            {
-                EditModeUnchecked(symbolIconEditMode);
-            }
+            if (NVI_EditMode.Icon is SymbolIcon symbolIconEditMode) EditModeUnchecked(symbolIconEditMode);
             if (NVI_Home.Icon is SymbolIcon symbolIconHome) symbolIconHome.Filled = false;
             if (NVI_Slider_Categories.Icon is SymbolIcon symbolIconCategories) symbolIconCategories.Filled = false;
             if (NVI_Button_Categories.Icon is SymbolIcon symbolIconButtonCategories) symbolIconButtonCategories.Filled = false;
