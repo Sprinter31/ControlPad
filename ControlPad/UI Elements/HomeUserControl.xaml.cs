@@ -84,6 +84,8 @@ namespace ControlPad
             }
         }
 
+        private void ToggleButton_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => e.Handled = true;
+
         private void CreateControlValues()
         {
             DataHandler.SliderValues = new()

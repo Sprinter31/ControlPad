@@ -9,13 +9,13 @@
         mc:Ignorable="d"
         Icon="pack://application:,,,/Resources/logo.ico"
         Title="Control Pad"
-        Width="651"
+        Width="650"
         Height="600"
         Closing="mainWindow_Closing"
         Closed="mainWindow_Closed"
         WindowBackdropType="Mica"
         ExtendsContentIntoTitleBar="True"
-        ResizeMode="NoResize"        
+             ResizeMode="NoResize"   
         >
 
     <DockPanel>

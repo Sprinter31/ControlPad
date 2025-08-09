@@ -32,9 +32,9 @@ namespace ControlPad
             _manageSliderCategoriesUserControl = new ManageSliderCategoriesUserControl(this);
             _manageButtonCategoriesUserControl = new ManageButtonCategoriesUserControl(this);
             ArduinoController.Initialize(this, new EventHandler(_homeUserControl));
-            DataContext = this;            
+            DataContext = this;
 
-            MainContentFrame.Navigate(_homeUserControl);
+            MainContentFrame.Navigate(progressRing);
             SetActive(NVI_Home);
         }
 
@@ -143,7 +143,6 @@ namespace ControlPad
                 }
             }
         }
-
         private void EditModeChecked(SymbolIcon symbolIcon)
         {
             symbolIcon.Symbol = SymbolRegular.CheckboxChecked24;
@@ -159,6 +158,11 @@ namespace ControlPad
             _homeUserControl.ButtonCell4.Visibility = Visibility.Visible;
             _homeUserControl.ButtonCell5.Visibility = Visibility.Visible;
             _homeUserControl.ButtonCell6.Visibility = Visibility.Visible;
+            _homeUserControl.ButtonCell7.Visibility = Visibility.Visible;
+            _homeUserControl.ButtonCell8.Visibility = Visibility.Visible;
+            _homeUserControl.ButtonCell9.Visibility = Visibility.Visible;
+            _homeUserControl.ButtonCell10.Visibility = Visibility.Visible;
+            _homeUserControl.ButtonCell11.Visibility = Visibility.Visible;
         }
 
         private void EditModeUnchecked(SymbolIcon symbolIcon)
@@ -175,7 +179,12 @@ namespace ControlPad
             _homeUserControl.ButtonCell3.Visibility = Visibility.Hidden;
             _homeUserControl.ButtonCell4.Visibility = Visibility.Hidden;
             _homeUserControl.ButtonCell5.Visibility = Visibility.Hidden;
-            _homeUserControl.ButtonCell6.Visibility = Visibility.Hidden;            
+            _homeUserControl.ButtonCell6.Visibility = Visibility.Hidden;
+            _homeUserControl.ButtonCell7.Visibility = Visibility.Hidden;
+            _homeUserControl.ButtonCell8.Visibility = Visibility.Hidden;
+            _homeUserControl.ButtonCell9.Visibility = Visibility.Hidden;
+            _homeUserControl.ButtonCell10.Visibility = Visibility.Hidden;
+            _homeUserControl.ButtonCell11.Visibility = Visibility.Hidden;
         }
     }   
 }

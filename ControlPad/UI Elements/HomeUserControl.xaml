@@ -6,7 +6,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ControlPad"
              mc:Ignorable="d" 
-             d:DesignHeight="550" d:DesignWidth="600">
+             d:DesignHeight="600" Width="Auto">
 
     <UserControl.Resources>
         <!-- Slider Style -->
@@ -128,115 +128,129 @@
     </UserControl.Resources>
     <!-- ===== Layout ===== -->
     <Grid>
-        <Grid Height="500">
-            <!-- 6 Slider Columns + 1 Button Column -->
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+        <!-- 6 Slider Columns + 1 Button Column -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="80"/>
+            <ColumnDefinition Width="80"/>
+            <ColumnDefinition Width="80"/>
+            <ColumnDefinition Width="80"/>
+            <ColumnDefinition Width="80"/>
+            <ColumnDefinition Width="80"/>
+            <ColumnDefinition Width="80"/>
+        </Grid.ColumnDefinitions>
 
-            <!-- first row texts, second row Sliders, third row Buttons -->
+        <!-- first row texts, second row Sliders, third row Buttons -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="18*"/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+
+        <!-- Text Blocks -->
+        <TextBlock x:Name="TextBlock1" Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="0" Text=""/>
+        <TextBlock x:Name="TextBlock2" Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="1" Text=""/>
+        <TextBlock x:Name="TextBlock3" Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="2" Text=""/>
+        <TextBlock x:Name="TextBlock4" Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="3" Text=""/>
+        <TextBlock x:Name="TextBlock5" Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="4" Text=""/>
+        <TextBlock x:Name="TextBlock6" Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="5" Text=""/>
+
+        <!-- Border -->
+        <local:SliderBorder x:Name="SliderCell1" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="0" MouseLeftButtonDown="SliderCell_Click" CustomSlider="{Binding ElementName=Slider1}"/>
+        <local:SliderBorder x:Name="SliderCell2" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="1" MouseLeftButtonDown="SliderCell_Click" CustomSlider="{Binding ElementName=Slider2}"/>
+        <local:SliderBorder x:Name="SliderCell3" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="2" MouseLeftButtonDown="SliderCell_Click" CustomSlider="{Binding ElementName=Slider3}"/>
+        <local:SliderBorder x:Name="SliderCell4" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="3" MouseLeftButtonDown="SliderCell_Click" CustomSlider="{Binding ElementName=Slider4}"/>
+        <local:SliderBorder x:Name="SliderCell5" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="4" MouseLeftButtonDown="SliderCell_Click" CustomSlider="{Binding ElementName=Slider5}"/>
+        <local:SliderBorder x:Name="SliderCell6" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="5" MouseLeftButtonDown="SliderCell_Click" CustomSlider="{Binding ElementName=Slider6}"/>
+        <local:ButtonBorder x:Name="ButtonCell1" Style="{StaticResource Border}" Grid.Row="2" Grid.Column="0" MouseLeftButtonDown="ButtonCell_Click" CustomButton="{Binding ElementName=Switch1}"/>
+        <local:ButtonBorder x:Name="ButtonCell2" Style="{StaticResource Border}" Grid.Row="2" Grid.Column="1" MouseLeftButtonDown="ButtonCell_Click" CustomButton="{Binding ElementName=Switch2}"/>
+        <local:ButtonBorder x:Name="ButtonCell3" Style="{StaticResource Border}" Grid.Row="2" Grid.Column="2" MouseLeftButtonDown="ButtonCell_Click" CustomButton="{Binding ElementName=Switch3}"/>
+        <local:ButtonBorder x:Name="ButtonCell4" Style="{StaticResource Border}" Grid.Row="2" Grid.Column="3" MouseLeftButtonDown="ButtonCell_Click" CustomButton="{Binding ElementName=Switch4}"/>
+        <local:ButtonBorder x:Name="ButtonCell5" Style="{StaticResource Border}" Grid.Row="2" Grid.Column="4" MouseLeftButtonDown="ButtonCell_Click" CustomButton="{Binding ElementName=Switch5}"/>
+        <local:ButtonBorder x:Name="ButtonCell6" Style="{StaticResource Border}" Grid.Row="2" Grid.Column="5" MouseLeftButtonDown="ButtonCell_Click" CustomButton="{Binding ElementName=Switch6}"/>
+   
+        <!-- Slider -->
+        <local:CustomSlider x:Name="Slider1" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" TextBlock="{Binding ElementName=TextBlock1}"/>
+        <local:CustomSlider x:Name="Slider2" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" TextBlock="{Binding ElementName=TextBlock2}"/>
+        <local:CustomSlider x:Name="Slider3" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" TextBlock="{Binding ElementName=TextBlock3}"/>
+        <local:CustomSlider x:Name="Slider4" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" TextBlock="{Binding ElementName=TextBlock4}"/>
+        <local:CustomSlider x:Name="Slider5" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center" TextBlock="{Binding ElementName=TextBlock5}"/>
+        <local:CustomSlider x:Name="Slider6" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="5" HorizontalAlignment="Center" TextBlock="{Binding ElementName=TextBlock6}"/>
+
+        <!-- Mute Buttons -->
+        <local:CustomButton x:Name="Switch1" Width="60" Height="60" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" Padding="2" TextBlock="{Binding ElementName=Switch2_TextBlock}" PreviewMouseDown="ToggleButton_PreviewMouseLeftButtonDown">
+            <Viewbox Stretch="Uniform">
+                <TextBlock x:Name="Switch1_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
+            </Viewbox>
+        </local:CustomButton>
+        <local:CustomButton x:Name="Switch2" Width="60" Height="60" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" Padding="2" TextBlock="{Binding ElementName=Switch2_TextBlock}" PreviewMouseDown="ToggleButton_PreviewMouseLeftButtonDown">
+            <Viewbox Stretch="Uniform">
+                <TextBlock x:Name="Switch2_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
+            </Viewbox>
+        </local:CustomButton>
+        <local:CustomButton x:Name="Switch3" Width="60" Height="60" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" Padding="2" TextBlock="{Binding ElementName=Switch3_TextBlock}" PreviewMouseDown="ToggleButton_PreviewMouseLeftButtonDown">
+            <Viewbox Stretch="Uniform">
+                <TextBlock x:Name="Switch3_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
+            </Viewbox>
+        </local:CustomButton>
+        <local:CustomButton x:Name="Switch4" Width="60" Height="60" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="3" Padding="2" TextBlock="{Binding ElementName=Switch4_TextBlock}" PreviewMouseDown="ToggleButton_PreviewMouseLeftButtonDown">
+            <Viewbox Stretch="Uniform">
+                <TextBlock x:Name="Switch4_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
+            </Viewbox>
+        </local:CustomButton>
+        <local:CustomButton x:Name="Switch5" Width="60" Height="60" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="4" Padding="2" TextBlock="{Binding ElementName=Switch5_TextBlock}" PreviewMouseDown="ToggleButton_PreviewMouseLeftButtonDown">
+            <Viewbox Stretch="Uniform">
+                <TextBlock x:Name="Switch5_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
+            </Viewbox>
+        </local:CustomButton>
+        <local:CustomButton x:Name="Switch6" Width="60" Height="60" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="5" Padding="2" TextBlock="{Binding ElementName=Switch6_TextBlock}" PreviewMouseDown="ToggleButton_PreviewMouseLeftButtonDown">
+            <Viewbox Stretch="Uniform">
+                <TextBlock x:Name="Switch6_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
+            </Viewbox>
+        </local:CustomButton>
+
+        <!-- Button Column -->
+        <Grid Grid.Row="1" Grid.Column="6">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" Cursor="Hand"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <!-- Text Blocks -->
-            <TextBlock x:Name="TextBlock1" Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="0" Text=""/>
-            <TextBlock x:Name="TextBlock2" Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="1" Text=""/>
-            <TextBlock x:Name="TextBlock3" Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="2" Text=""/>
-            <TextBlock x:Name="TextBlock4" Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="3" Text=""/>
-            <TextBlock x:Name="TextBlock5" Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="4" Text=""/>
-            <TextBlock x:Name="TextBlock6" Style="{StaticResource SliderLabel}" Grid.Row="0" Grid.Column="5" Text=""/>
+            <local:ButtonBorder x:Name="ButtonCell7" Style="{StaticResource Border}" Grid.Row="0" Grid.Column="2" MouseLeftButtonDown="ButtonCell_Click" CustomButton="{Binding ElementName=Switch7}"/>
+            <local:ButtonBorder x:Name="ButtonCell8" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="2" MouseLeftButtonDown="ButtonCell_Click" CustomButton="{Binding ElementName=Switch8}"/>
+            <local:ButtonBorder x:Name="ButtonCell9" Style="{StaticResource Border}" Grid.Row="2" Grid.Column="2" MouseLeftButtonDown="ButtonCell_Click" CustomButton="{Binding ElementName=Switch9}"/>
+            <local:ButtonBorder x:Name="ButtonCell10" Style="{StaticResource Border}" Grid.Row="3" Grid.Column="2" MouseLeftButtonDown="ButtonCell_Click" CustomButton="{Binding ElementName=Switch10}"/>
+            <local:ButtonBorder x:Name="ButtonCell11" Style="{StaticResource Border}" Grid.Row="4" Grid.Column="2" MouseLeftButtonDown="ButtonCell_Click" CustomButton="{Binding ElementName=Switch11}"/>
 
-            <!-- Border -->
-            <local:SliderBorder x:Name="SliderCell1" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="0" MouseLeftButtonDown="SliderCell_Click" CustomSlider="{Binding ElementName=Slider1}"/>
-            <local:SliderBorder x:Name="SliderCell2" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="1" MouseLeftButtonDown="SliderCell_Click" CustomSlider="{Binding ElementName=Slider2}"/>
-            <local:SliderBorder x:Name="SliderCell3" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="2" MouseLeftButtonDown="SliderCell_Click" CustomSlider="{Binding ElementName=Slider3}"/>
-            <local:SliderBorder x:Name="SliderCell4" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="3" MouseLeftButtonDown="SliderCell_Click" CustomSlider="{Binding ElementName=Slider4}"/>
-            <local:SliderBorder x:Name="SliderCell5" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="4" MouseLeftButtonDown="SliderCell_Click" CustomSlider="{Binding ElementName=Slider5}"/>
-            <local:SliderBorder x:Name="SliderCell6" Style="{StaticResource Border}" Grid.Row="1" Grid.Column="5" MouseLeftButtonDown="SliderCell_Click" CustomSlider="{Binding ElementName=Slider6}"/>
-            <local:ButtonBorder x:Name="ButtonCell1" Style="{StaticResource Border}" Grid.Row="2" Grid.Column="0" MouseLeftButtonDown="ButtonCell_Click" CustomButton="{Binding ElementName=Switch1}"/>
-            <local:ButtonBorder x:Name="ButtonCell2" Style="{StaticResource Border}" Grid.Row="2" Grid.Column="1" MouseLeftButtonDown="ButtonCell_Click" CustomButton="{Binding ElementName=Switch2}"/>
-            <local:ButtonBorder x:Name="ButtonCell3" Style="{StaticResource Border}" Grid.Row="2" Grid.Column="2" MouseLeftButtonDown="ButtonCell_Click" CustomButton="{Binding ElementName=Switch3}"/>
-            <local:ButtonBorder x:Name="ButtonCell4" Style="{StaticResource Border}" Grid.Row="2" Grid.Column="3" MouseLeftButtonDown="ButtonCell_Click" CustomButton="{Binding ElementName=Switch4}"/>
-            <local:ButtonBorder x:Name="ButtonCell5" Style="{StaticResource Border}" Grid.Row="2" Grid.Column="4" MouseLeftButtonDown="ButtonCell_Click" CustomButton="{Binding ElementName=Switch5}"/>
-            <local:ButtonBorder x:Name="ButtonCell6" Style="{StaticResource Border}" Grid.Row="2" Grid.Column="5" MouseLeftButtonDown="ButtonCell_Click" CustomButton="{Binding ElementName=Switch6}"/>
-
-            <!-- Slider -->
-            <local:CustomSlider x:Name="Slider1" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" TextBlock="{Binding ElementName=TextBlock1}"/>
-            <local:CustomSlider x:Name="Slider2" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" TextBlock="{Binding ElementName=TextBlock2}"/>
-            <local:CustomSlider x:Name="Slider3" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" TextBlock="{Binding ElementName=TextBlock3}"/>
-            <local:CustomSlider x:Name="Slider4" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" TextBlock="{Binding ElementName=TextBlock4}"/>
-            <local:CustomSlider x:Name="Slider5" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center" TextBlock="{Binding ElementName=TextBlock5}"/>
-            <local:CustomSlider x:Name="Slider6" Style="{StaticResource VerticalBarSlider}" Grid.Row="1" Grid.Column="5" HorizontalAlignment="Center" TextBlock="{Binding ElementName=TextBlock6}"/>
-
-            <!-- Mute Buttons -->
-            <local:CustomButton x:Name="Switch1" Width="60" Height="60" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" Padding="2" TextBlock="{Binding ElementName=Switch1_TextBlock}">
+            <local:CustomButton x:Name="Switch7" Grid.Row="0" Width="60" Height="60" Margin="10" Padding="2" TextBlock="{Binding ElementName=Switch7_TextBlock}" PreviewMouseDown="ToggleButton_PreviewMouseLeftButtonDown">
                 <Viewbox Stretch="Uniform">
-                    <TextBlock x:Name="Switch1_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
+                    <TextBlock x:Name="Switch7_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
                 </Viewbox>
             </local:CustomButton>
-            <local:CustomButton x:Name="Switch2" Width="60" Height="60" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1" Padding="2" TextBlock="{Binding ElementName=Switch2_TextBlock}">
+            <local:CustomButton x:Name="Switch8" Grid.Row="1" Width="60" Height="60" Margin="10" Padding="2" TextBlock="{Binding ElementName=Switch8_TextBlock}" PreviewMouseDown="ToggleButton_PreviewMouseLeftButtonDown">
                 <Viewbox Stretch="Uniform">
-                    <TextBlock x:Name="Switch2_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
+                    <TextBlock x:Name="Switch8_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
                 </Viewbox>
             </local:CustomButton>
-            <local:CustomButton x:Name="Switch3" Width="60" Height="60" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2" Padding="2" TextBlock="{Binding ElementName=Switch3_TextBlock}">
+            <local:CustomButton x:Name="Switch9" Grid.Row="2" Width="60" Height="60" Margin="10" Padding="2" TextBlock="{Binding ElementName=Switch9_TextBlock}" PreviewMouseDown="ToggleButton_PreviewMouseLeftButtonDown">
                 <Viewbox Stretch="Uniform">
-                    <TextBlock x:Name="Switch3_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
+                    <TextBlock x:Name="Switch9_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
                 </Viewbox>
             </local:CustomButton>
-            <local:CustomButton x:Name="Switch4" Width="60" Height="60" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="3" Padding="2" TextBlock="{Binding ElementName=Switch4_TextBlock}">
+            <local:CustomButton x:Name="Switch10" Grid.Row="3" Width="60" Height="60" Margin="10" Padding="2" TextBlock="{Binding ElementName=Switch10_TextBlock}" PreviewMouseDown="ToggleButton_PreviewMouseLeftButtonDown">
                 <Viewbox Stretch="Uniform">
-                    <TextBlock x:Name="Switch4_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
+                    <TextBlock x:Name="Switch10_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
                 </Viewbox>
             </local:CustomButton>
-            <local:CustomButton x:Name="Switch5" Width="60" Height="60" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="4" Padding="2" TextBlock="{Binding ElementName=Switch5_TextBlock}">
+            <local:CustomButton x:Name="Switch11" Grid.Row="4" Width="60" Height="60" Margin="10" Padding="2" TextBlock="{Binding ElementName=Switch11_TextBlock}" PreviewMouseDown="ToggleButton_PreviewMouseLeftButtonDown">
                 <Viewbox Stretch="Uniform">
-                    <TextBlock x:Name="Switch5_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
+                    <TextBlock x:Name="Switch11_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
                 </Viewbox>
             </local:CustomButton>
-            <local:CustomButton x:Name="Switch6" Width="60" Height="60" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="5" Padding="2" TextBlock="{Binding ElementName=Switch6_TextBlock}">
-                <Viewbox Stretch="Uniform">
-                    <TextBlock x:Name="Switch6_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
-                </Viewbox>
-            </local:CustomButton>
-
-            <!-- Button Column -->
-            <StackPanel Grid.Row="1" Grid.Column="6">
-                <local:CustomButton x:Name="Switch7" Width="60" Height="60" Margin="10" Padding="2" TextBlock="{Binding ElementName=Switch7_TextBlock}">
-                    <Viewbox Stretch="Uniform">
-                        <TextBlock x:Name="Switch7_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
-                    </Viewbox>
-                </local:CustomButton>
-                <local:CustomButton x:Name="Switch8" Width="60" Height="60" Margin="10" Padding="2" TextBlock="{Binding ElementName=Switch8_TextBlock}">
-                    <Viewbox Stretch="Uniform">
-                        <TextBlock x:Name="Switch8_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
-                    </Viewbox>
-                </local:CustomButton>
-                <local:CustomButton x:Name="Switch9" Width="60" Height="60" Margin="10" Padding="2" TextBlock="{Binding ElementName=Switch9_TextBlock}">
-                    <Viewbox Stretch="Uniform">
-                        <TextBlock x:Name="Switch9_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
-                    </Viewbox>
-                </local:CustomButton>
-                <local:CustomButton x:Name="Switch10" Width="60" Height="60" Margin="10" Padding="2" TextBlock="{Binding ElementName=Switch10_TextBlock}">
-                    <Viewbox Stretch="Uniform">
-                        <TextBlock x:Name="Switch10_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
-                    </Viewbox>
-                </local:CustomButton>
-                <local:CustomButton x:Name="Switch11" Width="60" Height="60" Margin="10" Padding="2" TextBlock="{Binding ElementName=Switch11_TextBlock}">
-                    <Viewbox Stretch="Uniform">
-                        <TextBlock x:Name="Switch11_TextBlock" TextAlignment="Center" TextWrapping="NoWrap"/>
-                    </Viewbox>
-                </local:CustomButton>
-            </StackPanel>
-        </Grid>
+        
+        
+            </Grid>
     </Grid>
 </UserControl>
