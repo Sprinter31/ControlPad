@@ -1,7 +1,10 @@
 ﻿using ControlPad;
+using Microsoft.Toolkit.Uwp.Notifications;
 using System.Collections.ObjectModel;
 using System.Configuration;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,9 +23,10 @@ namespace ControlPad
         private ManageSliderCategoriesUserControl _manageSliderCategoriesUserControl;
         private ManageButtonCategoriesUserControl _manageButtonCategoriesUserControl;
         public ProgressRing progressRing = new() { IsIndeterminate = true };
+        private bool realShutDown = false;
 
         public MainWindow()
-        {
+        {            
             InitializeComponent();
             _homeUserControl = new HomeUserControl(this);
             _manageSliderCategoriesUserControl = new ManageSliderCategoriesUserControl(this);
@@ -40,12 +44,13 @@ namespace ControlPad
             {
                 e.Cancel = true;
                 this.Hide();
-                if (!Settings.TrayIconMessageShown)
+                if (!Settings.TrayIconMessageShown && !realShutDown)
                 {
-                    
+                    new ToastContentBuilder().AddText("Control Pad minimized to System Tray").Show();
                     Settings.TrayIconMessageShown = true;
                 }
-            }
+                realShutDown = false;
+            }           
         }
         private void mainWindow_Closed(object sender, EventArgs e) => NotifyIcon.Dispose();
         
@@ -55,9 +60,17 @@ namespace ControlPad
             this.Show();
         }
 
-        private void MI_Exit_Click(object sender, EventArgs e) => System.Windows.Application.Current.Shutdown();
+        private void MI_Exit_Click(object sender, EventArgs e)
+        {
+            realShutDown = true;
+            System.Windows.Application.Current.Shutdown();
+        }
 
-        private void Exit_Click(object sender, RoutedEventArgs e) => System.Windows.Application.Current.Shutdown();
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            realShutDown = true;
+            System.Windows.Application.Current.Shutdown();
+        }
 
         private void NVI_Home_Click(object sender, RoutedEventArgs e)
         {
@@ -92,7 +105,7 @@ namespace ControlPad
             }
         }
         private void NVI_Settings_Click(object sender, RoutedEventArgs e)
-        {
+        {                       
             if (!NVI_Settings.IsActive)
             {
                 SetActive(NVI_Settings);
