@@ -91,7 +91,7 @@
                           Grid.Column="1"
                           MinWidth="180"
                           SelectedIndex="0"
-                          VerticalAlignment="Center">
+                          VerticalAlignment="Center" SelectionChanged="ThemeComboBox_SelectionChanged">
                     <ComboBoxItem Content="System (Default)"/>
                     <ComboBoxItem Content="Light"/>
                     <ComboBoxItem Content="Dark"/>

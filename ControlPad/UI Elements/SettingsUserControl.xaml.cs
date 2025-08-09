@@ -21,5 +21,21 @@ namespace ControlPad
         {
             InitializeComponent();
         }
+
+        private void ThemeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            switch(ThemeComboBox.SelectedIndex)
+            {
+                case 0:
+                    Wpf.Ui.Appearance.ApplicationThemeManager.ApplySystemTheme();
+                    break;
+                case 1:
+                    Wpf.Ui.Appearance.ApplicationThemeManager.Apply(Wpf.Ui.Appearance.ApplicationTheme.Light);
+                    break;
+                case 2:
+                    Wpf.Ui.Appearance.ApplicationThemeManager.Apply(Wpf.Ui.Appearance.ApplicationTheme.Dark);
+                    break;
+            }
+        }
     }
 }
