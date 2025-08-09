@@ -15,7 +15,7 @@
         Closed="mainWindow_Closed"
         WindowBackdropType="Mica"
         ExtendsContentIntoTitleBar="True"
-             ResizeMode="NoResize"   
+        ResizeMode="NoResize"   
         >
 
     <DockPanel>

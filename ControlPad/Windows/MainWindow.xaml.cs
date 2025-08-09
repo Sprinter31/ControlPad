@@ -22,6 +22,7 @@ namespace ControlPad
         public HomeUserControl _homeUserControl;
         private ManageSliderCategoriesUserControl _manageSliderCategoriesUserControl;
         private ManageButtonCategoriesUserControl _manageButtonCategoriesUserControl;
+        private SettingsUserControl _settingsUserControl;
         public ProgressRing progressRing = new() { IsIndeterminate = true };
         private bool realShutDown = false;
 
@@ -31,6 +32,7 @@ namespace ControlPad
             _homeUserControl = new HomeUserControl(this);
             _manageSliderCategoriesUserControl = new ManageSliderCategoriesUserControl(this);
             _manageButtonCategoriesUserControl = new ManageButtonCategoriesUserControl(this);
+            _settingsUserControl = new SettingsUserControl(this);
             ArduinoController.Initialize(this, new EventHandler(_homeUserControl));
             DataContext = this;
 
@@ -108,6 +110,7 @@ namespace ControlPad
         {                       
             if (!NVI_Settings.IsActive)
             {
+                MainContentFrame.Navigate(_settingsUserControl);
                 SetActive(NVI_Settings);
             }
         }
