@@ -35,7 +35,6 @@ namespace ControlPad
             _settingsUserControl = new SettingsUserControl(this);
             ArduinoController.Initialize(this, new EventHandler(_homeUserControl));
             DataContext = this;
-
             MainContentFrame.Navigate(progressRing);
             SetActive(NVI_Home);
         }

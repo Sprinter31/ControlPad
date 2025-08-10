@@ -6,7 +6,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPad"
         mc:Ignorable="d"
-                 Icon="pack://application:,,,/Resources/logo.ico"
+        Icon="pack://application:,,,/Resources/logo.ico"
+        ShowInTaskbar="False"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
         Title="Please select a microphone" Width="400" Height="140" MinHeight="20" MinWidth="20">

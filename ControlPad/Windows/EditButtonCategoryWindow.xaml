@@ -6,8 +6,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPad"
         mc:Ignorable="d"
-                 Icon="pack://application:,,,/Resources/logo.ico"
-        Title="EditButtonCategoryWindow" Height="600" Width="450" Background="Black" Closed="FluentWindow_Closed">
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterOwner"
+        Icon="pack://application:,,,/Resources/logo.ico"
+        Title="EditButtonCategoryWindow" Height="600" Width="450" Background="Black">
     <DockPanel>
         <ui:TitleBar
              DockPanel.Dock="Top" x:Name="TitleBarEditButtonCategoryWindow"
@@ -22,6 +24,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
@@ -34,6 +37,11 @@
             <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="2" Grid.ColumnSpan="2">
                 <StackPanel x:Name="ActionsContainer"/>
             </ScrollViewer>
+
+            <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+                <Button x:Name="BtnOk" Content="OK" Width="90" Margin="0,0,8,0" IsDefault="True" Click="BtnOk_Click" />
+                <Button Content="Cancel" Width="90" IsCancel="True"/>
+            </StackPanel>
         </Grid>
     </DockPanel>
 </ui:FluentWindow>

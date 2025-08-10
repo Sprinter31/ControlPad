@@ -8,6 +8,7 @@
         mc:Ignorable="d"
         Icon="pack://application:,,,/Resources/logo.ico"
         Background="Black"
+        ShowInTaskbar="False"
         WindowStartupLocation="CenterOwner"
         Title="EditSliderCategoryWindow" Height="420" Width="438">
 

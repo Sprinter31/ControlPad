@@ -125,6 +125,15 @@ namespace ControlPad
                                 }
                             case EActionType.KeyPress:
                                 {
+                                    uint.TryParse(buttonAction.ActionProperty, out uint keyCode);
+                                    if (IsPressed && !IsPressedOld)
+                                    {                                       
+                                        KeyController.HoldStart((ushort)keyCode);
+                                    }
+                                    if(!IsPressed && IsPressedOld)
+                                    {
+                                        KeyController.HoldStop((ushort)keyCode);
+                                    }
                                     break;
                                 }
                         }

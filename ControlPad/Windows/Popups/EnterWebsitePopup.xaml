@@ -5,9 +5,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPad"
-        
         Icon="pack://application:,,,/Resources/logo.ico"        
-                 WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
         Title="Please enter a website URL" Width="400" Height="140" MinHeight="20" MinWidth="20" Background="Black">
     

@@ -6,43 +6,53 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPad"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        ResizeMode="CanResize"
         Icon="pack://application:,,,/Resources/logo.ico"
         Title="SelectKeyPopup" Height="500" Width="300" Background="Black">
     
     <DockPanel>
         <ui:TitleBar DockPanel.Dock="Top" x:Name="TitleBarSelectKeyPopup"
-        Title="Please Select a key"
         Icon="{ui:ImageIcon 'pack://application:,,,/Resources/logo.ico'}"/>
 
-        <Grid>
-            <TreeView AllowDrop="True">
-                <TreeViewItem Header="Function">
-                    <TreeViewItem Header="F1" />
-                    <TreeViewItem Header="F2" />
-                    <TreeViewItem Header="F3" />
-                    <TreeViewItem Header="F4" />
-                    <TreeViewItem Header="F5" />
-                    <TreeViewItem Header="F6" />
-                    <TreeViewItem Header="F7" />
-                    <TreeViewItem Header="F8" />
-                    <TreeViewItem Header="F9" />
-                    <TreeViewItem Header="F10" />
-                    <TreeViewItem Header="F11" />
-                    <TreeViewItem Header="F12" />
-                    <TreeViewItem Header="F13" />
-                    <TreeViewItem Header="F14" />
-                    <TreeViewItem Header="F15" />
-                    <TreeViewItem Header="F16" />
-                    <TreeViewItem Header="F17" />
-                    <TreeViewItem Header="F18" />
-                    <TreeViewItem Header="F19" />
-                    <TreeViewItem Header="F20" />
-                    <TreeViewItem Header="F21" />
-                    <TreeViewItem Header="F22" />
-                    <TreeViewItem Header="F23" />
-                    <TreeViewItem Header="F24" />
-                </TreeViewItem>
+        <Grid Margin="12">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0"
+                   Text="Please Select a key:"
+                   Margin="0,0,0,8"
+                   FontWeight="Bold"/>
+
+            <TreeView x:Name="TreeViewKeys"
+                  Grid.Row="1"
+                  ItemsSource="{Binding KeyGroups}"
+                  MouseDoubleClick="TreeViewKeys_MouseDoubleClick"
+                  MinWidth="380" MinHeight="260">
+
+                <!-- Kategorie -->
+                <TreeView.Resources>
+                    <HierarchicalDataTemplate DataType="{x:Type local:KeyGroup}"
+                                          ItemsSource="{Binding Items}">
+                        <TextBlock Text="{Binding Name}" FontWeight="DemiBold"/>
+                    </HierarchicalDataTemplate>
+
+                    <!-- Blatt -->
+                    <DataTemplate DataType="{x:Type local:KeyCode}">
+                        <TextBlock Text="{Binding Label}"/>
+                    </DataTemplate>
+                </TreeView.Resources>
             </TreeView>
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+                <Button x:Name="BtnOk" Content="OK" Width="90" Margin="0,0,8,0"
+                    IsDefault="True" Click="Ok_Click"/>
+                <Button Content="Cancel" Width="90" IsCancel="True"/>
+            </StackPanel>
         </Grid>
     </DockPanel>
 </ui:FluentWindow>

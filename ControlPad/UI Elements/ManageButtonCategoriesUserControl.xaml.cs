@@ -45,12 +45,11 @@ namespace ControlPad
 
         private void btn_EditCat_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new EditButtonCategoryWindow(lb_Categories.SelectedIndex);
+            var dialog = new EditButtonCategoryWindow(lb_Categories.SelectedIndex, mainWindow);
             dialog.Owner = mainWindow;
             dialog.ShowDialog();
             lb_Categories.Items.Refresh();
-            DataHandler.SetButtonTextBlocks();
-            DataHandler.SaveDataToFile(DataHandler.ButtonCategoriesPath, DataHandler.ButtonCategories.ToList());
+            DataHandler.SetButtonTextBlocks();            
         }
 
         private void DeleteAtSelected()
