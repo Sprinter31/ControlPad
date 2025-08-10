@@ -1,0 +1,17 @@
+Slider1.Category.Id is: 
+Slider2.Category.Id is: 
+Slider3.Category.Id is: 
+Slider4.Category.Id is: 
+Slider5.Category.Id is: 
+Slider6.Category.Id is: 
+Switch1.Category.Id is: 
+Switch2.Category.Id is: 
+Switch3.Category.Id is: 
+Switch4.Category.Id is: 
+Switch5.Category.Id is: 
+Switch6.Category.Id is: 
+Switch7.Category.Id is: 
+Switch8.Category.Id is: 
+Switch9.Category.Id is: 
+Switch10.Category.Id is: 
+Switch11.Category.Id is: 

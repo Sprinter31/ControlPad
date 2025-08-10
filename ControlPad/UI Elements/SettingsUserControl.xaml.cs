@@ -38,14 +38,23 @@ namespace ControlPad
 
         private void MinimizeToTrayCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            if(MinimizeToTrayCheckBox.IsChecked != null)
+            if (!_isInitialized)
+                return;
+
+            if (MinimizeToTrayCheckBox.IsChecked != null)
                 Settings.MinimizeToSystemTray = (bool)MinimizeToTrayCheckBox.IsChecked;
         }
 
         private void StartWithWindowsCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            if(StartWithWindowsCheckBox.IsChecked != null)
+            if (!_isInitialized)
+                return;
+
+            if (StartWithWindowsCheckBox.IsChecked != null)
+            {
                 AutostartHelper.SetAutostart((bool)StartWithWindowsCheckBox.IsChecked);
+                Settings.StartWithWindows = (bool)StartWithWindowsCheckBox.IsChecked;
+            }              
         }
 
         public static void ChangeAppTheme(int index)
