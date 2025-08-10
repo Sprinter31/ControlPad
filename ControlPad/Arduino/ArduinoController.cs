@@ -41,7 +41,7 @@ namespace ControlPad
                     _mainWindow.Dispatcher.BeginInvoke(() =>
                     {
                         _mainWindow.BoardDisconnectedInfoBar.IsOpen = true;
-                        _mainWindow.MainContentFrame.Navigate(_mainWindow.progressRing);
+                        if (_mainWindow.NVI_Home.IsActive) _mainWindow.MainContentFrame.Navigate(_mainWindow.progressRing);
                         _mainWindow.NVI_EditMode.Visibility = Visibility.Collapsed;
                         IsConnected = false;
                     });
@@ -67,7 +67,7 @@ namespace ControlPad
                     await _mainWindow.Dispatcher.InvokeAsync(() =>
                     {
                         _mainWindow.BoardDisconnectedInfoBar.IsOpen = false;
-                        _mainWindow.MainContentFrame.Navigate(_mainWindow._homeUserControl);
+                        if(_mainWindow.NVI_Home.IsActive) _mainWindow.MainContentFrame.Navigate(_mainWindow._homeUserControl);
                         _mainWindow.NVI_EditMode.Visibility = Visibility.Visible;
                         IsConnected = true;
                     });
@@ -86,7 +86,7 @@ namespace ControlPad
                 await _mainWindow.Dispatcher.InvokeAsync(() =>
                 {
                     _mainWindow.BoardDisconnectedInfoBar.IsOpen = true;
-                    _mainWindow.MainContentFrame.Navigate(_mainWindow.progressRing);
+                    if (_mainWindow.NVI_Home.IsActive) _mainWindow.MainContentFrame.Navigate(_mainWindow.progressRing);
                     _mainWindow.NVI_EditMode.Visibility = Visibility.Collapsed;
                     IsConnected = false;
                 });
