@@ -20,7 +20,6 @@ namespace ControlPad
 {
     public partial class MainWindow : FluentWindow
     {
-        private const string RunKeyPath = @"Software\Microsoft\Windows\CurrentVersion\Run";
         public HomeUserControl _homeUserControl;
         private ManageSliderCategoriesUserControl _manageSliderCategoriesUserControl;
         private ManageButtonCategoriesUserControl _manageButtonCategoriesUserControl;
@@ -31,6 +30,7 @@ namespace ControlPad
         public MainWindow()
         {            
             InitializeComponent();
+            Directory.SetCurrentDirectory(AppContext.BaseDirectory);
             _homeUserControl = new HomeUserControl(this);
             _manageSliderCategoriesUserControl = new ManageSliderCategoriesUserControl(this);
             _manageButtonCategoriesUserControl = new ManageButtonCategoriesUserControl(this);
@@ -39,6 +39,7 @@ namespace ControlPad
             DataContext = this;
             MainContentFrame.Navigate(progressRing);
             SetActive(NVI_Home);
+            SettingsUserControl.ChangeAppTheme(Settings.SelectedThemeIndex);
         }
 
         private void mainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)

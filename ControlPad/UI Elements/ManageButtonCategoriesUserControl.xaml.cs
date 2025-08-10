@@ -45,6 +45,8 @@ namespace ControlPad
 
         private void btn_EditCat_Click(object sender, RoutedEventArgs e)
         {
+            if (lb_Categories.SelectedIndex == -1) return;
+
             var dialog = new EditButtonCategoryWindow(lb_Categories.SelectedIndex, mainWindow);
             dialog.Owner = mainWindow;
             dialog.ShowDialog();

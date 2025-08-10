@@ -13,6 +13,7 @@ namespace ControlPad
         private static bool _trayIconMessageShown = false;
         private static bool _minimizeToSystemTray = true;
         private static bool _startWithWindows = true;
+        private static int _selectedThemeIndex = 0;
 
         static Settings()
         {
@@ -49,11 +50,22 @@ namespace ControlPad
             }
         }
 
+        public static int SelectedThemeIndex
+        {
+            get => _selectedThemeIndex;
+            set
+            {
+                _selectedThemeIndex = value;
+                Save();
+            }
+        }
+
         private class Data
         {
             public bool TrayIconMessageShown { get; set; } = false;
             public bool MinimizeToSystemTray { get; set; } = true;
             public bool StartWithWindows { get; set; } = false;
+            public int SelectedThemeIndex { get; set; } = 0;
         }
 
         private static void Load()
@@ -71,6 +83,7 @@ namespace ControlPad
                 _trayIconMessageShown = data.TrayIconMessageShown;
                 _minimizeToSystemTray = data.MinimizeToSystemTray;
                 _startWithWindows = data.StartWithWindows;
+                _selectedThemeIndex = data.SelectedThemeIndex;
             }
             catch
             {
@@ -86,7 +99,8 @@ namespace ControlPad
                 {
                     TrayIconMessageShown = _trayIconMessageShown,
                     MinimizeToSystemTray = _minimizeToSystemTray,
-                    StartWithWindows = _startWithWindows
+                    StartWithWindows = _startWithWindows,
+                    SelectedThemeIndex = _selectedThemeIndex,
                 };
 
                 var options = new JsonSerializerOptions { WriteIndented = true };

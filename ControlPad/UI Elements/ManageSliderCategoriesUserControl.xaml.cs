@@ -46,11 +46,9 @@ namespace ControlPad
 
         private void btn_EditCat_Click(object sender, RoutedEventArgs e)
         {
-            int index = lb_Categories.SelectedIndex;
+            if (lb_Categories.SelectedIndex == -1) return;
 
-            if (index == -1) return;
-
-            var dialog = new EditSliderCategoryWindow(index) { Owner = mainWindow };
+            var dialog = new EditSliderCategoryWindow(lb_Categories.SelectedIndex) { Owner = mainWindow };
             dialog.ShowDialog();
             lb_Categories.Items.Refresh();
             DataHandler.SetSliderTextBlocks();

@@ -17,25 +17,23 @@ namespace ControlPad
 {
     public partial class SettingsUserControl : UserControl
     {
+        private bool _isInitialized = false;
         public SettingsUserControl(MainWindow mainWindow)
         {
             InitializeComponent();
+            ThemeComboBox.SelectedIndex = Settings.SelectedThemeIndex;
+            MinimizeToTrayCheckBox.IsChecked = Settings.MinimizeToSystemTray;
+            StartWithWindowsCheckBox.IsChecked = Settings.StartWithWindows;
+            _isInitialized = true;
         }
 
         private void ThemeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            switch(ThemeComboBox.SelectedIndex)
-            {
-                case 0:
-                    Wpf.Ui.Appearance.ApplicationThemeManager.ApplySystemTheme();
-                    break;
-                case 1:
-                    Wpf.Ui.Appearance.ApplicationThemeManager.Apply(Wpf.Ui.Appearance.ApplicationTheme.Light);
-                    break;
-                case 2:
-                    Wpf.Ui.Appearance.ApplicationThemeManager.Apply(Wpf.Ui.Appearance.ApplicationTheme.Dark);
-                    break;
-            }
+            if (!_isInitialized)
+                return;
+
+            ChangeAppTheme(ThemeComboBox.SelectedIndex);
+            Settings.SelectedThemeIndex = ThemeComboBox.SelectedIndex;
         }
 
         private void MinimizeToTrayCheckBox_Checked(object sender, RoutedEventArgs e)
@@ -48,6 +46,22 @@ namespace ControlPad
         {
             if(StartWithWindowsCheckBox.IsChecked != null)
                 AutostartHelper.SetAutostart((bool)StartWithWindowsCheckBox.IsChecked);
+        }
+
+        public static void ChangeAppTheme(int index)
+        {
+            switch (index)
+            {
+                case 0:
+                    Wpf.Ui.Appearance.ApplicationThemeManager.ApplySystemTheme();
+                    break;
+                case 1:
+                    Wpf.Ui.Appearance.ApplicationThemeManager.Apply(Wpf.Ui.Appearance.ApplicationTheme.Light);
+                    break;
+                case 2:
+                    Wpf.Ui.Appearance.ApplicationThemeManager.Apply(Wpf.Ui.Appearance.ApplicationTheme.Dark);
+                    break;
+            }
         }
     }
 }
