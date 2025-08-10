@@ -37,5 +37,17 @@ namespace ControlPad
                     break;
             }
         }
+
+        private void MinimizeToTrayCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            if(MinimizeToTrayCheckBox.IsChecked != null)
+                Settings.MinimizeToSystemTray = (bool)MinimizeToTrayCheckBox.IsChecked;
+        }
+
+        private void StartWithWindowsCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            if(StartWithWindowsCheckBox.IsChecked != null)
+                AutostartHelper.SetAutostart((bool)StartWithWindowsCheckBox.IsChecked);
+        }
     }
 }

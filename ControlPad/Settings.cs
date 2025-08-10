@@ -53,7 +53,7 @@ namespace ControlPad
         {
             public bool TrayIconMessageShown { get; set; } = false;
             public bool MinimizeToSystemTray { get; set; } = true;
-            public bool StartWithWindows { get; set; } = true;
+            public bool StartWithWindows { get; set; } = false;
         }
 
         private static void Load()

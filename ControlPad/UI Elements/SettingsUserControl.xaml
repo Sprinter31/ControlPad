@@ -17,7 +17,7 @@
                    FontWeight="SemiBold"
                    Padding="0"
                    Margin="0,0,0,4"/>
-            <Label Content="Adjust how the app starts, behaves in the tray, and looks."
+            <Label Content="Adjust how the app behaves and looks."
                    Padding="0"
                    Margin="0,0,0,8"
                    Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
@@ -42,6 +42,8 @@
                 </StackPanel>
 
                 <CheckBox x:Name="StartWithWindowsCheckBox"
+                          Checked="StartWithWindowsCheckBox_Checked" 
+                          Unchecked="StartWithWindowsCheckBox_Checked"
                           Grid.Column="1"
                           VerticalAlignment="Center"/>
             </Grid>
@@ -59,14 +61,17 @@
                     <Label Content="Mi_nimize to system tray"
                            Padding="0"
                            Target="{Binding ElementName=MinimizeToTrayCheckBox}"/>
-                    <Label Content="When closing, keep the app running in the notification area."
+                    <Label Content="When closing, keep the app running in the system tray."
                            Padding="0"
                            Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
                 </StackPanel>
 
                 <CheckBox x:Name="MinimizeToTrayCheckBox"
                           Grid.Column="1"
-                          VerticalAlignment="Center"/>
+                          IsChecked="True"
+                          VerticalAlignment="Center" 
+                          Checked="MinimizeToTrayCheckBox_Checked" 
+                          Unchecked="MinimizeToTrayCheckBox_Checked"/>
             </Grid>
 
             <Separator/>

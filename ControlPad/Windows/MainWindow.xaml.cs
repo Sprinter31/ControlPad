@@ -1,5 +1,6 @@
 ﻿using ControlPad;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Diagnostics;
@@ -19,6 +20,7 @@ namespace ControlPad
 {
     public partial class MainWindow : FluentWindow
     {
+        private const string RunKeyPath = @"Software\Microsoft\Windows\CurrentVersion\Run";
         public HomeUserControl _homeUserControl;
         private ManageSliderCategoriesUserControl _manageSliderCategoriesUserControl;
         private ManageButtonCategoriesUserControl _manageButtonCategoriesUserControl;
