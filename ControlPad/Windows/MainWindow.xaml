@@ -1,21 +1,38 @@
 ﻿<ui:FluentWindow x:Name="mainWindow" x:Class="ControlPad.MainWindow"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        xmlns:tray="http://schemas.lepo.co/wpfui/2022/xaml/tray"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPad"
         mc:Ignorable="d"
+        Icon="pack://application:,,,/Resources/logo.ico"
         Title="Control Pad"
-        Width="651"
+        Width="650"
         Height="600"
         Closing="mainWindow_Closing"
         Closed="mainWindow_Closed"
         WindowBackdropType="Mica"
         ExtendsContentIntoTitleBar="True"
-        ResizeMode="NoResize"
+        ResizeMode="NoResize"   
         >
+
     <DockPanel>
+        <tray:NotifyIcon 
+            x:Name="NotifyIcon"
+            FocusOnLeftClick="True"
+            MenuOnRightClick="True"                
+            Icon="pack://application:,,,/Resources/logo.ico"
+            TooltipText="Control Pad">
+            <tray:NotifyIcon.Menu>
+                <ContextMenu>
+                    <MenuItem Header="Open" Click="MI_Open_Click" />
+                    <MenuItem Header="Exit" Click="MI_Exit_Click" />
+                </ContextMenu>
+            </tray:NotifyIcon.Menu>
+        </tray:NotifyIcon>
+        
         <ui:TitleBar
             DockPanel.Dock="Top"
             x:Name="titleBarMainWindow"
@@ -25,12 +42,13 @@
             Icon="{ui:ImageIcon 'pack://application:,,,/Resources/logo.ico'}" />
         
         <ui:InfoBar
+            x:Name="BoardDisconnectedInfoBar"
             DockPanel.Dock="Top"
             Title="Board not connected"
-            IsOpen="True"
+            IsOpen="False"
             Message="Please connect your board to use this app."
         />
-        
+       
         <ui:NavigationView
             x:Name="MainNavigationView"
             PaneDisplayMode="LeftFluent"

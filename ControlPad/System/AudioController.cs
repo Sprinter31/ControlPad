@@ -1,9 +1,10 @@
 ﻿using NAudio.CoreAudioApi;
-using System.Diagnostics;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Threading;
 
 namespace ControlPad
 {
@@ -43,25 +44,83 @@ namespace ControlPad
             if(device != null) device.AudioEndpointVolume.MasterVolumeLevelScalar = volume;
         }
 
-        public void SetMicVolume(float volume)
+        public void SetMicVolume(string micName, float volume)
         {
-            MMDevice mic = _enum.GetDefaultAudioEndpoint(DataFlow.Capture, Role.Communications);
-            mic.AudioEndpointVolume.MasterVolumeLevelScalar = volume;
+            List<MMDevice> mics = GetMics();
+            foreach (MMDevice mic in mics)
+            {
+                if (mic.DeviceFriendlyName == micName)
+                    mic.AudioEndpointVolume.MasterVolumeLevelScalar = volume;
+            }
         }
 
         public void MuteProcess(string processName, bool mute)
         {
+            using var device = _enum.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+            var sessions = device.AudioSessionManager.Sessions;
 
+            List<int> processIds = Process.GetProcessesByName(processName).Select(c => c.Id).ToList(); // this might be slow
+
+            for (int i = 0; i < sessions?.Count; i++)
+            {
+                var session = sessions[i];
+                if (processIds.Contains((int)session.GetProcessID))
+                {
+                    session.SimpleAudioVolume.Mute = mute;
+                }
+            }
         }
 
         public void MuteSystem(bool mute)
         {
-
+            using var device = _enum.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+            if (device != null) device.AudioEndpointVolume.Mute = mute;
         }
 
-        public void MuteMic(bool mute)
+        public void MuteMic(string micName, bool mute)
         {
+            List<MMDevice> mics = GetMics();
+            foreach (MMDevice mic in mics)
+            {
+                if (mic.DeviceFriendlyName == micName)
+                    mic.AudioEndpointVolume.Mute = mute;
+            }
+        }
 
+        public bool IsProcessMute(string processName)
+        {
+            using var device = _enum.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+            var sessions = device.AudioSessionManager.Sessions;
+
+            List<int> processIds = Process.GetProcessesByName(processName).Select(c => c.Id).ToList(); // this might be slow
+
+            for (int i = 0; i < sessions?.Count; i++)
+            {
+                var session = sessions[i];
+                if (processIds.Contains((int)session.GetProcessID))
+                {
+                    return session.SimpleAudioVolume.Mute;
+                }
+            }
+            return false;
+        }
+
+        public bool IsSystemMute()
+        {
+            using var device = _enum.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+            if (device != null) return device.AudioEndpointVolume.Mute;
+            return false;
+        }
+
+        public bool IsMicMute(string micName)
+        {
+            List<MMDevice> mics = GetMics();
+            foreach (MMDevice mic in mics)
+            {
+                if (mic.DeviceFriendlyName == micName)
+                    return mic.AudioEndpointVolume.Mute;
+            }
+            return false;
         }
 
         public List<MMDevice> GetMics()

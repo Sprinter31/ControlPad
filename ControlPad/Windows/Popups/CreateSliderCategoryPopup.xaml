@@ -5,14 +5,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPad"
-        mc:Ignorable="d"
-        
+        mc:Ignorable="d"                
+        Icon="pack://application:,,,/Resources/logo.ico"
+        Background="Black"
+        ShowInTaskbar="False"
         WindowStartupLocation="CenterOwner"
-        Title="Please enter name" Height="110" Width="400">
-    <Grid>
-        <TextBox x:Name="tb_CategoryName" Margin="10,10,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
-        <Button x:Name="btn_Cancel" Content="Cancel" Margin="0,0,10,10" HorizontalAlignment="Right" Width="64" Height="20" VerticalAlignment="Bottom" Click="btn_Cancel_Click"/>
-        <Button x:Name="btn_Create" Content="Create" Margin="0,0,80,10" HorizontalAlignment="Right" Width="64" Height="20" VerticalAlignment="Bottom" Click="btn_Create_Click"/>
+        ResizeMode="NoResize"
+        MinHeight="100"
+        Height="100"
+        Width="400">
 
+    <Grid>
+        <ui:TextBox x:Name="tb_CategoryName" Margin="10,10,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" PlaceholderText="Category name"/>
+
+        <Button x:Name="btn_Cancel" Content="Cancel" Margin="0,0,10,3" HorizontalAlignment="Right" Width="64" Height="33" VerticalAlignment="Bottom" Click="btn_Cancel_Click"/>
+        <Button x:Name="btn_Create" Content="Create" Margin="0,0,80,3" HorizontalAlignment="Right" Width="64" Height="33" VerticalAlignment="Bottom" Click="btn_Create_Click"/>
     </Grid>
 </ui:FluentWindow>

@@ -45,19 +45,30 @@ namespace ControlPad
 
         private void btn_EditCat_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new EditButtonCategoryWindow(lb_Categories.SelectedIndex);
+            if (lb_Categories.SelectedIndex == -1) return;
+
+            var dialog = new EditButtonCategoryWindow(lb_Categories.SelectedIndex, mainWindow);
             dialog.Owner = mainWindow;
             dialog.ShowDialog();
-            DataHandler.SaveDataToFile(DataHandler.ButtonCategoriesPath, DataHandler.ButtonCategories.ToList());
+            lb_Categories.Items.Refresh();
+            DataHandler.SetButtonTextBlocks();            
         }
 
         private void DeleteAtSelected()
         {
             int index = lb_Categories.SelectedIndex;
-            if (index == -1) return;            
+            if (index == -1) return;
+
+            var buttonToRemoveCategoryFrom = DataHandler.ButtonValues.FirstOrDefault(c => c.button.Category?.Id == DataHandler.ButtonCategories[index].Id);
+            if (buttonToRemoveCategoryFrom.button != null)
+            {
+                buttonToRemoveCategoryFrom.button.Category = null;
+                DataHandler.SetButtonTextBlocks();
+            }
 
             DataHandler.ButtonCategories.RemoveAt(index);
             DataHandler.SaveDataToFile(DataHandler.ButtonCategoriesPath, DataHandler.ButtonCategories.ToList());
+            DataHandler.SaveCategoryControls(DataHandler.CategoryControlsPath);
         }
 
         private void btn_DeleteCat_Click(object sender, RoutedEventArgs e) => DeleteAtSelected();

@@ -18,36 +18,50 @@ namespace ControlPad
     public partial class EditButtonCategoryWindow : FluentWindow
     {
         private int indexOfCategory;
-        public EditButtonCategoryWindow(int indexOfCategory)
+        MainWindow _mainWindow;
+        List<ButtonAction> _buttonActionsTemp;
+        public EditButtonCategoryWindow(int indexOfCategory, MainWindow mainWindow)
         {
             InitializeComponent();
-            foreach (var buttonAction in DataHandler.ButtonCategories[indexOfCategory].ButtonActions)
-            {
-                var ButtonActionControl = CreateAction(buttonAction);
-                ActionsContainer.Children.Add(ButtonActionControl);
-                switch(buttonAction.ActionType.Type)
-                {
-                    case EActionType.MuteProcess:
-                    case EActionType.OpenProcess:
-                    case EActionType.OpenWebsite:
-                    case EActionType.MuteMic:
-                        ButtonActionControl.TextBlock.Text = $"{buttonAction.ActionType.Description}: {buttonAction.ActionPropertyDisplay}";
-                        break;
-                    case EActionType.KeyPress: break;
-                }
-            }
+            _mainWindow = mainWindow;
             this.indexOfCategory = indexOfCategory;
+
+            tb_CategoryName.Text = DataHandler.ButtonCategories[this.indexOfCategory].Name;
+
+            _buttonActionsTemp = GetCopy(DataHandler.ButtonCategories[this.indexOfCategory].ButtonActions);
+
             ComboBox_Type.DisplayMemberPath = "Description";
             ComboBox_Type.ItemsSource = DataHandler.ActionTypes;
+
+            LoadButtonActions();
         }
 
+        private List<ButtonAction> GetCopy(List<ButtonAction> original)
+        {
+            return original.Select(a => new ButtonAction(a.ActionType)
+            {
+                ActionProperty = a.ActionProperty,
+                ActionPropertyDisplay = a.ActionPropertyDisplay
+            }).ToList();
+        }
+
+        private void LoadButtonActions()
+        {
+            ActionsContainer.Children.Clear();
+            foreach (var buttonAction in _buttonActionsTemp)
+            {
+                var ctrl = CreateAction(buttonAction);
+                ActionsContainer.Children.Add(ctrl);
+                ctrl.TextBlock.Text = $"{buttonAction.ActionType.Description}: {buttonAction.ActionPropertyDisplay}";
+            }
+        }
         private void btn_AddAction_Click(object sender, RoutedEventArgs e)
         {
             if (ComboBox_Type.SelectedItem == null || string.IsNullOrEmpty(ComboBox_Type.SelectedItem.ToString())) return;
 
             ButtonAction buttonAction = new ButtonAction((ActionType)ComboBox_Type.SelectedItem);
             ActionsContainer.Children.Add(CreateAction(buttonAction));
-            DataHandler.ButtonCategories[indexOfCategory].ButtonActions.Add(buttonAction);
+            _buttonActionsTemp.Add(buttonAction);
         }
 
         private void btn_Remove_Click(object sender, EventArgs e)
@@ -58,7 +72,7 @@ namespace ControlPad
             {
                 RemoveHandlers(wrapper);
                 ActionsContainer.Children.Remove(wrapper);
-                DataHandler.ButtonCategories[indexOfCategory].ButtonActions.Remove(wrapper.ButtonAction);
+                _buttonActionsTemp.Remove(wrapper.ButtonAction);
             }
         }
 
@@ -151,11 +165,13 @@ namespace ControlPad
                     }
                 case EActionType.KeyPress:
                     {
-                        var keyDialog = new EnterWebsitePopup { Owner = this };
+                        var keyDialog = new SelectKeyPopup(_mainWindow) { Owner = this };
 
                         if (keyDialog.ShowDialog() == true)
                         {
-                            
+                            control.ButtonAction.ActionProperty = keyDialog.SelectedKey.Code.ToString();
+                            control.ButtonAction.ActionPropertyDisplay = keyDialog.SelectedKey.Label;
+                            control.TextBlock.Text = $"{control.ButtonAction.ActionType.Description}: {keyDialog.SelectedKey.Label}";
                         }
                         break;
                     }
@@ -163,7 +179,7 @@ namespace ControlPad
             }
         }
 
-        private void FluentWindow_Closed(object sender, EventArgs e)
+        private void RemoveEmptyActionsFromTemp()
         {
             var buttonActions = new List<ButtonAction>();
             var toRemove = new List<ButtonActionUserControl>();
@@ -186,7 +202,17 @@ namespace ControlPad
                 ActionsContainer.Children.Remove(control);
             }
 
-            DataHandler.ButtonCategories[indexOfCategory].ButtonActions = buttonActions;
+            _buttonActionsTemp = buttonActions;
+        }
+
+        private void BtnOk_Click(object sender, RoutedEventArgs e)
+        {
+            RemoveEmptyActionsFromTemp();
+            DataHandler.ButtonCategories[this.indexOfCategory].Name = tb_CategoryName.Text;
+            DataHandler.ButtonCategories[indexOfCategory].ButtonActions = GetCopy(_buttonActionsTemp);
+            DataHandler.SaveDataToFile(DataHandler.ButtonCategoriesPath, DataHandler.ButtonCategories.ToList());
+            KeyController.StopHoldingAllKeys();
+            DialogResult = true;
         }
     }
 }

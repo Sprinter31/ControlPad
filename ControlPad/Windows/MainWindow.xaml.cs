@@ -1,123 +1,96 @@
 ﻿using ControlPad;
+using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.Configuration;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media.Imaging;
 using Wpf.Ui.Controls;
+using Wpf.Ui.Tray;
 
 namespace ControlPad
 {
     public partial class MainWindow : FluentWindow
     {
-        private ArduinoController arduinoController;
-        private NotifyIcon notifyIcon;     
-        private HomeUserControl _homeUserControl;
+        public HomeUserControl _homeUserControl;
         private ManageSliderCategoriesUserControl _manageSliderCategoriesUserControl;
         private ManageButtonCategoriesUserControl _manageButtonCategoriesUserControl;
+        private SettingsUserControl _settingsUserControl;
+        public ProgressRing progressRing = new() { IsIndeterminate = true };
+        private bool realShutDown = false;
 
         public MainWindow()
-        {
+        {            
             InitializeComponent();
+            Directory.SetCurrentDirectory(AppContext.BaseDirectory);
             _homeUserControl = new HomeUserControl(this);
             _manageSliderCategoriesUserControl = new ManageSliderCategoriesUserControl(this);
             _manageButtonCategoriesUserControl = new ManageButtonCategoriesUserControl(this);
-            arduinoController = new ArduinoController(_homeUserControl);
-            DataContext = this;                    
-            CreateNotifyIcon();
-
-            MainContentFrame.Navigate(_homeUserControl);
-            SetActive(NVI_Home);           
+            _settingsUserControl = new SettingsUserControl(this);
+            ArduinoController.Initialize(this, new EventHandler(_homeUserControl));
+            DataContext = this;
+            MainContentFrame.Navigate(progressRing);
+            SetActive(NVI_Home);
+            SettingsUserControl.ChangeAppTheme(Settings.SelectedThemeIndex);
         }
 
         private void mainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            e.Cancel = true;
-            this.Hide();
-            notifyIcon.ShowBalloonTip(5000, "Notice", "Control Pad minimized to system tray", ToolTipIcon.Info);
-        }
-
-        private void mainWindow_Closed(object sender, EventArgs e)
-        {
-            notifyIcon.Visible = false;
-            notifyIcon.Dispose();
-            notifyIcon = null;
-        }
-
-        private void CreateNotifyIcon()
-        {
-            notifyIcon = new NotifyIcon();
-            notifyIcon.Icon = new Icon(@"Resources\logo.ico");
-            notifyIcon.Visible = true;
-            notifyIcon.Text = "Control Pad";
-
-            var contextMenu = new ContextMenuStrip();
-            contextMenu.Items.Add("Open", null, (s, e) => {
-                this.Show();
-                this.WindowState = WindowState.Normal;
-                this.Activate();
-            });
-
-            contextMenu.Items.Add("Exit", null, (s, e) => {
-                notifyIcon.Visible = false;
-                System.Windows.Application.Current.Shutdown();
-            });
-
-            notifyIcon.ContextMenuStrip = contextMenu;
-
-            notifyIcon.DoubleClick += (s, e) =>
+        {          
+            if (Settings.MinimizeToSystemTray)
             {
-                this.Dispatcher.Invoke(() =>
+                e.Cancel = true;
+                this.Hide();
+                if (!Settings.TrayIconMessageShown && !realShutDown)
                 {
-                    this.Show();
-                    this.WindowState = WindowState.Normal;
-                    this.Activate();
-                });
-            };
+                    new ToastContentBuilder().AddText("Control Pad minimized to System Tray").Show();
+                    Settings.TrayIconMessageShown = true;
+                }
+                realShutDown = false;
+            }           
+        }
+        private void mainWindow_Closed(object sender, EventArgs e) => NotifyIcon.Dispose();
+        
+        private void MI_Open_Click(object sender, EventArgs e)        
+        {
+            WindowState = WindowState.Normal;
+            this.Show();
         }
 
-        private void Exit_Click(object sender, RoutedEventArgs e) => this.Close();
+        private void MI_Exit_Click(object sender, EventArgs e)
+        {
+            realShutDown = true;
+            System.Windows.Application.Current.Shutdown();
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            realShutDown = true;
+            System.Windows.Application.Current.Shutdown();
+        }
 
         private void NVI_Home_Click(object sender, RoutedEventArgs e)
         {
             if(!NVI_Home.IsActive)
             {
-                MainContentFrame.Navigate(_homeUserControl);
-                SetActive(NVI_Home);
-            }            
-        }
-
-
-        private void NVI_EditMode_Click(object sender, RoutedEventArgs e)
-        {
-            if (NVI_Home.IsActive && NVI_EditMode.Icon is SymbolIcon symbolIconEditMode)
-            {
-                if (symbolIconEditMode.Symbol == SymbolRegular.CheckboxChecked24)
+                if (ArduinoController.IsConnected)
                 {
-                    symbolIconEditMode.Symbol = SymbolRegular.CheckboxUnchecked24;
-                    _homeUserControl.SliderCell1.Visibility = Visibility.Hidden;
-                    _homeUserControl.SliderCell2.Visibility = Visibility.Hidden;
-                    _homeUserControl.SliderCell3.Visibility = Visibility.Hidden;
-                    _homeUserControl.SliderCell4.Visibility = Visibility.Hidden;
-                    _homeUserControl.SliderCell5.Visibility = Visibility.Hidden;
-                    _homeUserControl.SliderCell6.Visibility = Visibility.Hidden;
+                    MainContentFrame.Navigate(_homeUserControl);
                 }
                 else
                 {
-                    symbolIconEditMode.Symbol = SymbolRegular.CheckboxChecked24;
-                    _homeUserControl.SliderCell1.Visibility = Visibility.Visible;
-                    _homeUserControl.SliderCell2.Visibility = Visibility.Visible;
-                    _homeUserControl.SliderCell3.Visibility = Visibility.Visible;
-                    _homeUserControl.SliderCell4.Visibility = Visibility.Visible;
-                    _homeUserControl.SliderCell5.Visibility = Visibility.Visible;
-                    _homeUserControl.SliderCell6.Visibility = Visibility.Visible;
+                    MainContentFrame.Navigate(progressRing);
                 }
-            }
-        }
+                SetActive(NVI_Home);
+            }            
+        }       
 
         private void NVI_Slider_Categories_Click(object sender, RoutedEventArgs e)
         {
@@ -136,10 +109,10 @@ namespace ControlPad
             }
         }
         private void NVI_Settings_Click(object sender, RoutedEventArgs e)
-        {
+        {                       
             if (!NVI_Settings.IsActive)
             {
-                MainContentFrame.Navigate(_homeUserControl);
+                MainContentFrame.Navigate(_settingsUserControl);
                 SetActive(NVI_Settings);
             }
         }
@@ -151,10 +124,7 @@ namespace ControlPad
             NVI_Button_Categories.IsActive = false;
             NVI_Settings.IsActive = false;
 
-            if (NVI_EditMode.Icon is SymbolIcon symbolIconEditMode)
-            {
-                symbolIconEditMode.Symbol = SymbolRegular.CheckboxUnchecked24;
-            }
+            if (NVI_EditMode.Icon is SymbolIcon symbolIconEditMode) EditModeUnchecked(symbolIconEditMode);
             if (NVI_Home.Icon is SymbolIcon symbolIconHome) symbolIconHome.Filled = false;
             if (NVI_Slider_Categories.Icon is SymbolIcon symbolIconCategories) symbolIconCategories.Filled = false;
             if (NVI_Button_Categories.Icon is SymbolIcon symbolIconButtonCategories) symbolIconButtonCategories.Filled = false;
@@ -162,6 +132,64 @@ namespace ControlPad
 
             if (item.Icon is SymbolIcon symbolIcon) symbolIcon.Filled = true;
             item.IsActive = true;
+        }
+
+        private void NVI_EditMode_Click(object sender, RoutedEventArgs e)
+        {
+            if (NVI_Home.IsActive && NVI_EditMode.Icon is SymbolIcon symbolIconEditMode)
+            {
+                if (symbolIconEditMode.Symbol == SymbolRegular.CheckboxChecked24)
+                {
+                    EditModeUnchecked(symbolIconEditMode);
+                }
+                else
+                {
+                    EditModeChecked(symbolIconEditMode);                    
+                }
+            }
+        }
+        private void EditModeChecked(SymbolIcon symbolIcon)
+        {
+            symbolIcon.Symbol = SymbolRegular.CheckboxChecked24;
+            _homeUserControl.SliderCell1.Visibility = Visibility.Visible;
+            _homeUserControl.SliderCell2.Visibility = Visibility.Visible;
+            _homeUserControl.SliderCell3.Visibility = Visibility.Visible;
+            _homeUserControl.SliderCell4.Visibility = Visibility.Visible;
+            _homeUserControl.SliderCell5.Visibility = Visibility.Visible;
+            _homeUserControl.SliderCell6.Visibility = Visibility.Visible;
+            _homeUserControl.ButtonCell1.Visibility = Visibility.Visible;
+            _homeUserControl.ButtonCell2.Visibility = Visibility.Visible;
+            _homeUserControl.ButtonCell3.Visibility = Visibility.Visible;
+            _homeUserControl.ButtonCell4.Visibility = Visibility.Visible;
+            _homeUserControl.ButtonCell5.Visibility = Visibility.Visible;
+            _homeUserControl.ButtonCell6.Visibility = Visibility.Visible;
+            _homeUserControl.ButtonCell7.Visibility = Visibility.Visible;
+            _homeUserControl.ButtonCell8.Visibility = Visibility.Visible;
+            _homeUserControl.ButtonCell9.Visibility = Visibility.Visible;
+            _homeUserControl.ButtonCell10.Visibility = Visibility.Visible;
+            _homeUserControl.ButtonCell11.Visibility = Visibility.Visible;
+        }
+
+        private void EditModeUnchecked(SymbolIcon symbolIcon)
+        {
+            symbolIcon.Symbol = SymbolRegular.CheckboxUnchecked24;
+            _homeUserControl.SliderCell1.Visibility = Visibility.Hidden;
+            _homeUserControl.SliderCell2.Visibility = Visibility.Hidden;
+            _homeUserControl.SliderCell3.Visibility = Visibility.Hidden;
+            _homeUserControl.SliderCell4.Visibility = Visibility.Hidden;
+            _homeUserControl.SliderCell5.Visibility = Visibility.Hidden;
+            _homeUserControl.SliderCell6.Visibility = Visibility.Hidden;
+            _homeUserControl.ButtonCell1.Visibility = Visibility.Hidden;
+            _homeUserControl.ButtonCell2.Visibility = Visibility.Hidden;
+            _homeUserControl.ButtonCell3.Visibility = Visibility.Hidden;
+            _homeUserControl.ButtonCell4.Visibility = Visibility.Hidden;
+            _homeUserControl.ButtonCell5.Visibility = Visibility.Hidden;
+            _homeUserControl.ButtonCell6.Visibility = Visibility.Hidden;
+            _homeUserControl.ButtonCell7.Visibility = Visibility.Hidden;
+            _homeUserControl.ButtonCell8.Visibility = Visibility.Hidden;
+            _homeUserControl.ButtonCell9.Visibility = Visibility.Hidden;
+            _homeUserControl.ButtonCell10.Visibility = Visibility.Hidden;
+            _homeUserControl.ButtonCell11.Visibility = Visibility.Hidden;
         }
     }   
 }

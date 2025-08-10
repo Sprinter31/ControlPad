@@ -3,27 +3,27 @@ using Wpf.Ui.Controls;
 
 namespace ControlPad
 {
-    public partial class SelectSliderCategoryPopup : FluentWindow
+    public partial class SelectButtonCategoryPopup : FluentWindow
     {
-        public SliderCategory SelectedCategory { get; set; }
-        private CustomSlider categorySlider;
-        public SelectSliderCategoryPopup(CustomSlider categorySlider)
+        public ButtonCategory? SelectedCategory { get; set; }
+        private CustomButton categoryButton;
+        public SelectButtonCategoryPopup(CustomButton categoryButton)
         {
             InitializeComponent();
-            this.categorySlider = categorySlider;          
+            this.categoryButton = categoryButton;
             SetDropDown();            
         }       
 
         private void btn_Apply_Click(object sender, RoutedEventArgs e)
         {
-            if(cb_Categories.SelectedItem is SliderCategory selectedCategory)
+            if(cb_Categories.SelectedItem is ButtonCategory selectedCategory)
             {
                 SelectedCategory = selectedCategory;
                 DialogResult = true;
             }
             else if(cb_Categories.SelectedItem == null)
             {
-                categorySlider.Category = null;
+                categoryButton.Category = null;
                 DialogResult = true;
             }            
         }
@@ -32,11 +32,11 @@ namespace ControlPad
 
         private void SetDropDown()
         {
-            var usedIds = DataHandler.SliderValues.Select(s => s.slider.Category?.Id).ToHashSet();
+            var usedIds = DataHandler.ButtonValues.Select(s => s.button.Category?.Id).ToHashSet();
 
-            var currentCatId = categorySlider?.Category?.Id;
+            var currentCatId = categoryButton?.Category?.Id;
 
-            var availableCategories = DataHandler.SliderCategories.Where(c => !usedIds.Contains(c.Id) || c.Id == currentCatId).ToList();
+            var availableCategories = DataHandler.ButtonCategories.Where(c => !usedIds.Contains(c.Id) || c.Id == currentCatId).ToList();
 
             cb_Categories.ItemsSource = availableCategories;
 

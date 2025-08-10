@@ -1,104 +1,136 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Ports;
+using System.Management;
 using System.Text.RegularExpressions;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace ControlPad
 {
-    public class ArduinoController
+    public static class ArduinoController
     {
-        private HomeUserControl MUC;
-        private SerialPort _serialPort;
-        private EventHandler eventHandler;
-        private Dictionary<Control, int> values = new Dictionary<Control, int>();
+        private static SerialPort? _serialPort;
+        private static ManagementEventWatcher? _insertWatcher;
+        private static ManagementEventWatcher? _removeWatcher;
+        private static MainWindow _mainWindow;
+        private static EventHandler _eventHandler;
+        public static bool IsConnected = false;
 
-        public ArduinoController(HomeUserControl homeUserControl)
+        public static void Initialize(MainWindow mainWindow, EventHandler eventHandler)
         {
-            MUC = homeUserControl;
-            eventHandler = new EventHandler(MUC);
+            _mainWindow = mainWindow;
+            _eventHandler = eventHandler;
 
-            values = new Dictionary<Control, int>
+            _insertWatcher = new ManagementEventWatcher(
+                new WqlEventQuery("SELECT * FROM Win32_DeviceChangeEvent WHERE EventType = 2")
+            );
+            _insertWatcher.EventArrived += async (s, e) => await TryOpenAsync();
+            _insertWatcher.Start();
+
+            _removeWatcher = new ManagementEventWatcher(
+                new WqlEventQuery("SELECT * FROM Win32_DeviceChangeEvent WHERE EventType = 3")
+            );
+            _removeWatcher.EventArrived += (s, e) =>
             {
-                { MUC.Slider1, 0 },
-                { MUC.Slider2, 0 },
-                { MUC.Slider3, 0 },
-                { MUC.Slider4, 0 },
-                { MUC.Slider5, 0 },
-                { MUC.Slider6, 0 },
-                { MUC.Switch1, 0 },
-                { MUC.Switch2, 0 },
-                { MUC.Switch3, 0 },
-                { MUC.Switch4, 0 },
-                { MUC.Switch5, 0 },
-                { MUC.Switch6, 0 },
-                { MUC.Switch7, 0 },
-                { MUC.Switch8, 0 },
-                { MUC.Switch9, 0 },
-                { MUC.Switch10, 0 },
-                { MUC.Switch11, 0 }
+                if (_serialPort != null && !_serialPort.IsOpen)
+                {
+                    _mainWindow.Dispatcher.BeginInvoke(() =>
+                    {
+                        _mainWindow.BoardDisconnectedInfoBar.IsOpen = true;
+                        if (_mainWindow.NVI_Home.IsActive) _mainWindow.MainContentFrame.Navigate(_mainWindow.progressRing);
+                        _mainWindow.NVI_EditMode.Visibility = Visibility.Collapsed;
+                        IsConnected = false;
+                    });
+                }
             };
+            _removeWatcher.Start();
 
-            string port = ArduinoPortFinder.FindFirstArduinoPort();
-            if (port != null)
-            {
-                _serialPort = new SerialPort(port, 115200);
-                _serialPort.DataReceived += SerialPort_DataReceived;
-                _serialPort.Open();
-            }
-            else
-                MessageBox.Show("Arduino Port not found", "Control Pad", MessageBoxButton.OK, MessageBoxImage.Error);
+            _ = TryOpenAsync();
         }
 
-        private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        private static async Task TryOpenAsync()
         {
+            string? port = await Task.Run(() => ArduinoPortFinder.FindFirstArduinoPort());
+            if (port != null)
+            {
                 try
                 {
-                    string line = _serialPort.ReadLine().Replace("\r", "");
-                    string[] inputs = Regex.Split(line, ",");
+                    var sp = new SerialPort(port, 115200);
+                    sp.DataReceived += SerialPort_DataReceived;
+                    sp.Open();
+                    _serialPort = sp;
 
-                    if (inputs.Length < 16) return;
-
-
-                    UpdateValues(inputs);
-
-                    MUC.Dispatcher.BeginInvoke(() => eventHandler.Update(values));
-
+                    await _mainWindow.Dispatcher.InvokeAsync(() =>
+                    {
+                        _mainWindow.BoardDisconnectedInfoBar.IsOpen = false;
+                        if(_mainWindow.NVI_Home.IsActive) _mainWindow.MainContentFrame.Navigate(_mainWindow._homeUserControl);
+                        _mainWindow.NVI_EditMode.Visibility = Visibility.Visible;
+                        IsConnected = true;
+                    });
                 }
-                catch (IOException)
+                catch (UnauthorizedAccessException ex)
                 {
-                    return;
+                    Debug.WriteLine($"Access denied to port: {ex.Message}");
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine($"EX: {ex}");
                 }
+            }
+            else
+            {
+                await _mainWindow.Dispatcher.InvokeAsync(() =>
+                {
+                    _mainWindow.BoardDisconnectedInfoBar.IsOpen = true;
+                    if (_mainWindow.NVI_Home.IsActive) _mainWindow.MainContentFrame.Navigate(_mainWindow.progressRing);
+                    _mainWindow.NVI_EditMode.Visibility = Visibility.Collapsed;
+                    IsConnected = false;
+                });
+            }
         }
 
-        private void UpdateValues(string[] inputs)
+        public static void Dispose()
         {
-            values[MUC.Slider1] = int.Parse(inputs[0]);
-            values[MUC.Slider2] = int.Parse(inputs[1]);
-            values[MUC.Slider3] = int.Parse(inputs[2]);
-            values[MUC.Slider4] = int.Parse(inputs[3]);
-            values[MUC.Slider5] = int.Parse(inputs[4]);
-            values[MUC.Slider6] = int.Parse(inputs[5]);
-            values[MUC.Switch1] = int.Parse(inputs[6]);
-            values[MUC.Switch3] = int.Parse(inputs[7]);
-            values[MUC.Switch4] = int.Parse(inputs[8]);
-            values[MUC.Switch5] = int.Parse(inputs[9]);
-            values[MUC.Switch6] = int.Parse(inputs[10]);
-            values[MUC.Switch7] = int.Parse(inputs[11]);
-            values[MUC.Switch8] = int.Parse(inputs[12]);
-            values[MUC.Switch9] = int.Parse(inputs[13]);
-            values[MUC.Switch10] = int.Parse(inputs[14]);
-            values[MUC.Switch11] = int.Parse(inputs[15]);
+            _insertWatcher?.Stop();
+            _removeWatcher?.Stop();
+            _serialPort?.Dispose();
         }
 
-        private void OnSerialPortDisconnected(string ex)
+        private static void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            MessageBox.Show($"Arduino Port disconnected with the exception: {ex}", "Control Pad", MessageBoxButton.OK, MessageBoxImage.Error);
+            if (_serialPort == null || !_serialPort.IsOpen) return;
+
+            try
+            {
+                string line = _serialPort.ReadLine().Replace("\r", "");
+                string[] inputs = Regex.Split(line, ",");
+
+                if (inputs.Length < 16) return;
+
+                UpdateValues(inputs);
+
+                _mainWindow._homeUserControl.Dispatcher.BeginInvoke(() => _eventHandler.Update(DataHandler.SliderValues, DataHandler.ButtonValues));
+            }
+            catch (IOException)
+            {
+                return;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"EX: {ex}");
+            }
+        }
+
+        private static void UpdateValues(string[] inputs)
+        {
+            for (int i = 0; i < DataHandler.SliderValues.Count; i++)
+                DataHandler.SliderValues[i] = (DataHandler.SliderValues[i].slider, int.Parse(inputs[i]));
+            for (int i = 0; i < DataHandler.ButtonValues.Count; i++)
+                DataHandler.ButtonValues[i] = (DataHandler.ButtonValues[i].button, int.Parse(inputs[i + DataHandler.SliderValues.Count]));
         }
     }
 }
