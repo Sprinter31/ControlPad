@@ -28,7 +28,9 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
-            <ListBox x:Name="lb_Processes" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,30,30,30" Grid.Row="1"/>
+            <Border BorderThickness="1" Grid.Row="1" Margin="30,30,30,10" BorderBrush="{ui:ThemeResource ControlStrokeColorDefaultBrush}" CornerRadius="4">
+                <ListBox x:Name="lb_Processes" d:ItemsSource="{d:SampleData ItemCount=5}" Grid.Row="1" Background="Black"/>
+            </Border>
 
             <Button x:Name="btn_AddProcess" Content="Add Process" Margin="0,10,0,0" VerticalAlignment="Top" Height="33" Grid.Column="1" Click="btn_AddProcess_Click" Width="126" HorizontalAlignment="Center" Grid.Row="1"/>
             <Button x:Name="btn_RemoveProcess" Content="Remove Process" Margin="0,50,0,0" Grid.Column="1" Height="33" VerticalAlignment="Top" Click="btn_RemoveProcess_Click" HorizontalAlignment="Center" Grid.Row="1" Width="126" />
