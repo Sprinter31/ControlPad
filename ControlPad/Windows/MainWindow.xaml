@@ -66,6 +66,6 @@
                 <ui:NavigationViewItem Content="Exit" x:Name="NVI_Exit" Icon="{ui:SymbolIcon ArrowExit20}" Click="Exit_Click"/>
             </ui:NavigationView.FooterMenuItems>
         </ui:NavigationView>
-        <Frame Name="MainContentFrame"/>
+        <Frame Width="579" Height="550" Name="MainContentFrame"/>
     </DockPanel>
 </ui:FluentWindow>

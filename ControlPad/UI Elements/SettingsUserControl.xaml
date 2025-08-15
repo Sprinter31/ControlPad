@@ -1,108 +1,107 @@
 ﻿<UserControl x:Class="ControlPad.SettingsUserControl"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ControlPad"
              mc:Ignorable="d" 
-             Height="536.04" Width="581"
+             Width="579" Height="550"
              >
 
     <Border Padding="16">
         <StackPanel>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-            <!-- Header -->
-            <Label Content="Settings"
-                   FontSize="20"
-                   FontWeight="SemiBold"
+
+                <ui:TextBlock FontTypography="Title" Text="Settings" Foreground="White" Grid.ColumnSpan="2" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                <Label Content="Adjust how the app behaves and looks."
                    Padding="0"
-                   Margin="0,0,0,4"/>
-            <Label Content="Adjust how the app behaves and looks."
-                   Padding="0"
-                   Margin="0,0,0,8"
+                   Margin="0,35,0,15"
                    Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
 
-            <Separator/>
+                <!-- Start with Windows -->
+                <Grid Margin="0,8,0,8" Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-            <!-- Start with Windows -->
-            <Grid Margin="0,8,0,8">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
-                <StackPanel Orientation="Vertical" Margin="0,0,16,0">
-                    <!-- Label with mnemonic + Target -->
-                    <Label Content="_Start with Windows"
+                    <StackPanel Orientation="Vertical" Margin="0,0,16,0">
+                        <!-- Label with mnemonic + Target -->
+                        <Label Content="_Start with Windows"
                            Padding="0"
                            Target="{Binding ElementName=StartWithWindowsCheckBox}"/>
-                    <Label Content="Launch the app automatically after you sign in."
+                        <Label Content="Launch the app automatically after you sign in."
                            Padding="0"
                            Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-                </StackPanel>
+                    </StackPanel>
 
-                <CheckBox x:Name="StartWithWindowsCheckBox"
+                    <CheckBox x:Name="StartWithWindowsCheckBox"
                           Checked="StartWithWindowsCheckBox_Checked" 
                           Unchecked="StartWithWindowsCheckBox_Checked"
                           Grid.Column="1"
                           VerticalAlignment="Center"/>
-            </Grid>
+                </Grid>
 
-            <Separator/>
+                <!-- Minimize to System Tray -->
+                <Grid Margin="0,8,0,8" Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-            <!-- Minimize to System Tray -->
-            <Grid Margin="0,8,0,8">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
-                <StackPanel Orientation="Vertical" Margin="0,0,16,0">
-                    <Label Content="Mi_nimize to system tray"
+                    <StackPanel Orientation="Vertical" Margin="0,0,16,0">
+                        <Label Content="Mi_nimize to system tray"
                            Padding="0"
                            Target="{Binding ElementName=MinimizeToTrayCheckBox}"/>
-                    <Label Content="When closing, keep the app running in the system tray."
+                        <Label Content="When closing, keep the app running in the system tray."
                            Padding="0"
                            Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-                </StackPanel>
+                    </StackPanel>
 
-                <CheckBox x:Name="MinimizeToTrayCheckBox"
+                    <CheckBox x:Name="MinimizeToTrayCheckBox"
                           Grid.Column="1"
                           IsChecked="True"
                           VerticalAlignment="Center" 
                           Checked="MinimizeToTrayCheckBox_Checked" 
                           Unchecked="MinimizeToTrayCheckBox_Checked"/>
-            </Grid>
+                </Grid>
 
-            <Separator/>
+                <!-- App Theme -->
+                <Grid Margin="0,8,0,0" Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-            <!-- App Theme -->
-            <Grid Margin="0,8,0,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
-                <StackPanel Orientation="Vertical" Margin="0,0,16,0">
-                    <Label Content="App _theme"
+                    <StackPanel Orientation="Vertical" Margin="0,0,16,0">
+                        <Label Content="App _theme"
                            Padding="0"
                            Target="{Binding ElementName=ThemeComboBox}"/>
-                    <Label Content="Choose how the app looks."
+                        <Label Content="Choose how the app looks."
                            Padding="0"
                            Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-                </StackPanel>
+                    </StackPanel>
 
-                <ComboBox x:Name="ThemeComboBox"
+                    <ComboBox x:Name="ThemeComboBox"
                           Grid.Column="1"
                           MinWidth="180"
                           SelectedIndex="0"
                           VerticalAlignment="Center" SelectionChanged="ThemeComboBox_SelectionChanged">
-                    <ComboBoxItem Content="System (Default)"/>
-                    <ComboBoxItem Content="Light"/>
-                    <ComboBoxItem Content="Dark"/>
-                </ComboBox>
-            </Grid>
+                        <ComboBoxItem Content="System (Default)"/>
+                        <ComboBoxItem Content="Light"/>
+                        <ComboBoxItem Content="Dark"/>
+                    </ComboBox>
+                </Grid>
 
+            </Grid>
         </StackPanel>
     </Border>
 </UserControl>
