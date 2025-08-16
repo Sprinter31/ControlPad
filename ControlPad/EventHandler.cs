@@ -44,11 +44,10 @@ namespace ControlPad
                 if (diff > 4)
                 {
                     SliderEvent(slider, currentValue);
-                    updatedSliders.Add((slider, currentValue)); // Änderung vormerken
+                    updatedSliders.Add((slider, currentValue));
                 }
             }
 
-            // Änderungen übernehmen
             foreach (var (slider, value) in updatedSliders)
             {
                 oldSliderValues[slider] = value;
