@@ -21,10 +21,44 @@ namespace ControlPad
         public SettingsUserControl(MainWindow mainWindow)
         {
             InitializeComponent();
-            ThemeComboBox.SelectedIndex = Settings.SelectedThemeIndex;
-            MinimizeToTrayCheckBox.IsChecked = Settings.MinimizeToSystemTray;
-            StartWithWindowsCheckBox.IsChecked = Settings.StartWithWindows;
             _isInitialized = true;
+            cb_StartWithWindows.IsChecked = Settings.StartWithWindows;
+            cb_StartMinimized.IsChecked = Settings.StartMinimized;
+            cb_MinimizeToTray.IsChecked = Settings.MinimizeToSystemTray;
+            ThemeComboBox.SelectedIndex = Settings.SelectedThemeIndex;
+        }
+
+        private void cb_StartWithWindows_Checked(object sender, RoutedEventArgs e)
+        {
+            if (!_isInitialized)
+                return;
+
+            bool startWithWindows = cb_StartWithWindows.IsChecked == true;
+            bool startMinimized = cb_StartMinimized.IsChecked == true;
+
+            AutoStart.Set(startWithWindows, startMinimized);
+            Settings.StartWithWindows = startWithWindows;
+
+            GridStartMinimized.IsEnabled = startWithWindows;
+        }
+
+        private void cb_StartMinimized_Checked(object sender, RoutedEventArgs e)
+        {
+            if (!_isInitialized)
+                return;
+
+            bool startMinimized = cb_StartMinimized.IsChecked == true;
+
+            AutoStart.Set(true, startMinimized);
+            Settings.StartMinimized = startMinimized;
+        }      
+
+        private void cb_MinimizeToTray_Checked(object sender, RoutedEventArgs e)
+        {
+            if (!_isInitialized)
+                return;
+
+            Settings.MinimizeToSystemTray = cb_StartMinimized.IsChecked == true;
         }
 
         private void ThemeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -34,27 +68,6 @@ namespace ControlPad
 
             ChangeAppTheme(ThemeComboBox.SelectedIndex);
             Settings.SelectedThemeIndex = ThemeComboBox.SelectedIndex;
-        }
-
-        private void MinimizeToTrayCheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            if (!_isInitialized)
-                return;
-
-            if (MinimizeToTrayCheckBox.IsChecked != null)
-                Settings.MinimizeToSystemTray = (bool)MinimizeToTrayCheckBox.IsChecked;
-        }
-
-        private void StartWithWindowsCheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            if (!_isInitialized)
-                return;
-
-            if (StartWithWindowsCheckBox.IsChecked != null)
-            {
-                AutostartHelper.SetAutostart((bool)StartWithWindowsCheckBox.IsChecked);
-                Settings.StartWithWindows = (bool)StartWithWindowsCheckBox.IsChecked;
-            }              
         }
 
         public static void ChangeAppTheme(int index)

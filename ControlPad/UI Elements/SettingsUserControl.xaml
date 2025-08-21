@@ -17,6 +17,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
 
@@ -37,21 +38,46 @@
                         <!-- Label with mnemonic + Target -->
                         <Label Content="_Start with Windows"
                            Padding="0"
-                           Target="{Binding ElementName=StartWithWindowsCheckBox}"/>
+                           Target="{Binding ElementName=cb_StartWithWindows}"/>
                         <Label Content="Launch the app automatically after you sign in."
                            Padding="0"
                            Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
                     </StackPanel>
 
-                    <CheckBox x:Name="StartWithWindowsCheckBox"
-                          Checked="StartWithWindowsCheckBox_Checked" 
-                          Unchecked="StartWithWindowsCheckBox_Checked"
+                    <CheckBox x:Name="cb_StartWithWindows"
+                          Checked="cb_StartWithWindows_Checked" 
+                          Unchecked="cb_StartWithWindows_Checked"
                           Grid.Column="1"
                           VerticalAlignment="Center"/>
                 </Grid>
 
+                <!-- Start minimized -->
+                <Grid x:Name="GridStartMinimized" Margin="0,8,0,8" Grid.Row="2" IsEnabled="False" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Vertical" Margin="0,0,16,0">
+                        <!-- Label with mnemonic + Target -->
+                        <Label Content="_Start minimized"
+                            Padding="0"
+                            Target="{Binding ElementName=cb_StartMinimized}"/>
+                        <Label Content="Launch the app in the background."
+                            Padding="0"
+                            Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                    </StackPanel>
+
+                    <CheckBox x:Name="cb_StartMinimized"
+                        IsChecked="True"
+                        Checked="cb_StartMinimized_Checked"
+                        Unchecked="cb_StartMinimized_Checked"
+                        Grid.Column="1"
+                        VerticalAlignment="Center" />
+                </Grid>
+
                 <!-- Minimize to System Tray -->
-                <Grid Margin="0,8,0,8" Grid.Row="2">
+                <Grid Margin="0,8,0,8" Grid.Row="3">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition Width="Auto"/>
@@ -60,22 +86,22 @@
                     <StackPanel Orientation="Vertical" Margin="0,0,16,0">
                         <Label Content="Mi_nimize to system tray"
                            Padding="0"
-                           Target="{Binding ElementName=MinimizeToTrayCheckBox}"/>
+                           Target="{Binding ElementName=cb_MinimizeToTray}"/>
                         <Label Content="When closing, keep the app running in the system tray."
                            Padding="0"
                            Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
                     </StackPanel>
 
-                    <CheckBox x:Name="MinimizeToTrayCheckBox"
+                    <CheckBox x:Name="cb_MinimizeToTray"
                           Grid.Column="1"
                           IsChecked="True"
                           VerticalAlignment="Center" 
-                          Checked="MinimizeToTrayCheckBox_Checked" 
-                          Unchecked="MinimizeToTrayCheckBox_Checked"/>
+                          Checked="cb_MinimizeToTray_Checked" 
+                          Unchecked="cb_MinimizeToTray_Checked"/>
                 </Grid>
 
                 <!-- App Theme -->
-                <Grid Margin="0,8,0,0" Grid.Row="3">
+                <Grid Margin="0,8,0,0" Grid.Row="4">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition Width="Auto"/>
