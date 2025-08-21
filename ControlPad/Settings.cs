@@ -15,6 +15,7 @@ namespace ControlPad
         private static bool _startMinimized = false;
         private static bool _minimizeToSystemTray = true;       
         private static int _selectedThemeIndex = 0;
+        private static int _sliderDeadZone = 4;
 
         static Settings()
         {
@@ -71,6 +72,16 @@ namespace ControlPad
             }
         }
 
+        public static int SliderDeadZone
+        {
+            get => _sliderDeadZone;
+            set
+            {
+                _sliderDeadZone = value;
+                Save();
+            }
+        }
+
         private class Data
         {
             public bool TrayIconMessageShown { get; set; } = false;
@@ -78,6 +89,7 @@ namespace ControlPad
             public bool StartMinimized { get; set; } = true;
             public bool MinimizeToSystemTray { get; set; } = true;           
             public int SelectedThemeIndex { get; set; } = 0;
+            public int SliderDeadZone { get; set; } = 4;
         }
 
         private static void Load()
@@ -97,6 +109,7 @@ namespace ControlPad
                 _startMinimized = data.StartMinimized;
                 _minimizeToSystemTray = data.MinimizeToSystemTray;               
                 _selectedThemeIndex = data.SelectedThemeIndex;
+                _sliderDeadZone = data.SliderDeadZone;
             }
             catch
             {
@@ -115,6 +128,7 @@ namespace ControlPad
                     StartMinimized = _startMinimized,
                     MinimizeToSystemTray = _minimizeToSystemTray,                    
                     SelectedThemeIndex = _selectedThemeIndex,
+                    SliderDeadZone = _sliderDeadZone,
                 };
 
                 var options = new JsonSerializerOptions { WriteIndented = true };

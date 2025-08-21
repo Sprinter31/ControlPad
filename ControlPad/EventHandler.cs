@@ -41,7 +41,7 @@ namespace ControlPad
 
                 int diff = Math.Abs(oldValue - currentValue);
 
-                if (diff > 4)
+                if (diff > Settings.SliderDeadZone)
                 {
                     SliderEvent(slider, currentValue);
                     updatedSliders.Add((slider, currentValue));
