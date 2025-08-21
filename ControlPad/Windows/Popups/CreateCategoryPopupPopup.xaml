@@ -1,4 +1,4 @@
-﻿<ui:FluentWindow x:Class="ControlPad.CreateSliderCategoryPopup"
+﻿<ui:FluentWindow x:Class="ControlPad.CreateCategoryPopup"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -13,7 +13,8 @@
         ResizeMode="NoResize"
         MinHeight="100"
         Height="100"
-        Width="400">
+        Width="400" KeyDown="FluentWindow_KeyDown"
+        >
 
     <Grid>
         <ui:TextBox x:Name="tb_CategoryName" Margin="10,10,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" PlaceholderText="Category name"/>

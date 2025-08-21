@@ -30,7 +30,7 @@ namespace ControlPad
         private void btn_CreateCat_Click(object sender, RoutedEventArgs e)
         {
             string name = "";
-            var dialog = new CreateSliderCategoryPopup() { Owner = mainWindow };
+            var dialog = new CreateCategoryPopup() { Owner = mainWindow };
 
             if (dialog.ShowDialog() == true)
             {
