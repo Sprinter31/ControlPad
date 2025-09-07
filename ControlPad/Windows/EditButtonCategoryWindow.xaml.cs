@@ -207,6 +207,8 @@ namespace ControlPad
 
         private void BtnOk_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(tb_CategoryName.Text)) return;
+
             RemoveEmptyActionsFromTemp();
             DataHandler.ButtonCategories[this.indexOfCategory].Name = tb_CategoryName.Text;
             DataHandler.ButtonCategories[indexOfCategory].ButtonActions = GetCopy(_buttonActionsTemp);

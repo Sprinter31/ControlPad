@@ -35,8 +35,20 @@ namespace ControlPad
 
         private void btn_Close_Click(object sender, RoutedEventArgs e)
         {
-            DataHandler.SliderCategories[indexOfCategory].Name = tb_CategoryName.Text.Trim();
-            this.Close();
+            if(!string.IsNullOrEmpty(tb_CategoryName.Text))
+            {
+                DataHandler.SliderCategories[indexOfCategory].Name = tb_CategoryName.Text.Trim();
+                this.Close();
+            }
+        }
+
+        private void btn_AddMic_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new SelectMicPopup() { Owner = this };
+
+            if (dialog.ShowDialog() == true)
+            {
+            }
         }
     }
 }

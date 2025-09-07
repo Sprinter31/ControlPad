@@ -13,8 +13,11 @@ namespace ControlPad
         }
         private void btn_Create_Click(object sender, RoutedEventArgs e)
         {
-            CategoryName = tb_CategoryName.Text.Trim();
-            DialogResult = true;
+            if (!string.IsNullOrWhiteSpace(tb_CategoryName.Text))
+            {
+                CategoryName = tb_CategoryName.Text.Trim();
+                DialogResult = true;
+            } 
         }
 
         private void btn_Cancel_Click(object sender, RoutedEventArgs e)

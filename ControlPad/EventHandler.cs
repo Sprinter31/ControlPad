@@ -30,10 +30,9 @@ namespace ControlPad
             oldButtonValues = currentButtonValues.Select(t => (t.Button, t.Value)).ToList();
 
 
-
             var updatedSliders = new List<(CustomSlider Slider, int Value)>();
 
-            var snapshot = currentSliderValues;
+            var snapshot = currentSliderValues.ToList();
 
             foreach (var (slider, currentValue) in snapshot)
             {
