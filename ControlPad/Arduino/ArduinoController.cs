@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Ports;
 using System.Management;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Timers;
 using System.Windows;
@@ -19,6 +20,8 @@ namespace ControlPad
         private static MainWindow _mainWindow;
         private static EventHandler _eventHandler;
         public static bool IsConnected = false;
+        private static CancellationTokenSource? _readCts;
+        private static readonly StringBuilder _lineBuf = new();
 
         public static void Initialize(MainWindow mainWindow, EventHandler eventHandler)
         {
@@ -55,33 +58,7 @@ namespace ControlPad
         private static async Task TryOpenAsync()
         {
             string? port = await Task.Run(() => ArduinoPortFinder.FindFirstArduinoPort());
-            if (port != null)
-            {
-                try
-                {
-                    var sp = new SerialPort(port, 115200);
-                    sp.DataReceived += SerialPort_DataReceived;
-                    sp.Open();
-                    _serialPort = sp;
-
-                    await _mainWindow.Dispatcher.InvokeAsync(() =>
-                    {
-                        _mainWindow.BoardDisconnectedInfoBar.IsOpen = false;
-                        if(_mainWindow.NVI_Home.IsActive) _mainWindow.MainContentFrame.Navigate(_mainWindow._homeUserControl);
-                        _mainWindow.NVI_EditMode.Visibility = Visibility.Visible;
-                        IsConnected = true;
-                    });
-                }
-                catch (UnauthorizedAccessException ex)
-                {
-                    Debug.WriteLine($"Access denied to port: {ex.Message}");
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine($"EX: {ex}");
-                }
-            }
-            else
+            if (port == null)
             {
                 await _mainWindow.Dispatcher.InvokeAsync(() =>
                 {
@@ -90,14 +67,127 @@ namespace ControlPad
                     _mainWindow.NVI_EditMode.Visibility = Visibility.Collapsed;
                     IsConnected = false;
                 });
+                return;
+            }
+
+            try
+            {
+                var sp = new SerialPort(port, 115200)
+                {
+                    NewLine = "\n",
+                    ReadTimeout = 50,
+                    WriteTimeout = 50,
+                    Parity = Parity.None,
+                    DataBits = 8,
+                    StopBits = StopBits.One,
+                    Handshake = Handshake.None,
+                    DtrEnable = true,
+                    RtsEnable = false
+                };
+
+                sp.Open();
+                sp.DiscardInBuffer();
+                sp.DiscardOutBuffer();
+                _serialPort = sp;
+
+                _readCts = new CancellationTokenSource();
+                _ = Task.Run(() => ReadLoopAsync(sp, _readCts.Token));
+
+                await _mainWindow.Dispatcher.InvokeAsync(() =>
+                {
+                    _mainWindow.BoardDisconnectedInfoBar.IsOpen = false;
+                    if (_mainWindow.NVI_Home.IsActive) _mainWindow.MainContentFrame.Navigate(_mainWindow._homeUserControl);
+                    _mainWindow.NVI_EditMode.Visibility = Visibility.Visible;
+                    IsConnected = true;
+                });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Debug.WriteLine($"Access denied to port: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"EX: {ex}");
+            }
+        }
+
+        private static async Task ReadLoopAsync(SerialPort sp, CancellationToken ct)
+        {
+            while (!ct.IsCancellationRequested && sp.IsOpen)
+            {
+                try
+                {
+                    string chunk = sp.ReadExisting();
+                    if (!string.IsNullOrEmpty(chunk))
+                    {
+                        _lineBuf.Append(chunk);
+
+                        int nl;
+                        while ((nl = _lineBuf.ToString().IndexOf('\n')) >= 0)
+                        {
+                            string line = _lineBuf.ToString(0, nl).TrimEnd('\r');
+                            _lineBuf.Remove(0, nl + 1);
+
+                            ProcessLine(line);
+                        }
+                    }
+                }
+                catch (TimeoutException)
+                {
+                }
+                catch (IOException ioEx)
+                {
+                    Debug.WriteLine($"IO: {ioEx.Message}");
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"EX: {ex}");
+                }
+
+                await Task.Delay(1, ct);
+            }
+
+            await _mainWindow.Dispatcher.InvokeAsync(() =>
+            {
+                _mainWindow.BoardDisconnectedInfoBar.IsOpen = true;
+                if (_mainWindow.NVI_Home.IsActive) _mainWindow.MainContentFrame.Navigate(_mainWindow.progressRing);
+                _mainWindow.NVI_EditMode.Visibility = Visibility.Collapsed;
+                IsConnected = false;
+            });
+        }
+
+        private static void ProcessLine(string line)
+        {
+            try
+            {
+                var inputs = Regex.Split(line, ",");
+                if (inputs.Length < 16) return;
+
+                UpdateValues(inputs);
+
+                // UI-Updates ggf. drosseln
+                _mainWindow._homeUserControl.Dispatcher.BeginInvoke(() =>
+                    _eventHandler.Update(DataHandler.SliderValues, DataHandler.ButtonValues)
+                );
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Parse EX: {ex}");
             }
         }
 
         public static void Dispose()
         {
-            _insertWatcher?.Stop();
-            _removeWatcher?.Stop();
-            _serialPort?.Dispose();
+            try { _insertWatcher?.Stop(); } catch { }
+            try { _removeWatcher?.Stop(); } catch { }
+            try
+            {
+                _readCts?.Cancel();
+                _serialPort?.Close();
+                _serialPort?.Dispose();
+            }
+            catch { }
         }
 
         private static void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
