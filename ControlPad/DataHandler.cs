@@ -66,12 +66,18 @@ namespace ControlPad
                 for (int i = 0; i < SliderValues.Count; i++)
                 {
                     if (int.TryParse(lines[i].Split(':')[1].Trim(), out int sliderCategoryId))
-                        SliderValues[i].slider.Category = SliderCategories.First(c => c.Id == sliderCategoryId);
+                    {
+                        var category = SliderCategories.FirstOrDefault(c => c.Id == sliderCategoryId);
+                        SliderValues[i].slider.Category = category;
+                    }
                 }
                 for (int i = 0; i < ButtonValues.Count; i++)
                 {
                     if (int.TryParse(lines[i + SliderValues.Count].Split(':')[1].Trim(), out int buttonCategoryId))
-                        ButtonValues[i].button.Category = ButtonCategories.First(c => c.Id == buttonCategoryId);
+                    {
+                        var category = ButtonValues[i].button.Category = ButtonCategories.FirstOrDefault(c => c.Id == buttonCategoryId);
+                        ButtonValues[i].button.Category = category;
+                    }    
                 }
             }
         }

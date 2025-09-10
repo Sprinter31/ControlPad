@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using Wpf.Ui.Controls;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace ControlPad
 {
@@ -13,7 +14,8 @@ namespace ControlPad
             this.indexOfCategory = indexOfCategory;
 
             tb_CategoryName.Text = DataHandler.SliderCategories[indexOfCategory].Name;
-            lb_Processes.ItemsSource = DataHandler.SliderCategories[indexOfCategory].Processes;
+            lb_AudioStreams.ItemsSource = DataHandler.SliderCategories[indexOfCategory].AudioStreams;
+            lb_AudioStreams.DisplayMemberPath = "DisplayName";
         }
 
         private void btn_AddProcess_Click(object sender, RoutedEventArgs e)
@@ -22,15 +24,15 @@ namespace ControlPad
 
             if (dialog.ShowDialog() == true)
             {
-                DataHandler.SliderCategories[indexOfCategory].Processes.Add(dialog.SelectedProcessName);
+                DataHandler.SliderCategories[indexOfCategory].AudioStreams.Add(new AudioStream(dialog.SelectedProcessName, null));
             }               
         }
 
-        private void btn_RemoveProcess_Click(object sender, RoutedEventArgs e)
+        private void btn_Remove_Click(object sender, RoutedEventArgs e)
         {
-            int index = lb_Processes.SelectedIndex;
+            int index = lb_AudioStreams.SelectedIndex;
             if (index == -1) return;
-            DataHandler.SliderCategories[indexOfCategory].Processes.RemoveAt(index);
+            DataHandler.SliderCategories[indexOfCategory].AudioStreams.RemoveAt(index);
         }
 
         private void btn_Close_Click(object sender, RoutedEventArgs e)
@@ -48,7 +50,19 @@ namespace ControlPad
 
             if (dialog.ShowDialog() == true)
             {
+                DataHandler.SliderCategories[indexOfCategory].AudioStreams.Add(new AudioStream(null, dialog.SelectedMic?.DeviceFriendlyName));
             }
+        }
+
+        private void btn_AddMain_Click(object sender, RoutedEventArgs e)
+        {
+            bool containsMain = false;
+            foreach (var item in lb_AudioStreams.Items)
+                if (((AudioStream)item).DisplayName == "Main Audio")
+                    containsMain = true;
+
+            if (!containsMain)
+                DataHandler.SliderCategories[indexOfCategory].AudioStreams.Add(new AudioStream(null, null));
         }
     }
 }

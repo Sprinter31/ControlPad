@@ -54,7 +54,9 @@ namespace ControlPad
                     Settings.TrayIconMessageShown = true;
                 }
                 realShutDown = false;
-            }           
+            }
+            else
+                System.Windows.Application.Current.Shutdown();
         }
         private void mainWindow_Closed(object sender, EventArgs e) => NotifyIcon.Dispose();
         

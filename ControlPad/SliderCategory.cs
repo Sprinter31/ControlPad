@@ -14,7 +14,7 @@ namespace ControlPad
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public ObservableCollection<string> Processes { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<AudioStream> AudioStreams { get; set; } = new ObservableCollection<AudioStream>();
 
         public SliderCategory(string name, int id)
         {
