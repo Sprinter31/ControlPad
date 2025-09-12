@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using Wpf.Ui.Controls;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace ControlPad
 {
