@@ -15,13 +15,13 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_294FB8EAEA4240AEB8D8A266CBAFE177"
+        "MsmKey" = "8:_624F6430854645FBB9FBAE97CCF54508"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_624F6430854645FBB9FBAE97CCF54508"
+        "MsmKey" = "8:_FAF9C88602FD4666AC9A5D7FD99EC34F"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -127,7 +127,7 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_294FB8EAEA4240AEB8D8A266CBAFE177"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FAF9C88602FD4666AC9A5D7FD99EC34F"
             {
             "SourcePath" = "8:..\\ControlPad\\Resources\\logo.ico"
             "TargetName" = "8:logo.ico"
@@ -215,7 +215,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Control Pad"
         "ProductCode" = "8:{C86D4904-6C26-4B94-B7A9-E51822DB53B6}"
-        "PackageCode" = "8:{2950A5AC-557A-4451-8A0A-B69692071ECA}"
+        "PackageCode" = "8:{89C2ECC0-05CB-40EB-B889-BFAB5CA2F07F}"
         "UpgradeCode" = "8:{5132021F-88B8-49DD-9007-3ECE26B92B02}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -335,7 +335,7 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_63AEAAC1C18F4389A9BAD8A0061B1DBC"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_09B996D7AE074F43864D8109833FC2D2"
             {
             "Name" = "8:Control Pad"
             "Arguments" = "8:"
@@ -343,24 +343,10 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_624F6430854645FBB9FBAE97CCF54508"
-            "Folder" = "8:_54D2D6B3ADEF439E85836C70791FFE22"
-            "WorkingFolder" = "8:_C36901A17C684C45B842F714BC88B3D5"
-            "Icon" = "8:_294FB8EAEA4240AEB8D8A266CBAFE177"
-            "Feature" = "8:"
-            }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_EF67B6AA5351467F85ED6364D51EAF94"
-            {
-            "Name" = "8:Control Pad"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_624F6430854645FBB9FBAE97CCF54508"
+            "Target" = "8:_FAF9C88602FD4666AC9A5D7FD99EC34F"
             "Folder" = "8:_C121510B714A4D6E9F019910395D5254"
-            "WorkingFolder" = "8:_C36901A17C684C45B842F714BC88B3D5"
-            "Icon" = "8:_294FB8EAEA4240AEB8D8A266CBAFE177"
+            "WorkingFolder" = "8:_2FEF6BD90A4947A59A2AEFFC0464862E"
+            "Icon" = "8:_FAF9C88602FD4666AC9A5D7FD99EC34F"
             "Feature" = "8:"
             }
         }
@@ -764,7 +750,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_624F6430854645FBB9FBAE97CCF54508"
             {
-            "SourcePath" = "8:..\\ControlPad\\obj\\Debug\\net9.0-windows\\win-x86\\apphost.exe"
+            "SourcePath" = "8:"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_C36901A17C684C45B842F714BC88B3D5"
