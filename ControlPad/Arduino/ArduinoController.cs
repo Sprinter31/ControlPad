@@ -109,7 +109,7 @@ namespace ControlPad
                 string line = _serialPort.ReadLine().Replace("\r", "");
                 string[] inputs = Regex.Split(line, ",");
 
-                if (inputs.Length < 16) return;
+                if (inputs.Length < 17) return;
 
                 UpdateValues(inputs);
 

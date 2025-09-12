@@ -1,6 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Windows.Controls;
-using System.Windows.Media.Media3D;
 
 namespace ControlPad
 {
@@ -157,10 +155,18 @@ namespace ControlPad
             }
         }
 
-        private float SliderToFloat(int value)
+        private float SliderToFloat(int value, int mode = 0)
         {
             value -= 1;
-            return Math.Min((float)value / 1022.0f, 1);
+            float normalized = Math.Min((float)value / 1022.0f, 1);
+
+            switch (mode)
+            {
+                case 1:
+                    return (float)Math.Pow(normalized, 2);   // Cubic
+                default:
+                    return normalized;                       // Linear
+            }
         }
     }
 }
