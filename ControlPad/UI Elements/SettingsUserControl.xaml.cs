@@ -58,7 +58,7 @@ namespace ControlPad
             if (!_isInitialized)
                 return;
 
-            Settings.MinimizeToSystemTray = cb_StartMinimized.IsChecked == true;
+            Settings.MinimizeToSystemTray = cb_MinimizeToTray.IsChecked == true;
         }
 
         private void ThemeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

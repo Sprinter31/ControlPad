@@ -56,8 +56,15 @@ namespace ControlPad
             HomeUserControl.Dispatcher.Invoke(() => HomeUserControl.UpdateUISlider(slider, value));
 
             if (slider.Category != null)
-                foreach(string processName in slider.Category.Processes)
-                    Task.Run(() => AudioController.SetProcessVolume(processName, SliderToFloat(value)));          
+                foreach(AudioStream stream in slider.Category.AudioStreams)
+                {
+                    if (stream.Process != null)
+                        Task.Run(() => AudioController.SetProcessVolume(stream.Process, SliderToFloat(value)));
+                    else if (stream.MicName != null)
+                        Task.Run(() => AudioController.SetMicVolume(stream.MicName, SliderToFloat(value)));
+                    else if (stream.Process == null && stream.MicName == null)
+                        Task.Run(() => AudioController.SetSystemVolume(SliderToFloat(value)));
+                }                            
         }
 
         private void ButtonEvent(CustomButton button, int currentValue, int oldValue)
@@ -106,9 +113,15 @@ namespace ControlPad
                                 {
                                     if (IsPressed && !IsPressedOld)
                                     {
+                                        string path = buttonAction.ActionProperty;
                                         try
                                         {
-                                            Process.Start(buttonAction.ActionProperty);
+                                            Process.Start(new ProcessStartInfo
+                                            {
+                                                FileName = path,
+                                                UseShellExecute = true,
+                                                WorkingDirectory = System.IO.Path.GetDirectoryName(path)
+                                            });
                                         }
                                         catch (Exception ex)
                                         {
