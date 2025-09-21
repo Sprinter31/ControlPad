@@ -5,16 +5,20 @@ using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Windows;
+using System.Xml.Linq;
+using Windows.Storage.BulkAccess;
 
 namespace ControlPad
 {
     public static class DataHandler
     {
         private static string AppDataRoaming = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        public static string SliderCategoriesPath { get; } = Path.Combine(AppDataRoaming, @"ControlPad\Resources\SliderCategories.json");
-        public static string ButtonCategoriesPath { get; } = Path.Combine(AppDataRoaming, @"ControlPad\Resources\ButtonCategories.json");
-        public static string CategoryControlsPath { get; } = Path.Combine(AppDataRoaming, @"ControlPad\Resources\CategoryControls.txt");
-        public static string SettingsPath { get; } = Path.Combine(AppDataRoaming, @"ControlPad\Resources\Settings.json");
+        public static string CurrentPreset { get; set; } = "Base";
+        public static string SliderCategoriesPath { get; } = Path.Combine(AppDataRoaming, @$"ControlPad\Presets\{CurrentPreset}\Resources\SliderCategories.json");
+        public static string ButtonCategoriesPath { get; } = Path.Combine(AppDataRoaming, @$"ControlPad\Presets\{CurrentPreset}\Resources\ButtonCategories.json");
+        public static string CategoryControlsPath { get; } = Path.Combine(AppDataRoaming, @$"ControlPad\Presets\{CurrentPreset}\Resources\CategoryControls.txt");
+        public static string SettingsPath { get; } = Path.Combine(AppDataRoaming, @$"ControlPad\Presets\{CurrentPreset}\Resources\Settings.json");
         public static ObservableCollection<SliderCategory> SliderCategories { get; set; } = new ObservableCollection<SliderCategory>();
         public static ObservableCollection<ButtonCategory> ButtonCategories { get; set; } = new ObservableCollection<ButtonCategory>();
         public static List<(CustomSlider slider, int value)> SliderValues { get; set; } = new();
@@ -115,5 +119,24 @@ namespace ControlPad
             new ActionType(EActionType.OpenWebsite,   "Open Website"),
             new ActionType(EActionType.KeyPress,      "Key Press"),
         };
+
+        public static void CheckAppDataFolder()
+        {
+            if (!Directory.Exists(Path.Combine(AppDataRoaming, @"ControlPad\Presets")))
+            {
+                Directory.CreateDirectory(Path.Combine(AppDataRoaming, @"ControlPad\Presets\"));
+                CreatePreset("Base");
+            }
+        }
+
+        public static void CreatePreset(string name)
+        {
+            if (!Directory.Exists(Path.Combine(AppDataRoaming, @$"ControlPad\Presets\{name}\Resources\")))
+            {
+                Directory.CreateDirectory(Path.Combine(AppDataRoaming, @$"ControlPad\Presets\{name}\Resources\"));
+            }
+            else if (name != "Base")
+                MessageBox.Show($"The preset '{name}' already exists");
+        }
     }
 }

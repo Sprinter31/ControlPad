@@ -31,6 +31,7 @@ namespace ControlPad
         {            
             InitializeComponent();
             Directory.SetCurrentDirectory(AppContext.BaseDirectory);
+            DataHandler.CheckAppDataFolder();
             _homeUserControl = new HomeUserControl(this);
             _manageSliderCategoriesUserControl = new ManageSliderCategoriesUserControl(this);
             _manageButtonCategoriesUserControl = new ManageButtonCategoriesUserControl(this);

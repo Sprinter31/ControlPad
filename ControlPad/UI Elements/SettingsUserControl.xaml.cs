@@ -26,6 +26,7 @@ namespace ControlPad
             cb_StartMinimized.IsChecked = Settings.StartMinimized;
             cb_MinimizeToTray.IsChecked = Settings.MinimizeToSystemTray;
             ThemeComboBox.SelectedIndex = Settings.SelectedThemeIndex;
+            nb_TranslationExponent.Value = Settings.TranslationExponent;
         }
 
         private void cb_StartWithWindows_Checked(object sender, RoutedEventArgs e)
@@ -68,6 +69,17 @@ namespace ControlPad
 
             ChangeAppTheme(ThemeComboBox.SelectedIndex);
             Settings.SelectedThemeIndex = ThemeComboBox.SelectedIndex;
+        }
+
+        private void nb_TranslationExponent_ValueChanged(object sender, Wpf.Ui.Controls.NumberBoxValueChangedEventArgs e)
+        {
+            if (!_isInitialized)
+                return;
+
+            if (nb_TranslationExponent.Value != null)
+                Settings.TranslationExponent = (double)nb_TranslationExponent.Value;
+            else
+                Settings.TranslationExponent = 1.0d;
         }
 
         public static void ChangeAppTheme(int index)

@@ -173,13 +173,7 @@ namespace ControlPad
             value -= 1;
             float normalized = Math.Min((float)value / 1022.0f, 1);
 
-            switch (mode)
-            {
-                case 1:
-                    return (float)Math.Pow(normalized, 2);   // Cubic
-                default:
-                    return normalized;                       // Linear
-            }
+            return (float)Math.Pow(normalized, Settings.TranslationExponent);
         }
     }
 }

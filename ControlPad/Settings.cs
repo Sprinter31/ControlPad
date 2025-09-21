@@ -13,7 +13,8 @@ namespace ControlPad
         private static bool _trayIconMessageShown = false;
         private static bool _startWithWindows = false;
         private static bool _startMinimized = false;
-        private static bool _minimizeToSystemTray = true;       
+        private static bool _minimizeToSystemTray = true;
+        private static double _translationExponent = 1d;
         private static int _selectedThemeIndex = 0;
         private static int _sliderDeadZone = 4;
 
@@ -82,12 +83,23 @@ namespace ControlPad
             }
         }
 
+        public static double TranslationExponent
+        {
+            get => _translationExponent;
+            set
+            {
+                _translationExponent = value;
+                Save();
+            }
+        }
+
         private class Data
         {
             public bool TrayIconMessageShown { get; set; } = false;
             public bool StartWithWindows { get; set; } = false;
             public bool StartMinimized { get; set; } = true;
-            public bool MinimizeToSystemTray { get; set; } = true;           
+            public bool MinimizeToSystemTray { get; set; } = true;
+            public double TranslationExponent { get; set; } = 1d;
             public int SelectedThemeIndex { get; set; } = 0;
             public int SliderDeadZone { get; set; } = 4;
         }
@@ -110,6 +122,7 @@ namespace ControlPad
                 _minimizeToSystemTray = data.MinimizeToSystemTray;               
                 _selectedThemeIndex = data.SelectedThemeIndex;
                 _sliderDeadZone = data.SliderDeadZone;
+                _translationExponent = data.TranslationExponent;
             }
             catch
             {
@@ -129,6 +142,7 @@ namespace ControlPad
                     MinimizeToSystemTray = _minimizeToSystemTray,                    
                     SelectedThemeIndex = _selectedThemeIndex,
                     SliderDeadZone = _sliderDeadZone,
+                    TranslationExponent = _translationExponent,
                 };
 
                 var options = new JsonSerializerOptions { WriteIndented = true };

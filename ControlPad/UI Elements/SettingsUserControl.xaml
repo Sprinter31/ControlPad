@@ -18,6 +18,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
 
@@ -100,8 +101,35 @@
                           Unchecked="cb_MinimizeToTray_Checked"/>
                 </Grid>
 
-                <!-- App Theme -->
+                <!-- Translation Exponent -->
                 <Grid Margin="0,8,0,0" Grid.Row="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Vertical" Margin="0,0,16,0">
+                        <Label Content="Translation _exponent"
+                            Padding="0"
+                            Target="{Binding ElementName=ThemeComboBox}"/>
+                        <Label Content="Exponent controlling the mapping curve from slider to&#x0a;sound bar."
+                            Padding="0"
+                            Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                    </StackPanel>
+
+                    <ui:NumberBox x:Name="nb_TranslationExponent"
+                        PlaceholderText="1.0" 
+                        Grid.ColumnSpan="2" 
+                        Margin="367,0,0,0" 
+                        Value="1.0"
+                        SmallChange="0.1"
+                        Minimum="0.1"
+                        ValidationMode="InvalidInputOverwritten" ValueChanged="nb_TranslationExponent_ValueChanged"
+                        />
+                </Grid>
+
+                <!-- App Theme -->
+                <Grid Margin="0,8,0,0" Grid.Row="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition Width="Auto"/>
