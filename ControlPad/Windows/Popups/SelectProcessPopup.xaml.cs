@@ -10,7 +10,8 @@ namespace ControlPad
 
         public SelectProcessPopup()
         {
-            InitializeComponent();            
+            InitializeComponent();
+            
             cb_Processes.ItemsSource = Process.GetProcesses().Where(p => !string.IsNullOrEmpty(p.MainWindowTitle));
         }
 

@@ -3,21 +3,18 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Windows.Documents;
-using System.Windows.Shapes;
 
 namespace ControlPad
 {
     public static class DataHandler
     {
-        public static string SliderCategoriesPath { get; } = @"Resources\SliderCategories.json";
-        public static string ButtonCategoriesPath { get; } = @"Resources\ButtonCategories.json";
-        public static string CategoryControlsPath { get; } = @"Resources\CategoryControls.txt";
-        public static string SettingsPath { get; } = @"Resources\Settings.json";
+        private static string AppDataRoaming = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        public static string SliderCategoriesPath { get; } = Path.Combine(AppDataRoaming, @"ControlPad\Resources\SliderCategories.json");
+        public static string ButtonCategoriesPath { get; } = Path.Combine(AppDataRoaming, @"ControlPad\Resources\ButtonCategories.json");
+        public static string CategoryControlsPath { get; } = Path.Combine(AppDataRoaming, @"ControlPad\Resources\CategoryControls.txt");
+        public static string SettingsPath { get; } = Path.Combine(AppDataRoaming, @"ControlPad\Resources\Settings.json");
         public static ObservableCollection<SliderCategory> SliderCategories { get; set; } = new ObservableCollection<SliderCategory>();
         public static ObservableCollection<ButtonCategory> ButtonCategories { get; set; } = new ObservableCollection<ButtonCategory>();
         public static List<(CustomSlider slider, int value)> SliderValues { get; set; } = new();
@@ -82,7 +79,7 @@ namespace ControlPad
             }
         }
 
-        public static int GetNextCategoryId<T>(this IEnumerable<T> items, Func<T, int> idSelector) // gets the lowest not yet existing id
+        public static int GetNextCategoryId<T>(this IEnumerable<T> items, Func<T, int> idSelector) // gets the lowest, not yet existing id
         {
             var used = new HashSet<int>(items.Select(idSelector));
             int candidate = 0;
