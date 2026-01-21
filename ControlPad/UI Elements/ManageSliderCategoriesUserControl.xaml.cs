@@ -39,8 +39,8 @@ namespace ControlPad
 
             if (!string.IsNullOrEmpty(name))
             {
-                DataHandler.SliderCategories.Add(new SliderCategory(name, DataHandler.SliderCategories.GetNextCategoryId(c => c.Id)));
-                DataHandler.SaveDataToFile(DataHandler.SliderCategoriesPath, DataHandler.SliderCategories.ToList());
+                DataHandler.SliderCategories.Add(new SliderCategory(name, DataHandler.SliderCategories.GetFreeId(c => c.Id)));
+                DataHandler.SaveDataToFile(DataHandler.GetSliderCategoriesPath(), DataHandler.SliderCategories.ToList());
             }
         }
 
@@ -52,7 +52,7 @@ namespace ControlPad
             dialog.ShowDialog();
             lb_Categories.Items.Refresh();
             DataHandler.SetSliderTextBlocks();
-            DataHandler.SaveDataToFile(DataHandler.SliderCategoriesPath, DataHandler.SliderCategories.ToList());
+            DataHandler.SaveDataToFile(DataHandler.GetSliderCategoriesPath(), DataHandler.SliderCategories.ToList());
         }
 
         
@@ -70,8 +70,8 @@ namespace ControlPad
             }
 
             DataHandler.SliderCategories.RemoveAt(index);
-            DataHandler.SaveDataToFile(DataHandler.SliderCategoriesPath, DataHandler.SliderCategories.ToList());
-            DataHandler.SaveCategoryControls(DataHandler.CategoryControlsPath);
+            DataHandler.SaveDataToFile(DataHandler.GetSliderCategoriesPath(), DataHandler.SliderCategories.ToList());
+            DataHandler.SaveCategoryControls(DataHandler.GetCategoryControlsPath());
         }
 
         private void btn_DeleteCat_Click(object sender, RoutedEventArgs e) => DeleteAtSelected();

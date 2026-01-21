@@ -1,12 +1,14 @@
 ﻿using ControlPad;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.Win32;
+using NAudio.SoundFont;
 using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
@@ -26,56 +28,65 @@ namespace ControlPad
         private SettingsUserControl _settingsUserControl;
         public ProgressRing progressRing = new() { IsIndeterminate = true };
         private bool realShutDown = false;
+        Mutex _mutex;
 
-        public MainWindow()
-        {            
+        public MainWindow(Mutex mutex)
+        {
             InitializeComponent();
+            _mutex = mutex;
             Directory.SetCurrentDirectory(AppContext.BaseDirectory);
             DataHandler.CheckAppDataFolder();
             _homeUserControl = new HomeUserControl(this);
-            _manageSliderCategoriesUserControl = new ManageSliderCategoriesUserControl(this);
-            _manageButtonCategoriesUserControl = new ManageButtonCategoriesUserControl(this);
             _settingsUserControl = new SettingsUserControl(this);
             ArduinoController.Initialize(this, new EventHandler(_homeUserControl));
             DataContext = this;
             MainContentFrame.Navigate(progressRing);
             SetActive(NVI_Home);
-            SettingsUserControl.ChangeAppTheme(Settings.SelectedThemeIndex);
+            DataHandler.LoadPreset(GetCurrentPreset(), _settingsUserControl, _homeUserControl, true);
+            _manageSliderCategoriesUserControl = new ManageSliderCategoriesUserControl(this);
+            _manageButtonCategoriesUserControl = new ManageButtonCategoriesUserControl(this);
         }
 
+        private Preset GetCurrentPreset()
+        {
+            foreach (Preset preset in DataHandler.GetPresets())
+                if (preset.Name.EndsWith(" (current)"))
+                    return preset;
+
+            return DataHandler.CurrentPreset;
+        }     
+
         private void mainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {          
-            if (Settings.MinimizeToSystemTray)
+        {
+            if (Settings.MinimizeToSystemTray && !realShutDown)
             {
                 e.Cancel = true;
-                this.Hide();
-                if (!Settings.TrayIconMessageShown && !realShutDown)
+                Hide();
+
+                if (!Settings.TrayIconMessageShown)
                 {
                     new ToastContentBuilder().AddText("Control Pad minimized to System Tray").Show();
                     Settings.TrayIconMessageShown = true;
                 }
-                realShutDown = false;
             }
-            else
-                System.Windows.Application.Current.Shutdown();
         }
-        private void mainWindow_Closed(object sender, EventArgs e) => NotifyIcon.Dispose();
-        
-        private void MI_Open_Click(object sender, EventArgs e)        
+        private void mainWindow_Closed(object sender, EventArgs e) { }
+
+        public void MI_Open_Click(object sender, EventArgs e)        
         {
             WindowState = WindowState.Normal;
             this.Show();
         }
 
-        private void MI_Exit_Click(object sender, EventArgs e)
-        {
-            realShutDown = true;
-            System.Windows.Application.Current.Shutdown();
-        }
+        public void MI_Exit_Click(object sender, EventArgs e) => ShutDown();
 
-        private void Exit_Click(object sender, RoutedEventArgs e)
+        private void Exit_Click(object sender, RoutedEventArgs e) => ShutDown();
+
+        private void ShutDown()
         {
             realShutDown = true;
+            _mutex?.ReleaseMutex();
+            _mutex?.Dispose();
             System.Windows.Application.Current.Shutdown();
         }
 
@@ -127,11 +138,14 @@ namespace ControlPad
             NVI_Button_Categories.IsActive = false;
             NVI_Settings.IsActive = false;
 
+            NVI_EditMode.Visibility = item == NVI_Home ? Visibility.Visible : Visibility.Collapsed;
+
             if (NVI_EditMode.Icon is SymbolIcon symbolIconEditMode) EditModeUnchecked(symbolIconEditMode);
             if (NVI_Home.Icon is SymbolIcon symbolIconHome) symbolIconHome.Filled = false;
             if (NVI_Slider_Categories.Icon is SymbolIcon symbolIconCategories) symbolIconCategories.Filled = false;
             if (NVI_Button_Categories.Icon is SymbolIcon symbolIconButtonCategories) symbolIconButtonCategories.Filled = false;
             if (NVI_Settings.Icon is SymbolIcon symbolIconSettings) symbolIconSettings.Filled = false;
+            
 
             if (item.Icon is SymbolIcon symbolIcon) symbolIcon.Filled = true;
             item.IsActive = true;

@@ -13,12 +13,12 @@ namespace ControlPad
 {
     public static class DataHandler
     {
-        private static string AppDataRoaming = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        public static string CurrentPreset { get; set; } = "Base";
-        public static string SliderCategoriesPath { get; } = Path.Combine(AppDataRoaming, @$"ControlPad\Presets\{CurrentPreset}\Resources\SliderCategories.json");
-        public static string ButtonCategoriesPath { get; } = Path.Combine(AppDataRoaming, @$"ControlPad\Presets\{CurrentPreset}\Resources\ButtonCategories.json");
-        public static string CategoryControlsPath { get; } = Path.Combine(AppDataRoaming, @$"ControlPad\Presets\{CurrentPreset}\Resources\CategoryControls.txt");
-        public static string SettingsPath { get; } = Path.Combine(AppDataRoaming, @$"ControlPad\Presets\{CurrentPreset}\Resources\Settings.json");
+        public static string AppDataRoaming = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        public static Preset CurrentPreset { get; set; } = new Preset(0, "Preset1 (current)");
+        public static string GetSliderCategoriesPath() => Path.Combine(AppDataRoaming, GetPresetPath(CurrentPreset.Id) ?? @$"ControlPad\Presets\{CurrentPreset.Name}", "SliderCategories.json");
+        public static string GetButtonCategoriesPath() => Path.Combine(AppDataRoaming, GetPresetPath(CurrentPreset.Id) ?? @$"ControlPad\Presets\{CurrentPreset.Name}", "ButtonCategories.json");
+        public static string GetCategoryControlsPath() => Path.Combine(AppDataRoaming, GetPresetPath(CurrentPreset.Id) ?? @$"ControlPad\Presets\{CurrentPreset.Name}", "CategoryControls.txt");
+        public static string GetSettingsPath() => Path.Combine(AppDataRoaming, GetPresetPath(CurrentPreset.Id) ?? $@"ControlPad\Presets\{CurrentPreset.Name}", "Settings.json");
         public static ObservableCollection<SliderCategory> SliderCategories { get; set; } = new ObservableCollection<SliderCategory>();
         public static ObservableCollection<ButtonCategory> ButtonCategories { get; set; } = new ObservableCollection<ButtonCategory>();
         public static List<(CustomSlider slider, int value)> SliderValues { get; set; } = new();
@@ -59,6 +59,11 @@ namespace ControlPad
             if (!File.Exists(path))
             {
                 Debug.WriteLine($"File does not exist: {path}");
+
+                for (int i = 0; i < SliderValues.Count; i++)
+                    SliderValues[i].slider.Category = null;
+                for (int i = 0; i < ButtonValues.Count; i++)
+                    ButtonValues[i].button.Category = null;
             }
             else
             {
@@ -78,12 +83,12 @@ namespace ControlPad
                     {
                         var category = ButtonValues[i].button.Category = ButtonCategories.FirstOrDefault(c => c.Id == buttonCategoryId);
                         ButtonValues[i].button.Category = category;
-                    }    
+                    }
                 }
             }
         }
 
-        public static int GetNextCategoryId<T>(this IEnumerable<T> items, Func<T, int> idSelector) // gets the lowest, not yet existing id
+        public static int GetFreeId<T>(this IEnumerable<T> items, Func<T, int> idSelector) // gets the lowest, not yet existing id
         {
             var used = new HashSet<int>(items.Select(idSelector));
             int candidate = 0;
@@ -120,23 +125,92 @@ namespace ControlPad
             new ActionType(EActionType.KeyPress,      "Key Press"),
         };
 
+        public static List<Preset> GetPresets()
+        {
+            var presets = new List<Preset>();
+            var presetFolders = Directory.GetDirectories(Path.Combine(DataHandler.AppDataRoaming, "ControlPad", "Presets"));
+            foreach (var folder in presetFolders)
+            {
+                if (File.Exists(@$"{folder}\ID.txt") && int.TryParse(File.ReadAllText(@$"{folder}\ID.txt"), out int id))
+                {
+                    presets.Add(new Preset(id, Path.GetFileName(folder)));
+                }
+                else
+                {
+                    MessageBox.Show($"Could not get Id from {folder}");
+                }
+            }
+            return presets;
+        }
+
+        public static string? GetPresetPath(int idToSearchFor)
+        {
+            var presetFolders = Directory.GetDirectories(Path.Combine(DataHandler.AppDataRoaming, "ControlPad", "Presets"));
+            foreach (var folder in presetFolders)
+            {
+                if (int.TryParse(File.ReadAllText(@$"{folder}\ID.txt"), out int id))
+                    if (idToSearchFor == id) return folder;
+            }
+            return null;
+        }
+
         public static void CheckAppDataFolder()
         {
             if (!Directory.Exists(Path.Combine(AppDataRoaming, @"ControlPad\Presets")))
             {
                 Directory.CreateDirectory(Path.Combine(AppDataRoaming, @"ControlPad\Presets\"));
-                CreatePreset("Base");
+                CreatePreset(new Preset(GetPresets().GetFreeId(p => p.Id), "Preset1 (current)"));
             }
         }
 
-        public static void CreatePreset(string name)
+        public static bool CreatePreset(Preset preset)
         {
-            if (!Directory.Exists(Path.Combine(AppDataRoaming, @$"ControlPad\Presets\{name}\Resources\")))
+            string path = Path.Combine(AppDataRoaming, @$"ControlPad\Presets\{preset.Name}\");
+            try
             {
-                Directory.CreateDirectory(Path.Combine(AppDataRoaming, @$"ControlPad\Presets\{name}\Resources\"));
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                    File.WriteAllText(Path.Combine(path, "ID.txt"), preset.Id.ToString());
+                    return true;
+                }
+                else if (preset.Name != "Preset1 (current)")
+                {
+                    MessageBox.Show($"The preset '{preset.Name}' already exists");
+                    return false;
+                }
             }
-            else if (name != "Base")
-                MessageBox.Show($"The preset '{name}' already exists");
+            catch { }
+            return false;
+        }
+
+        public static void LoadPreset(Preset preset, SettingsUserControl settingsUserControl,
+                                      HomeUserControl? homeUserControl = null, bool FirstTime = false)
+        {
+            if (!FirstTime && CurrentPreset.Id == preset.Id)
+                return;
+
+            CurrentPreset = preset;
+
+            DataHandler.SliderCategories.Clear();
+            foreach (var sliderCategory in DataHandler.LoadDataFromFile<SliderCategory>(GetSliderCategoriesPath()))
+                DataHandler.SliderCategories.Add(sliderCategory);
+
+            DataHandler.ButtonCategories.Clear();
+            foreach (var buttonCategory in DataHandler.LoadDataFromFile<ButtonCategory>(GetButtonCategoriesPath()))
+                DataHandler.ButtonCategories.Add(buttonCategory);
+
+            DataHandler.LoadCategoryControls(GetCategoryControlsPath());
+
+            if (homeUserControl != null)
+                homeUserControl.SetTextBlocks();
+
+            DataHandler.SetSliderTextBlocks();
+            DataHandler.SetButtonTextBlocks();
+
+            Settings.Load();
+            settingsUserControl.SetControls();
+            SettingsUserControl.ChangeAppTheme(Settings.SelectedThemeIndex);
         }
     }
 }

@@ -22,11 +22,7 @@ namespace ControlPad
         {
             InitializeComponent();
             _isInitialized = true;
-            cb_StartWithWindows.IsChecked = Settings.StartWithWindows;
-            cb_StartMinimized.IsChecked = Settings.StartMinimized;
-            cb_MinimizeToTray.IsChecked = Settings.MinimizeToSystemTray;
-            ThemeComboBox.SelectedIndex = Settings.SelectedThemeIndex;
-            nb_TranslationExponent.Value = Settings.TranslationExponent;
+            SetControls();
         }
 
         private void cb_StartWithWindows_Checked(object sender, RoutedEventArgs e)
@@ -96,6 +92,21 @@ namespace ControlPad
                     Wpf.Ui.Appearance.ApplicationThemeManager.Apply(Wpf.Ui.Appearance.ApplicationTheme.Dark);
                     break;
             }
+        }
+
+        public void SetControls()
+        {
+            cb_StartWithWindows.IsChecked = Settings.StartWithWindows;
+            cb_StartMinimized.IsChecked = Settings.StartMinimized;
+            cb_MinimizeToTray.IsChecked = Settings.MinimizeToSystemTray;
+            ThemeComboBox.SelectedIndex = Settings.SelectedThemeIndex;
+            nb_TranslationExponent.Value = Settings.TranslationExponent;
+        }
+
+        private void Btn_Presets_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new PresetManagerWindow(this);
+            dialog.ShowDialog();
         }
     }
 }

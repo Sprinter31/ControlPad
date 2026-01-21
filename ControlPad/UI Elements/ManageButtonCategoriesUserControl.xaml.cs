@@ -38,8 +38,8 @@ namespace ControlPad
 
             if (!string.IsNullOrEmpty(name))
             {
-                DataHandler.ButtonCategories.Add(new ButtonCategory(name, DataHandler.ButtonCategories.GetNextCategoryId(c => c.Id)));
-                DataHandler.SaveDataToFile(DataHandler.ButtonCategoriesPath, DataHandler.ButtonCategories.ToList());
+                DataHandler.ButtonCategories.Add(new ButtonCategory(name, DataHandler.ButtonCategories.GetFreeId(c => c.Id)));
+                DataHandler.SaveDataToFile(DataHandler.GetButtonCategoriesPath(), DataHandler.ButtonCategories.ToList());
             }
         }
 
@@ -67,8 +67,8 @@ namespace ControlPad
             }
 
             DataHandler.ButtonCategories.RemoveAt(index);
-            DataHandler.SaveDataToFile(DataHandler.ButtonCategoriesPath, DataHandler.ButtonCategories.ToList());
-            DataHandler.SaveCategoryControls(DataHandler.CategoryControlsPath);
+            DataHandler.SaveDataToFile(DataHandler.GetButtonCategoriesPath(), DataHandler.ButtonCategories.ToList());
+            DataHandler.SaveCategoryControls(DataHandler.GetCategoryControlsPath());
         }
 
         private void btn_DeleteCat_Click(object sender, RoutedEventArgs e) => DeleteAtSelected();

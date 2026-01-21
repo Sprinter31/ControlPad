@@ -104,17 +104,17 @@ namespace ControlPad
             public int SliderDeadZone { get; set; } = 4;
         }
 
-        private static void Load()
+        public static void Load()
         {
             try
             {
-                if (!File.Exists(DataHandler.SettingsPath))
-                    return;
-
-                string json = File.ReadAllText(DataHandler.SettingsPath);
-                var data = JsonSerializer.Deserialize<Data>(json);
-                if (data is null)
-                    return;
+                Data data = new Data();
+                if (File.Exists(DataHandler.GetSettingsPath()))
+                {
+                    string json = File.ReadAllText(DataHandler.GetSettingsPath());
+                    var dataTemp = JsonSerializer.Deserialize<Data>(json);
+                    if (dataTemp != null) data = dataTemp;
+                }
 
                 _trayIconMessageShown = data.TrayIconMessageShown;
                 _startWithWindows = data.StartWithWindows;
@@ -147,7 +147,7 @@ namespace ControlPad
 
                 var options = new JsonSerializerOptions { WriteIndented = true };
                 string json = JsonSerializer.Serialize(data, options);
-                File.WriteAllText(DataHandler.SettingsPath, json);
+                File.WriteAllText(DataHandler.GetSettingsPath(), json);
             }
             catch
             {

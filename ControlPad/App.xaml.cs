@@ -3,7 +3,10 @@ using System.Data;
 using System.IO;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Interop;
+using System.Windows.Media.Imaging;
+using Wpf.Ui.Tray;
 
 namespace ControlPad
 {
@@ -20,6 +23,8 @@ namespace ControlPad
             if (!createdNew)
             {
                 MessageBox.Show("Control Pad is already open.");
+                _mutex?.ReleaseMutex();
+                _mutex?.Dispose();
                 Current.Shutdown();
                 return;
             }
@@ -30,17 +35,28 @@ namespace ControlPad
 
             bool startHidden = e.Args.Any(a => string.Equals(a, "--hidden", StringComparison.OrdinalIgnoreCase));
 
-            var mw = new MainWindow();
-            Current.MainWindow = mw;
+            var main = new MainWindow(_mutex);
+            Current.MainWindow = main;
 
-            var helper = new WindowInteropHelper(mw);
+            var helper = new WindowInteropHelper(main);
             _ = helper.EnsureHandle();
 
-            mw.Show();
+            main.Show();
 
             if (startHidden)
-                mw.Hide();
+                main.Hide();
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            try
+            {
+                _mutex?.ReleaseMutex();
+                _mutex?.Dispose();
+            }
+            catch { }
+
+            base.OnExit(e);
         }
     }
-
 }

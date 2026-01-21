@@ -27,25 +27,6 @@ namespace ControlPad
             InitializeComponent();
             CreateControlValues();
 
-            DataHandler.SliderCategories = new ObservableCollection<SliderCategory>(DataHandler.LoadDataFromFile<SliderCategory>(DataHandler.SliderCategoriesPath));
-            DataHandler.ButtonCategories = new ObservableCollection<ButtonCategory>(DataHandler.LoadDataFromFile<ButtonCategory>(DataHandler.ButtonCategoriesPath));
-            DataHandler.LoadCategoryControls(DataHandler.CategoryControlsPath);
-
-            Switch1.TextBlock = Switch1_TextBlock;
-            Switch2.TextBlock = Switch2_TextBlock;
-            Switch3.TextBlock = Switch3_TextBlock;
-            Switch4.TextBlock = Switch4_TextBlock;
-            Switch5.TextBlock = Switch5_TextBlock;
-            Switch6.TextBlock = Switch6_TextBlock;
-            Switch7.TextBlock = Switch7_TextBlock;
-            Switch8.TextBlock = Switch8_TextBlock;
-            Switch9.TextBlock = Switch9_TextBlock;
-            Switch10.TextBlock = Switch10_TextBlock;
-            Switch11.TextBlock = Switch11_TextBlock;
-
-            DataHandler.SetSliderTextBlocks();
-            DataHandler.SetButtonTextBlocks();
-
             this.mainWindow = mainWindow;
         }
         public void UpdateUISlider(Slider slider, int value) => slider.Value = value;
@@ -62,7 +43,7 @@ namespace ControlPad
                 if (dialog.ShowDialog() == true)
                 {
                     border.CustomSlider.Category = dialog.SelectedCategory;
-                    DataHandler.SaveCategoryControls(DataHandler.CategoryControlsPath);
+                    DataHandler.SaveCategoryControls(DataHandler.GetCategoryControlsPath());
                     DataHandler.SetSliderTextBlocks();
                 }
             }
@@ -78,13 +59,28 @@ namespace ControlPad
                 if (dialog.ShowDialog() == true)
                 {
                     border.CustomButton.Category = dialog.SelectedCategory;
-                    DataHandler.SaveCategoryControls(DataHandler.CategoryControlsPath);
+                    DataHandler.SaveCategoryControls(DataHandler.GetCategoryControlsPath());
                     DataHandler.SetButtonTextBlocks();
                 }
             }
         }
 
         private void ToggleButton_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => e.Handled = true;
+
+        public void SetTextBlocks()
+        {
+            Switch1.TextBlock = Switch1_TextBlock;
+            Switch2.TextBlock = Switch2_TextBlock;
+            Switch3.TextBlock = Switch3_TextBlock;
+            Switch4.TextBlock = Switch4_TextBlock;
+            Switch5.TextBlock = Switch5_TextBlock;
+            Switch6.TextBlock = Switch6_TextBlock;
+            Switch7.TextBlock = Switch7_TextBlock;
+            Switch8.TextBlock = Switch8_TextBlock;
+            Switch9.TextBlock = Switch9_TextBlock;
+            Switch10.TextBlock = Switch10_TextBlock;
+            Switch11.TextBlock = Switch11_TextBlock;
+        }
 
         private void CreateControlValues()
         {

@@ -212,7 +212,7 @@ namespace ControlPad
             RemoveEmptyActionsFromTemp();
             DataHandler.ButtonCategories[this.indexOfCategory].Name = tb_CategoryName.Text;
             DataHandler.ButtonCategories[indexOfCategory].ButtonActions = GetCopy(_buttonActionsTemp);
-            DataHandler.SaveDataToFile(DataHandler.ButtonCategoriesPath, DataHandler.ButtonCategories.ToList());
+            DataHandler.SaveDataToFile(DataHandler.GetButtonCategoriesPath(), DataHandler.ButtonCategories.ToList());
             KeyController.StopHoldingAllKeys();
             DialogResult = true;
         }

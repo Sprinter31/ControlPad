@@ -20,11 +20,12 @@
 
     <DockPanel>
         <tray:NotifyIcon 
-            x:Name="NotifyIcon"
-            FocusOnLeftClick="True"
-            MenuOnRightClick="True"                
-            Icon="pack://application:,,,/Resources/logo.ico"
-            TooltipText="Control Pad">
+    x:Name="NotifyIcon"
+    FocusOnLeftClick="True"
+    MenuOnRightClick="True"                
+    Icon="pack://application:,,,/Resources/logo.ico"
+    TooltipText="Control Pad"
+    >
             <tray:NotifyIcon.Menu>
                 <ContextMenu>
                     <MenuItem Header="Open" Click="MI_Open_Click" />
@@ -32,7 +33,7 @@
                 </ContextMenu>
             </tray:NotifyIcon.Menu>
         </tray:NotifyIcon>
-        
+
         <ui:TitleBar
             DockPanel.Dock="Top"
             x:Name="titleBarMainWindow"

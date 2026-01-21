@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace ControlPad
 {
-    public class SliderCategory : INotifyPropertyChanged // i don't think this has to be a INotifyPropertyChanged
+    public class Preset : INotifyPropertyChanged
     {
-        private int _id;
         private string _name;
-        private ObservableCollection<AudioStream> _audioStreams = new ObservableCollection<AudioStream>();
+        private int _id;
 
         public int Id
         {
@@ -23,7 +19,7 @@ namespace ControlPad
             {
                 if (_id != value)
                 {
-                    _id = value;
+                    _id = value;    
                     OnPropertyChanged(nameof(Id));
                 }
             }
@@ -42,26 +38,11 @@ namespace ControlPad
             }
         }
 
-        public ObservableCollection<AudioStream> AudioStreams
+        public Preset(int id, string name)
         {
-            get => _audioStreams;
-            set
-            {
-                if (_audioStreams != value)
-                {
-                    _audioStreams = value;
-                    OnPropertyChanged(nameof(AudioStreams));
-                }
-            }
-        }
-
-        public SliderCategory(string name, int id)
-        {
-            _name = name;
             _id = id;
-        }      
-
-        public override string ToString() => Name;
+            _name = name;
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
