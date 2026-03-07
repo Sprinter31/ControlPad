@@ -1,3 +1,7 @@
+# Repository moved to https://github.com/ControlPad/App
+any future updates will be made over there
+---
+
 # ControlPad
 
 A Windows desktop application that turns an Arduino-based control pad into a fully configurable audio mixer and macro board. Map physical sliders to per-app volume control and buttons to actions like muting, launching apps, opening websites, or simulating key presses.
